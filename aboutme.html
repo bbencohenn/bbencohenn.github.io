@@ -12,21 +12,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ben Cohen | Home</title>
 
-    <!-- ✅ Use the latest Font Awesome version -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-    <!-- ✅ Link to your CSS file -->
+
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div class="page-transition"></div>
-    <!-- ✅ Hamburger Button -->
+
     <button class="hamburger">
         <i class="fas fa-bars"></i>
     </button>
 
-    <!-- ✅ Menu -->
+
     <ul class="menu">
         <li><a class="list-item" href="index.html" data-label="Home"><i class="fas fa-home"></i></a></li>
         <li><a class="list-item" href="portfolio.html" data-label="Portfolio"><i class="fa-solid fa-paintbrush"></i></a>
@@ -48,9 +48,25 @@
     <div id="tooltip"></div>
 
     <div class="blur-overlay"></div>
-    <h1>Ben Cohen</h1>
-    <h4>Programmer | Teacher | Student</h4>
-    <!-- ✅ Add JavaScript -->
+
+
+    <h1>About Me</h1>
+
+
+    <div class="button-container">
+        <button class="info-btn" data-content="whoami">Who am I?</button>
+        <button class="info-btn" data-content="skills">Skills</button>
+        <button class="info-btn" data-content="projects">Projects</button>
+        <button class="info-btn" data-content="contact">Contact</button>
+        <button class="info-btn" data-content="achievements">Achievements</button>
+        <button class="info-btn" data-content="education">Education</button>
+    </div>
+
+    <div class="content-box">
+        <span class="close-btn">&times;</span>
+        <div class="modal-content"></div>
+
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="script.js"></script>
 
