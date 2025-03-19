@@ -3,43 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ben Cohen | Home</title>
-
-    <!-- ✅ Use the latest Font Awesome version -->
+    <title>Ben Cohen | Past Careers</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
-    <!-- ✅ Link to your CSS file -->
     <link rel="stylesheet" href="styles.css">
+    <style>
+    </style>
 </head>
 <body>
-
-    <!-- ✅ Hamburger Button -->
     <button class="hamburger">
         <i class="fas fa-bars"></i>
     </button>
-
-    <!-- ✅ Menu -->
     <ul class="menu">
         <li><a class="list-item" href="index.html" data-label="Home"><i class="fas fa-home"></i></a></li>
         <li><a class="list-item" href="portfolio.html" data-label="Portfolio"><i class="fa-solid fa-paintbrush"></i></a></li>
         <li><a class="list-item" href="experience.html" data-label="Experience"><i class="fa-solid fa-briefcase"></i></a></li>
         <li><a class="list-item" href="education.html" data-label="Education"><i class="fa-solid fa-graduation-cap"></i></a></li>
-        <li><a class="list-item" href="resume.html" data-label="Résumé"><i class="fas fa-scroll"></i></a></li>
-        <li><a class="list-item" href="snippets.html" data-label="Code Snippets"><i class="fas fa-code"></i></a></li>
-        <li><a class="list-item" href="aboutme.html" data-label="About Me"><i class="fas fa-user"></i></a></li>
-        <li><a class="list-item" href="https://github.com/bbencohenn" data-label="GitHub"><i class="fa-brands fa-github"></i></a></li>
-        <li><a class="list-item" href="https://www.linkedin.com/in/ben-cohen-83747524b/" data-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a></li>
-        <li><a class="list-item" href="#" data-label="Contact Me"><i class="fa-solid fa-comment"></i></a></li>
-        <li class="list-item close-menu" data-label="Close Menu"><i class="fa-solid fa-x"></i></li>
+        <li><a class="list-item" href="pastcareers.html" data-label="Past Careers"><i class="fa-solid fa-history"></i></a></li>
     </ul>
-    <div id="tooltip"></div>
-
     <div class="blur-overlay"></div>
-    <h1>Ben Cohen</h1>
-    <h4>Programmer | Teacher | Student</h4>
-    <!-- ✅ Add JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="script.js"></script>
 
+    <h1>Past Careers</h1>
+    <div class="timeline-container">
+        <div class="timeline-line"></div>
+        <div class="timeline-event" data-year="2010" data-info="Started coding experiments in Python.">2010</div>
+        <div class="timeline-event" data-year="2015" data-info="Freelance web development projects.">2015</div>
+        <div class="timeline-event" data-year="2018" data-info="Internship in software security.">2018</div>
+        <div class="timeline-event" data-year="2020" data-info="Began teaching coding at Code4Fun.">2020</div>
+        <div class="timeline-event" data-year="2023" data-info="Expanded into cybersecurity research.">2023</div>
+    </div>
+
+    <div class="event-info" id="event-info">
+        <span class="close-info">&times;</span>
+        <h2 id="info-year"></h2>
+        <p id="info-details"></p>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
