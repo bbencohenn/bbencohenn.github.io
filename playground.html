@@ -80,24 +80,25 @@
   <!-- Grid of Playground Items -->
   <div class="snippet-grid playground-grid">
     <div class="playground-card" data-tags="games">
-      <a href="#">
-        <h3>Retro Racer</h3>
-        <img src="resources/retro_racer.png" alt="Retro Racer">
-        <p>A pixelated racing game with retro vibes.</p>
+      <a href="playground/typing.html">
+        <h3>Typing Test</h3>
+        <img src="resources/typing.png" alt="Typing Test">
+        <p>A web-based typing speed test. Inspired by <a href="https://monkeytype.com">MonkeyType</a>.</p>
       </a>
     </div>
     <div class="playground-card" data-tags="webdev">
       <a href="playground/webwizard.html">
         <h3>Web Wizard</h3>
         <img src="resources/webwizard.png" alt="Web Wizard">
-        <p>Code HTML/CSS/JS and see the results right in your browser!</p>
+        <p>Write HTML/CSS/JS and see the results right in your browser!</p>
       </a>
     </div>
-    <div class="playground-card" data-tags="design">
+    <div class="playground-card" data-tags="tidbits">
       <a href="#">
-        <h3>Design Doodle</h3>
-        <img src="resources/design_doodle.png" alt="Design Doodle">
-        <p>A creative drawing app for unique designs.</p>
+        <h3>Secret Page</h3>
+        <img src="resources/lock.webp" alt="Lock">
+        <p>A secret page, accessed from this page (somehow...)</p>
+        <span style="color: transparent;">Invisible Text</span>
       </a>
     </div>
     <div class="playground-card" data-tags="tidbits">
@@ -150,5 +151,26 @@
   <!-- You can create a playground.js to handle filtering (similar to snippets.js) -->
   <script src="playground.js"></script>
   <div id="tooltip"></div>
+  <script>
+    const konamiCode = [
+      "ArrowUp", "ArrowUp",
+      "ArrowDown", "ArrowDown",
+      "ArrowLeft", "ArrowRight",
+      "ArrowLeft", "ArrowRight",
+      "b", "a"
+    ];
+    let inputSequence = [];
+
+    window.addEventListener("keydown", (e) => {
+      inputSequence.push(e.key);
+      if (inputSequence.length > konamiCode.length) {
+        inputSequence.shift();
+      }
+
+      if (inputSequence.join("") === konamiCode.join("")) {
+        window.location.href = "secret.html";
+      }
+    });
+  </script>
 </body>
 </html>

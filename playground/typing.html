@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Test</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: monospace;
+            background: #111;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #backButton {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #ff6e42;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #wordsDisplay {
+            max-width: 90%;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            line-height: 2.5rem;
+            text-align: center;
+        }
+
+        .highlight {
+            color: #ffca42;
+        }
+
+        #inputArea {
+            padding: 10px;
+            font-size: 1.4rem;
+            width: 60%;
+            max-width: 600px;
+            border: none;
+            border-radius: 6px;
+            background-color: #2a2a2a;
+            color: white;
+            text-align: center;
+        }
+
+        #timer, #results {
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+
+        #restartButton {
+            margin-top: 20px;
+            background-color: #ff6e42;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <button id="backButton" onclick="history.back()">← Back</button>
+    <div id="wordsDisplay">Loading...</div>
+    <input id="inputArea" type="text" placeholder="Start typing to begin...">
+    <div id="timer">Time left: 15s</div>
+    <div id="results"></div>
+    <button id="restartButton" style="display:none" onclick="restartTest()">Restart</button>
+
+    <script>
+        const wordCount = 50;
+        let words = [];
+        let currentWordIndex = 0;
+        let timer = 15;
+        let interval;
+        let started = false;
+        let correctWords = 0;
+
+        async function getWords() {
+            const res = await fetch('https://random-word-api.herokuapp.com/word?number=' + wordCount);
+            const data = await res.json();
+            words = data;
+            updateWordDisplay();
+        }
+
+        function updateWordDisplay() {
+            const before = words.slice(0, currentWordIndex).join(' ');
+            const current = words[currentWordIndex];
+            const after = words.slice(currentWordIndex + 1).join(' ');
+            document.getElementById('wordsDisplay').innerHTML = `${before} <span class="highlight">${current}</span> ${after}`;
+        }
+
+        function startTimer() {
+            interval = setInterval(() => {
+                timer--;
+                document.getElementById('timer').textContent = `Time left: ${timer}s`;
+                if (timer <= 0) {
+                    clearInterval(interval);
+                    document.getElementById('inputArea').disabled = true;
+                    document.getElementById('results').textContent = `WPM: ${correctWords * 4}`;
+                    document.getElementById('restartButton').style.display = 'inline-block';
+                }
+            }, 1000);
+        }
+
+        function restartTest() {
+            currentWordIndex = 0;
+            timer = 15;
+            started = false;
+            correctWords = 0;
+            document.getElementById('inputArea').disabled = false;
+            document.getElementById('inputArea').value = '';
+            document.getElementById('results').textContent = '';
+            document.getElementById('restartButton').style.display = 'none';
+            document.getElementById('timer').textContent = `Time left: ${timer}s`;
+            getWords();
+        }
+
+        document.getElementById('inputArea').addEventListener('keydown', e => {
+            if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                const typed = document.getElementById('inputArea').value.trim();
+                if (typed === words[currentWordIndex]) correctWords++;
+                currentWordIndex++;
+                document.getElementById('inputArea').value = '';
+                updateWordDisplay();
+            }
+            if (!started) {
+                started = true;
+                startTimer();
+            }
+        });
+
+        getWords();
+    </script>
+</body>
+
+</html>
