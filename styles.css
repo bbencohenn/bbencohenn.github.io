@@ -225,6 +225,7 @@ hr {
     left: 50%;
     transform: translate(-50%, -50%) rotate(-35deg) skew(20deg, 5deg);
     padding: 0;
+    margin: 0;
     list-style: none;
     box-shadow: -3em 3em 15px rgba(0, 0, 0, 0.6);
     opacity: 0;
@@ -247,15 +248,15 @@ hr {
 }
 
 
-.list-item {
+
+.list-item:not(.close-menu) {
+    height: 2.5em;
+    width: 4em;
+    line-height: 2.5em;
     position: relative;
     background: #000;
     color: #575757;
     text-align: center;
-    height: 2.5em;
-    width: 4em;
-    vertical-align: middle;
-    line-height: 2.5em;
     display: block;
     text-decoration: none;
     transition: all 0.25s linear;
@@ -749,6 +750,8 @@ hr {
 }
 
 .close-menu {
+    width: 3em;
+    height: 3em;
     text-align: center;
     color: white;
     font-weight: bold;
@@ -757,7 +760,7 @@ hr {
     transition: background 0.3s ease, transform 0.2s ease-in-out;
     height: auto !important;
     width: auto !important;
-    line-height: normal !important;
+    line-height: 3em !important;
 
     display: flex !important;
     justify-content: center !important;

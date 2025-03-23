@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ben Cohen | Playground</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Additional styles specific to Playground */
+    .filter-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 20px;
+    }
+    .playground-card {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255, 110, 66, 0.2);
+      color: #ffca42;
+      font-family: monospace;
+      transition: transform 0.3s ease;
+    }
+    .playground-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(255, 110, 66, 0.3);
+    }
+    .playground-card h3 {
+      margin-top: 0;
+      color: #ff6e42;
+    }
+    .playground-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body class="snippet-page">
+  <button class="hamburger">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <ul class="menu hidden">
+    <li><a class="list-item" href="index.html" data-label="Home"><i class="fas fa-home"></i></a></li>
+    <li><a class="list-item" href="portfolio.html" data-label="Portfolio"><i class="fa-solid fa-paintbrush"></i></a></li>
+    <li><a class="list-item" href="experience.html" data-label="Experience"><i class="fa-solid fa-briefcase"></i></a></li>
+    <li><a class="list-item" href="education.html" data-label="Education"><i class="fa-solid fa-graduation-cap"></i></a></li>
+    <li><a class="list-item" href="resume.html" data-label="Résumé"><i class="fas fa-scroll"></i></a></li>
+    <li><a class="list-item" href="snippets.html" data-label="Code Snippets"><i class="fas fa-code"></i></a></li>
+    <li><a class="list-item" href="aboutme.html" data-label="About Me"><i class="fas fa-user"></i></a></li>
+    <li><a class="list-item" href="https://github.com/bbencohenn" data-label="GitHub"><i class="fa-brands fa-github"></i></a></li>
+    <li><a class="list-item" href="https://www.linkedin.com/in/ben-cohen-83747524b/" data-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a></li>
+    <li><a class="list-item" href="contact.html" data-label="Contact Me"><i class="fa-solid fa-comment"></i></a></li>
+    <li><a class="list-item" href="playground.html" data-label="Playground"><i class="fa-solid fa-dice"></i></a></li>
+    <li class="list-item close-menu" data-label="Close Menu"><i class="fa-solid fa-x"></i></li>
+  </ul>
+
+  <div class="menu-blur"></div>
+
+  <section class="portfolio-section">
+    <h1>Playground</h1>
+    <h4>Games, tidbits, and cool designs I've created.</h4>
+    <p>Last updated 24/03/2025.</p>
+  </section>
+
+  <!-- Filter buttons -->
+  <div class="filter-container">
+    <button class="filter-btn active-filter" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="games">Games</button>
+    <button class="filter-btn" data-filter="webdev">Web Dev</button>
+    <button class="filter-btn" data-filter="design">Design</button>
+    <button class="filter-btn" data-filter="tidbits">Tidbits</button>
+  </div>
+
+  <!-- Grid of Playground Items -->
+  <div class="snippet-grid playground-grid">
+    <div class="playground-card" data-tags="games">
+      <a href="#">
+        <h3>Retro Racer</h3>
+        <img src="resources/retro_racer.png" alt="Retro Racer">
+        <p>A pixelated racing game with retro vibes.</p>
+      </a>
+    </div>
+    <div class="playground-card" data-tags="webdev">
+      <a href="playground/webwizard.html">
+        <h3>Web Wizard</h3>
+        <img src="resources/webwizard.png" alt="Web Wizard">
+        <p>Code HTML/CSS/JS and see the results right in your browser!</p>
+      </a>
+    </div>
+    <div class="playground-card" data-tags="design">
+      <a href="#">
+        <h3>Design Doodle</h3>
+        <img src="resources/design_doodle.png" alt="Design Doodle">
+        <p>A creative drawing app for unique designs.</p>
+      </a>
+    </div>
+    <div class="playground-card" data-tags="tidbits">
+      <a href="#">
+        <h3>Tidbit Trivia</h3>
+        <img src="resources/tidbit_trivia.png" alt="Tidbit Trivia">
+        <p>Random fun facts and trivia challenges.</p>
+      </a>
+    </div>
+    <div class="playground-card" data-tags="games">
+      <a href="#">
+        <h3>Space Invaders Remix</h3>
+        <img src="resources/space_invaders.png" alt="Space Invaders Remix">
+        <p>A modern take on the classic shooter game.</p>
+      </a>
+    </div>
+    <div class="playground-card" data-tags="games,tidbits">
+      <a href="#">
+        <h3>Pixel Puzzler</h3>
+        <img src="resources/pixel_puzzler.png" alt="Pixel Puzzler">
+        <p>A puzzler game with retro pixel art.</p>
+      </a>
+    </div>
+    <div class="playground-card" data-tags="webdev,design">
+      <a href="#">
+        <h3>CSS Playground</h3>
+        <img src="resources/css_playground.png" alt="CSS Playground">
+        <p>Experiment with cool CSS animations and designs.</p>
+      </a>
+    </div>
+    <div class="playground-card" data-tags="design,tidbits">
+      <a href="#">
+        <h3>Interactive Sketch</h3>
+        <img src="resources/interactive_sketch.png" alt="Interactive Sketch">
+        <p>A fun, interactive canvas for digital doodling.</p>
+      </a>
+    </div>
+    <div class="playground-card" data-tags="games,webdev">
+      <a href="#">
+        <h3>Game of Codes</h3>
+        <img src="resources/game_of_codes.png" alt="Game of Codes">
+        <p>Merge gaming with coding challenges.</p>
+      </a>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="playground.js"></script>
+  <script src="script.js"></script>
+  <!-- You can create a playground.js to handle filtering (similar to snippets.js) -->
+  <script src="playground.js"></script>
+  <div id="tooltip"></div>
+</body>
+</html>
