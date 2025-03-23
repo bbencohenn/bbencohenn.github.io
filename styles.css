@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 html, body {
     margin: 0;
     padding: 0;
@@ -14,7 +19,8 @@ html, body {
     transition: background 0.2s;
     /* Allow vertical scrolling: */
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
+    height: 100%;
   }
 body {
     padding-top: 80px;
@@ -1025,7 +1031,7 @@ hr {
   }
 
   .carousel-container {
-    display: flex;
+    display: inline-flex;
     gap: 30px;
     padding-bottom: 20px;
   }
@@ -1255,3 +1261,10 @@ hr {
     /* Maybe give it a subtle glow or border? */
     box-shadow: 0 0 10px rgba(255, 110, 66, 0.6);
   }
+  .img-wrapper img {
+    max-height: 120px;
+    height: auto;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+}

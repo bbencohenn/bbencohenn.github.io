@@ -219,14 +219,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 document.addEventListener("DOMContentLoaded", () => {
-    const carousel = document.querySelector('.carousel-container');
-    if (carousel) {
-      carousel.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        console.log("Wheel event fired, deltaY:", e.deltaY);
-        carousel.scrollLeft += e.deltaY;
+    const carousels = document.querySelectorAll(".carousel-container");
+
+    carousels.forEach(carousel => {
+      carousel.addEventListener("wheel", (e) => {
+        // Only act on vertical scrolls (trackpad or mouse)
+        if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) {
+          e.preventDefault();
+          carousel.scrollLeft += e.deltaY;
+        }
       }, { passive: false });
-    }
+    });
   });
   document.addEventListener("mousemove", (e) => {
     const x = (e.clientX / window.innerWidth) * 100;
