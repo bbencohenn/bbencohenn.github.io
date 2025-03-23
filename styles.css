@@ -605,7 +605,8 @@ hr {
 
 .about-me {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    gap: 1rem;
 }
 
 .about-me p {
@@ -1016,7 +1017,7 @@ hr {
     border-radius: 5px;
   }
   .carousel-scroll-wrapper {
-    display: flex;
+    display: inline-flex;
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
@@ -1026,7 +1027,7 @@ hr {
     padding: 40px 20px;
     margin-top: 80px;
     width: 100%;
-    height: auto;
+    height: 435px;
     box-sizing: border-box;
   }
 
@@ -1268,3 +1269,19 @@ hr {
     display: block;
     margin: 0 auto;
 }
+
+/* Main bullet list in modal */
+.modal-content ul {
+    list-style-type: disc;       /* or square, circle, etc. */
+    list-style-position: outside;
+    margin-left: 1.5rem;         /* indentation for top-level list */
+    margin-bottom: 1rem;         /* some spacing below the list */
+    padding-left: 0;             /* you can tweak this */
+  }
+
+  /* Nested (indented) sub-lists */
+  .modal-content ul ul {
+    list-style-type: circle;     /* visually distinguish sub-lists */
+    margin-left: 1.5rem;         /* extra indentation for sub-lists */
+    margin-bottom: 0.5rem;       /* optional spacing */
+  }
