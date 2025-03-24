@@ -86,7 +86,7 @@
         let words = [];
         let currentWordIndex = 0;
         let timer = 15;
-        let interval;
+        let interval, startTime;
         let started = false;
         let correctWords = 0;
 
@@ -105,13 +105,15 @@
         }
 
         function startTimer() {
+            startTime = Date.now();
             interval = setInterval(() => {
                 timer--;
                 document.getElementById('timer').textContent = `Time left: ${timer}s`;
                 if (timer <= 0) {
                     clearInterval(interval);
-                    document.getElementById('inputArea').disabled = true;
-                    document.getElementById('results').textContent = `WPM: ${correctWords * 4}`;
+                    const elapsedTime = (Date.now() - startTime) / 1000 / 60; // in minutes
+                    const wpm = Math.round(correctWords / elapsedTime);
+                    document.getElementById('results').textContent = `WPM: ${wpm}`;
                     document.getElementById('restartButton').style.display = 'inline-block';
                 }
             }, 1000);

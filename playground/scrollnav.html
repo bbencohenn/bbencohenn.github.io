@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reskinned Scroll Nav</title>
+  <link href="https://fonts.googleapis.com/css2?family=Squada+One&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #0a0a0a;
+      font-family: 'Squada One', cursive;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #111;
+      width: 90vw;
+      max-width: 900px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      z-index: 10;
+      border-bottom: 2px solid #333;
+    }
+
+    nav svg {
+      height: 40px;
+      width: 40px;
+      fill: #f4f4f4;
+    }
+
+    .nodes {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      flex-grow: 1;
+      justify-content: center;
+      position: relative;
+    }
+
+    .line {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 2px;
+      width: 100%;
+      background: linear-gradient(to right, #444, #222);
+      z-index: 0;
+    }
+
+    .red-container {
+      height: 2px;
+      overflow: hidden;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      z-index: 1;
+    }
+
+    .red {
+      height: 2px;
+      background: linear-gradient(to right, #ff6a00, #ff3300);
+      width: 0;
+    }
+
+    .node {
+      width: 20px;
+      height: 20px;
+      position: relative;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .active-circle, .inactive-circle {
+      border-radius: 50%;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .active-circle {
+      background: radial-gradient(circle, #ff6a00, #ff3300);
+      transform: scale(0.7);
+      opacity: 0;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .active .active-circle {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .inactive-circle {
+      background: transparent;
+      border: 2px solid #66ccff;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .active .inactive-circle {
+      opacity: 0;
+    }
+
+    .splash {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(100, 200, 255, 0.7);
+      transition: transform 1.2s, opacity 1.5s;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .active .splash {
+      transform: scale(2.5);
+      opacity: 0;
+    }
+
+    .cover {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      background: #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .white {
+      width: 6px;
+      height: 6px;
+      background: #fff;
+      border-radius: 50%;
+    }
+
+    .items {
+      margin-top: 100px;
+    }
+
+    .item {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .item span {
+      font-size: 160px;
+      color: white;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="http://aquatilis.tv" target="_blank">
+    <svg viewBox="0 0 52.012 51.679">
+      <path d="M12.674,37.779l-6.288,13.9H0L23.396,0h4.963l23.652,51.679h-6.465l-6.473-13.9l-2.652-6.04L25.874,8.818 l-10.461,22.92L12.674,37.779z"/>
+      <rect x="18.825" y="32.195" width="14.36" height="2.51"/>
+      <rect x="18.825" y="38.134" width="14.36" height="2.51"/>
+      <rect x="18.825" y="44.294" width="14.36" height="2.51"/>
+    </svg>
+  </a>
+
+  <div class="nodes">
+    <div class="line"></div>
+    <div class="red-container">
+      <div class="red"></div>
+    </div>
+    <!-- 7 Nodes -->
+    <div class="node">
+      <div class="splash"></div>
+      <div class="active-circle">
+        <div class="cover">
+          <div class="white"></div>
+        </div>
+      </div>
+      <div class="inactive-circle"></div>
+    </div>
+    <!-- Repeat for the rest -->
+    <div class="node"><div class="splash"></div><div class="active-circle"><div class="cover"><div class="white"></div></div></div><div class="inactive-circle"></div></div>
+    <div class="node"><div class="splash"></div><div class="active-circle"><div class="cover"><div class="white"></div></div></div><div class="inactive-circle"></div></div>
+    <div class="node"><div class="splash"></div><div class="active-circle"><div class="cover"><div class="white"></div></div></div><div class="inactive-circle"></div></div>
+    <div class="node"><div class="splash"></div><div class="active-circle"><div class="cover"><div class="white"></div></div></div><div class="inactive-circle"></div></div>
+    <div class="node"><div class="splash"></div><div class="active-circle"><div class="cover"><div class="white"></div></div></div><div class="inactive-circle"></div></div>
+    <div class="node"><div class="splash"></div><div class="active-circle"><div class="cover"><div class="white"></div></div></div><div class="inactive-circle"></div></div>
+  </div>
+</nav>
+
+<section class="items">
+  <div class="item main"><span>Scroll</span></div>
+  <div class="item"><span>1</span></div>
+  <div class="item"><span>2</span></div>
+  <div class="item"><span>3</span></div>
+  <div class="item"><span>4</span></div>
+  <div class="item"><span>5</span></div>
+  <div class="item"><span>6</span></div>
+  <div class="item"><span>7</span></div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+  const $nodes = $('.node');
+  const $red = $('.red');
+  const viewHeight = window.innerHeight;
+  let positions = [];
+
+  $('.item').each((i, el) => {
+    positions.push($(el).offset().top);
+  });
+
+  $(document).on('scroll', () => {
+    const scrollTop = $(window).scrollTop();
+    const currentBottom = scrollTop + viewHeight;
+    let current = 0;
+
+    for (let i = -1; i < positions.length - 1; i++) {
+      if (currentBottom > positions[i]) {
+        current = i;
+        if (i >= 0) $nodes.eq(i).addClass('active');
+      } else {
+        if (i >= 0) $nodes.eq(i).removeClass('active');
+      }
+    }
+
+    let width = 0;
+    if (currentBottom < positions[0]) {
+      width = 0;
+    } else if (currentBottom >= positions[positions.length - 1]) {
+      width = 700;
+    } else {
+      const progress = (currentBottom - positions[current]) / (positions[current + 1] - positions[current]);
+      width = 100 * (current + progress);
+    }
+
+    $red.width(width);
+  });
+
+  $nodes.each(function (index) {
+    $(this).on('click', function () {
+      $('html, body').animate({
+        scrollTop: positions[index + 1] - viewHeight + 10
+      }, 1000);
+    });
+  });
+</script>
+
+</body>
+</html>

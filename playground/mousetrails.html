@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mouse Effects Playground</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: #121212;
+      color: white;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+    .controls {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px;
+      border-radius: 8px;
+      z-index: 1000;
+    }
+    .controls label {
+      display: block;
+      margin-bottom: 5px;
+      cursor: pointer;
+    }
+    .back-button {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid #fff;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      z-index: 1000;
+      text-decoration: none;
+    }
+    .trail-dot, .sparkle, .emoji, .rainbow, .bubble {
+      position: absolute;
+      pointer-events: none;
+    }
+    .trail-dot {
+      width: 8px;
+      height: 8px;
+      background: cyan;
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+    .sparkle {
+      width: 4px;
+      height: 4px;
+      background: yellow;
+      animation: sparkle-fade 0.5s linear forwards;
+    }
+    @keyframes sparkle-fade {
+      to {
+        transform: scale(2);
+        opacity: 0;
+      }
+    }
+    .ripple {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      animation: ripple-effect 0.6s ease-out forwards;
+      pointer-events: none;
+    }
+    @keyframes ripple-effect {
+      to {
+        transform: translate(-50%, -50%) scale(8);
+        opacity: 0;
+      }
+    }
+    .emoji {
+      font-size: 20px;
+      animation: emoji-fade 1s linear forwards;
+    }
+    @keyframes emoji-fade {
+      to {
+        transform: translateY(-30px);
+        opacity: 0;
+      }
+    }
+    .rainbow {
+      width: 6px;
+      height: 6px;
+      background: red;
+      border-radius: 50%;
+      animation: rainbow-fade 1s ease-out forwards;
+    }
+    @keyframes rainbow-fade {
+      to {
+        transform: scale(3);
+        opacity: 0;
+      }
+    }
+    .bubble {
+      width: 10px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      animation: bubble-rise 1.2s ease-out forwards;
+    }
+    @keyframes bubble-rise {
+      to {
+        transform: translateY(-40px);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="javascript:history.back()" class="back-button">← Back</a>
+  <div class="controls">
+    <label><input type="checkbox" id="trailToggle" /> Trailing Dots</label>
+    <label><input type="checkbox" id="sparkleToggle" /> Sparkles</label>
+    <label><input type="checkbox" id="rippleToggle" /> Ripple on Click</label>
+    <label><input type="checkbox" id="emojiToggle" /> Emoji Trail</label>
+    <label><input type="checkbox" id="rainbowToggle" /> Rainbow Sparks</label>
+    <label><input type="checkbox" id="bubbleToggle" /> Floating Bubbles</label>
+    <label><input type="checkbox" id="glowToggle" /> Mouse Glow</label>
+  </div>
+
+  <script>
+    const trailEnabled = document.getElementById('trailToggle');
+    const sparkleEnabled = document.getElementById('sparkleToggle');
+    const rippleEnabled = document.getElementById('rippleToggle');
+    const emojiEnabled = document.getElementById('emojiToggle');
+    const rainbowEnabled = document.getElementById('rainbowToggle');
+    const bubbleEnabled = document.getElementById('bubbleToggle');
+    const glowEnabled = document.getElementById('glowToggle');
+
+    const emojis = ['✨', '🔥', '🌟', '💫', '💥'];
+    const rainbowColors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    const glowDot = document.createElement('div');
+    glowDot.style.position = 'absolute';
+    glowDot.style.width = '40px';
+    glowDot.style.height = '40px';
+    glowDot.style.borderRadius = '50%';
+    glowDot.style.pointerEvents = 'none';
+    glowDot.style.background = 'radial-gradient(circle, rgba(0,255,255,0.4), transparent 70%)';
+    glowDot.style.zIndex = '999';
+    document.body.appendChild(glowDot);
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      glowDot.style.left = (mouseX - 20) + 'px';
+      glowDot.style.top = (mouseY - 20) + 'px';
+      glowDot.style.display = glowEnabled.checked ? 'block' : 'none';
+
+      if (trailEnabled.checked) {
+        const dot = document.createElement('div');
+        dot.classList.add('trail-dot');
+        dot.style.left = mouseX + 'px';
+        dot.style.top = mouseY + 'px';
+        document.body.appendChild(dot);
+        setTimeout(() => dot.remove(), 300);
+      }
+
+      if (sparkleEnabled.checked) {
+        const sparkle = document.createElement('div');
+        sparkle.classList.add('sparkle');
+        sparkle.style.left = mouseX + 'px';
+        sparkle.style.top = mouseY + 'px';
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 500);
+      }
+
+      if (emojiEnabled.checked) {
+        const emoji = document.createElement('div');
+        emoji.classList.add('emoji');
+        emoji.style.left = mouseX + 'px';
+        emoji.style.top = mouseY + 'px';
+        emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        document.body.appendChild(emoji);
+        setTimeout(() => emoji.remove(), 1000);
+      }
+
+      if (rainbowEnabled.checked) {
+        const r = document.createElement('div');
+        r.classList.add('rainbow');
+        r.style.left = mouseX + 'px';
+        r.style.top = mouseY + 'px';
+        r.style.background = rainbowColors[Math.floor(Math.random() * rainbowColors.length)];
+        document.body.appendChild(r);
+        setTimeout(() => r.remove(), 1000);
+      }
+
+      if (bubbleEnabled.checked) {
+        const b = document.createElement('div');
+        b.classList.add('bubble');
+        b.style.left = mouseX + 'px';
+        b.style.top = mouseY + 'px';
+        document.body.appendChild(b);
+        setTimeout(() => b.remove(), 1200);
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (rippleEnabled.checked) {
+        const ripple = document.createElement('div');
+        ripple.className = 'ripple';
+        ripple.style.left = `${e.clientX}px`;
+        ripple.style.top = `${e.clientY}px`;
+        document.body.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+      }
+    });
+  </script>
+</body>
+</html>
