@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ben Cohen | Code Snippets</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            overflow-y: scroll;
+            scrollbar-color: #ff6e42 #1a1a1a;
+            scrollbar-width: thin;
+        }
+
+        body::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #ff6e42, #ffca42);
+            border-radius: 10px;
+        }
+
+        body::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        .hamburger {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+        }
+
+        .menu {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-35deg) skew(20deg, 5deg);
+            z-index: 1000;
+        }
+
+        .snippet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 100px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .snippet-card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(255, 110, 66, 0.2);
+            color: #ffca42;
+            font-family: monospace;
+        }
+
+        .snippet-card h3 {
+            margin-top: 0;
+            color: #ff6e42;
+        }
+
+        .snippet-card code {
+            display: block;
+            background: #121212;
+            padding: 10px;
+            border-radius: 8px;
+            color: #eaeaea;
+            white-space: pre-wrap;
+        }
+
+        .keyword-python { color: #c678dd; }
+        .keyword-js     { color: #61dafb; }
+        .keyword-html   { color: #ffb86c; }
+        .keyword-css    { color: #8be9fd; }
+        .keyword-bash   { color: #f1fa8c; }
+    </style>
+</head>
+
+<body class = "snippet-page">
+    <button class="hamburger">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <ul class="menu hidden">
+        <li><a class="list-item" href="index.html" data-label="Home"><i class="fas fa-home"></i></a></li>
+        <li><a class="list-item" href="playground.html" data-label="Playground"><i class="fa-solid fa-dice"></i></a></li>
+        <li><a class="list-item" href="snippets.html" data-label="Code Snippets"><i class="fas fa-code"></i></a></li>
+        <li><a class="list-item" href="experience.html" data-label="Experience"><i
+        class="fa-solid fa-briefcase"></i></a></li>
+        <li><a class="list-item" href="education.html" data-label="Education"><i
+        class="fa-solid fa-graduation-cap"></i></a></li>
+        <li><a class="list-item" href="aboutme.html" data-label="About Me"><i class="fas fa-user"></i></a></li>
+        <li><a class="list-item" href="portfolio.html" data-label="Portfolio"><i class="fa-solid fa-paintbrush"></i></a>
+        </li>
+        <li><a class="list-item" href="resume.html" data-label="Résumé"><i class="fas fa-scroll"></i></a></li>
+        <li><a class="list-item" href="https://github.com/bbencohenn" data-label="GitHub"><i
+                    class="fa-brands fa-github"></i></a></li>
+        <li><a class="list-item" href="https://www.linkedin.com/in/ben-cohen-83747524b/" data-label="LinkedIn"><i
+                    class="fa-brands fa-linkedin"></i></a></li>
+        <li><a class="list-item" href="contact.html" data-label="Contact Me"><i class="fa-solid fa-comment"></i></a></li>
+        <li class="list-item close-menu" data-label="Close Menu"><i class="fa-solid fa-x"></i></li>
+    </ul>
+
+    <div class="menu-blur"></div>
+
+    <section class="portfolio-section">
+        <h1>Code Snippets</h1>
+        <h4>Some useful code snippets that I've collected. You can filter by language too :)</h4>
+        <h6>(Maybe I'll even update this in the future if by some series of miracles I remember to)</h6>
+        <p>Last updated 24/03/2025.</p>
+    </section>
+
+    <div class="snippet-grid">
+        <!-- Snippets will be appended here by script -->
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="script.js"></script>
+    <script src="snippets.js"></script>
+    <div id="tooltip"></div>
+</body>
+
+</html>

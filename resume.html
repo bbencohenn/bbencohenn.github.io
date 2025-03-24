@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .page-transition {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ben Cohen | Résumé</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="page-transition"></div>
+
+    <button class="hamburger">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <ul class="menu hidden">
+        <li><a class="list-item" href="index.html" data-label="Home"><i class="fas fa-home"></i></a></li>
+        <li><a class="list-item" href="portfolio.html" data-label="Portfolio"><i class="fa-solid fa-paintbrush"></i></a>
+        </li>
+        <li><a class="list-item" href="experience.html" data-label="Experience"><i
+                    class="fa-solid fa-briefcase"></i></a></li>
+        <li><a class="list-item" href="education.html" data-label="Education"><i
+                    class="fa-solid fa-graduation-cap"></i></a></li>
+        <li><a class="list-item" href="resume.html" data-label="Résumé"><i class="fas fa-scroll"></i></a></li>
+        <li><a class="list-item" href="snippets.html" data-label="Code Snippets"><i class="fas fa-code"></i></a></li>
+        <li><a class="list-item" href="aboutme.html" data-label="About Me"><i class="fas fa-user"></i></a></li>
+        <li><a class="list-item" href="https://github.com/bbencohenn" data-label="GitHub"><i
+                    class="fa-brands fa-github"></i></a></li>
+        <li><a class="list-item" href="https://www.linkedin.com/in/ben-cohen-83747524b/" data-label="LinkedIn"><i
+                    class="fa-brands fa-linkedin"></i></a></li>
+        <li><a class="list-item" href="contact.html" data-label="Contact Me"><i class="fa-solid fa-comment"></i></a></li>
+        <li><a class="list-item" href="playground.html" data-label="Playground"><i class="fa-solid fa-dice"></i></a></li>
+        <li class="list-item close-menu" data-label="Close Menu"><i class="fa-solid fa-x"></i></li>
+    </ul>
+    <div id="tooltip"></div>
+
+    <div class="blur-overlay"></div>
+
+    <main class="resume-content" style="display: flex; flex-direction: column; align-items: center; padding: 2rem;">
+        <h1 style="color: #ff7e5f; text-transform: uppercase; margin-bottom: 2rem;">Résumé</h1>
+        <h4>Here's <em>some</em> of the info from this website condensed into a nice downloadable pdf form:</h4>
+
+        <button id="view-resume-btn" style="margin-top: 1rem; margin-bottom: 1rem; padding: 0.75rem 1.25rem; background-color: #444; color: white; border: none; border-radius: 5px; font-size: 0.95rem; cursor: pointer;">
+            <i class="fas fa-eye"></i> View Résumé
+        </button>
+
+        <div id="resume-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: black; z-index: 9999; overflow-y: auto; padding: 0; margin: 0;">
+            <button id="close-resume-btn" style="position: fixed; top: 20px; right: 20px; background-color: #222; color: white; border: none; padding: 10px 15px; border-radius: 5px; font-size: 1rem; cursor: pointer; z-index: 10000;">
+                <i class="fas fa-times"></i> Close
+            </button>
+            <div id="pdf-render-container" style="width: 100%; padding: 0; margin: 0;"></div>
+        </div>
+
+        <a href="resume.pdf" download style="display: inline-flex; align-items: center; gap: 0.5rem; background: #222; color: white; padding: 0.75rem 1.25rem; border-radius: 5px; text-decoration: none; font-size: 0.95rem;">
+            <i class="fas fa-download"></i> Download Résumé
+        </a>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script>
+        const viewBtn = document.getElementById('view-resume-btn');
+        const closeBtn = document.getElementById('close-resume-btn');
+        const overlay = document.getElementById('resume-overlay');
+        const container = document.getElementById('pdf-render-container');
+
+        viewBtn.addEventListener('click', function () {
+            overlay.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+
+            container.innerHTML = '';
+
+            pdfjsLib.getDocument('resume.pdf').promise.then(function (pdf) {
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    pdf.getPage(pageNum).then(function (page) {
+                        const viewport = page.getViewport({ scale: 1.5 });
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+                        canvas.style.display = 'block';
+                        canvas.style.margin = '0 auto';
+                        canvas.style.padding = '0';
+                        canvas.style.border = 'none';
+                        container.appendChild(canvas);
+                        page.render({ canvasContext: context, viewport: viewport });
+                    });
+                }
+            });
+        });
+
+        closeBtn.addEventListener('click', function () {
+            overlay.style.display = 'none';
+            document.body.style.overflow = '';
+        });
+    </script>
+</body>
+
+</html>

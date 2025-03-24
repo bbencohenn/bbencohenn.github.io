@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .page-transition {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ben Cohen | Experience</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="page-transition"></div>
+
+    <button class="hamburger">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <ul class="menu hidden">
+        <li><a class="list-item" href="index.html" data-label="Home"><i class="fas fa-home"></i></a></li>
+        <li><a class="list-item" href="playground.html" data-label="Playground"><i class="fa-solid fa-dice"></i></a></li>
+        <li><a class="list-item" href="snippets.html" data-label="Code Snippets"><i class="fas fa-code"></i></a></li>
+        <li><a class="list-item" href="experience.html" data-label="Experience"><i
+        class="fa-solid fa-briefcase"></i></a></li>
+        <li><a class="list-item" href="education.html" data-label="Education"><i
+        class="fa-solid fa-graduation-cap"></i></a></li>
+        <li><a class="list-item" href="aboutme.html" data-label="About Me"><i class="fas fa-user"></i></a></li>
+        <li><a class="list-item" href="portfolio.html" data-label="Portfolio"><i class="fa-solid fa-paintbrush"></i></a>
+        </li>
+        <li><a class="list-item" href="resume.html" data-label="Résumé"><i class="fas fa-scroll"></i></a></li>
+        <li><a class="list-item" href="https://github.com/bbencohenn" data-label="GitHub"><i
+                    class="fa-brands fa-github"></i></a></li>
+        <li><a class="list-item" href="https://www.linkedin.com/in/ben-cohen-83747524b/" data-label="LinkedIn"><i
+                    class="fa-brands fa-linkedin"></i></a></li>
+        <li><a class="list-item" href="contact.html" data-label="Contact Me"><i class="fa-solid fa-comment"></i></a></li>
+        <li class="list-item close-menu" data-label="Close Menu"><i class="fa-solid fa-x"></i></li>
+    </ul>
+    <div id="tooltip"></div>
+
+    <section class="portfolio-section">
+        <h1>Experience TEST!!</h1>
+        <h4>Click on panels for more info. Hit esc to exit a panel.</h4>
+        <div class="carousel-scroll-wrapper">
+            <div class="carousel-container">
+
+
+                <div class="project-card info-btn" data-content="c4f">
+                    <div class = "img-wrapper">
+                    <img src="resources/code4fun.webp" alt="Code4Fun Logo">
+                    </div>
+                    <h3>Lead Coding Instructor</h3>
+                    <p><strong>Code4Fun</strong> - Sydney, NSW<br><em>Jan 2024 - Present</em></p>
+                </div>
+                <div class="project-card info-btn" data-content="emanuel">
+                    <div class = "img-wrapper">
+                    <img src="resources/emanuel.png" alt="Emanuel School Logo">
+                    </div>
+                    <h3>Band Tutor & Assistant</h3>
+                    <p><strong>Emanuel School</strong> — Randwick, NSW<br><em>Jun 2023 - Present</em></p>
+                </div>
+
+
+                <div class="project-card info-btn" data-content="elcom">
+                    <div class = "img-wrapper">
+                    <img src="resources/Elcom Logo.jpeg" alt="Elcom Logo">
+                    </div>
+                    <h3>Technical Writer & Manual Tester</h3>
+                    <p><strong>Elcom</strong> — Sydney, NSW<br><em>Nov 2022 - Dec 2023</em></p>
+                </div>
+
+                <div class="project-card info-btn" data-content="mrliq">
+                    <div class = "img-wrapper">
+                    <img src="resources/mrliquor.avif" alt="Mr Liquor logo">
+                    </div>
+                    <h3>Cashier & Store Worker</h3>
+                    <p><strong>Mr. Liquor</strong> — South Coogee, NSW<br><em>Nov 2022 - Dec 2022</em></p>
+                </div>
+
+                <div class="project-card info-btn" data-content="maccas">
+                    <div class = "img-wrapper">
+                    <img src="resources/mcdonalds.png" alt="McDonald's Logo">
+                    </div>
+                    <h3>Crew Member</h3>
+                    <p><strong>McDonald's</strong> - Maroubra, NSW<br><em>Sep 2020 - Jul 2021</em></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="blur-overlay"></div>
+    <div class="content-box">
+        <span class="close-btn">&times;</span>
+        <div class="modal-content"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const contentBox = document.querySelector(".content-box");
+            const modalContent = document.querySelector(".modal-content");
+            const closeBtn = document.querySelector(".close-btn");
+            const blurOverlay = document.querySelector(".blur-overlay");
+            const buttons = document.querySelectorAll(".info-btn");
+
+            const jobDetails = {
+                maccas: `<h2>Crew Member @ McDonald's</h2>
+                <h3>September 2020 - July 2021 (10 months)</h3>
+                <h4>Humble beginnings.</h4>
+                <p>Responsibilities:</p>
+                <ul>
+                    <li>Cooking, frying, and assembling food orders</li>
+                    <li>Cleaning the kitchen area</li>
+                    <li>Managing waste produced by the restaurant</li>
+                    <li>Restocking critical items</li>
+                    <li>Maintaining storage areas</li>
+                    </ul>
+                <a href="https://en.wikipedia.org/wiki/Golden_Arches#/media/File:McDonald's_Golden_Arches.svg">(Image source)</a>
+                    `,
+                mrliq: `<h2>Cashier & Store Worker @ Mr. Liquor</h2>
+                <h3>Nov 2022 - Dec 2022 (2 months)</h3>
+                <h4>Valuable customer service experience.</h4>
+                <p><em>*This was a pre-agreed short-term engagement with the manager prior to commencement.</em></p>
+                <p>Responsibilities</p>
+                <ul>
+                    <li>Handling the cash register & POS system</li>
+                    <li>Providing reliable and high-quality customer service</li>
+                    <li>Maintaining cleanliness and organisation of shelves and fridges</li>
+                    <li>Opening and closing the store</li>
+                    <li>Handling customer complaints calmly and professionally</li>
+                    <li>Resolving issues in a timely and effective manner</li>
+                    </ul>
+
+                    <a href="https://mrliquor.com.au/">(Image source)</a>
+                `,
+                elcom: `<h2>Technical Writer & Manual Tester @ Elcom</h2>
+                <h3>Nov 2022 - Dec 2024 (1 year, 1 month)</h3>
+                <h4>Impactful industry experience</h4>
+                <p>Key Contributions:</p>
+                <ul>
+                    <li>Reorganised and updated Elcom's documentation to match the release of version 12.0 of elcomCMS</li>
+                    <li>Played a major role in testing a pre-release version of a new update for elcomCMS according to tester scripts</li>
+                    <li>Performed content population for Elcom's clients</li>
+                    <li>Played a key role in preparing a training program to match new developments of elcomCMS</li>
+                    </ul>
+                    <a href="https://www.linkedin.com/company/elcom/posts/?feedView=all">(Image source)</a>`,
+                emanuel: `<h2>Band Tutor & Assistant @ Emanuel School</h2>
+                    <h3>Jun 2023 - Present {{DURATION}}</h3>
+                    <h4>Supporting young musicians.</h4>
+                    <ul>
+                        <li>Attended the school's annual music camp in 2023 & 2024</li>
+                        <ul>
+                            <li>Ran ensembles & sectionals of varying sizes & ages</li>
+                            <li>Assisted other tutors by sitting amongst students in ensembles, playing music alongside them and managing behaviour</li>
+                            <li>Played an important role in the transportation, packing/unpacking, setup, assembly, and disassembly of music equipment</li>
+                        </ul>
+                        <li>Helped in the school's inaugural annual high school concert band tour</li>
+                        <ul>
+                            <li>Kept track of students' whereabouts, progress, and behaviour</li>
+                            <li>Assembled, disassembled, and transported music equipment</li>
+                            <li>Covered the roles of absent students in the ensemble</li>
+                            <li>Assisted in audience engagement</li>
+                        </ul>
+                        <li>Assisted in weekly ensemble rehearsals</li>
+                        <ul>
+                            <li>Managing and tracking behaviour of students</li>
+                            <li>Organising and maintaining school-owned music equipment</li>
+                            <li>Co-operating with other staff to provide a meaningful educational experience</li>
+                        </ul>
+                        <li>Also assisted with various roles at various school music events</li>
+                    </ul>
+                    <a href="https://www.emanuelschool.nsw.edu.au/">(Image source)</a>`,
+                    c4f: `<h2>Lead Coding Instructor @ Code4Fun</h2>
+                    <h3>Jan 2024 - Present {{DURATION}}</h3>
+                    <h4>Making programming engaging for young minds.</h4>
+                    <p>Responsibilties:</p>
+                    <ul>
+                        <li>Teaching classes both by myself and with others</li>
+                        <li>Cooperation with assistant teachers</li>
+                        <li>Proactive revision of lesson plans before each lesson</li>
+                        <li>Actively checking and managing progress of students</li>
+                        <li>Writing new lesson plans & projects to commit to the curriculum for all teachers to use</li>
+                    <a href="https://code4fun.com.au/">(Image source)</a>`
+            };
+
+            function openContent(contentKey) {
+                if (!jobDetails[contentKey]) return;
+                let contentHTML = jobDetails[contentKey];
+
+                if (contentKey === "emanuel" || contentKey === "c4f") {
+    const startDates = {
+        emanuel: new Date(2023, 5), // Jun 2023
+        c4f: new Date(2024, 0)      // Jan 2024
+    };
+    const startDate = startDates[contentKey];
+    const now = new Date();
+
+    let years = now.getFullYear() - startDate.getFullYear();
+    let months = now.getMonth() - startDate.getMonth();
+    if (months < 0) {
+        years -= 1;
+        months += 12;
+    }
+
+    const parts = [];
+    if (years > 0) parts.push(`${years} year${years > 1 ? 's' : ''}`);
+    if (months > 0 || years === 0) parts.push(`${months} month${months !== 1 ? 's' : ''}`);
+
+    const durationText = `(${parts.join(', ')})`;
+    contentHTML = contentHTML.replace("{{DURATION}}", durationText);
+}
+
+modalContent.innerHTML = contentHTML;
+                contentBox.classList.add("show");
+                blurOverlay.classList.add("show");
+            }
+
+            function closeContent() {
+                contentBox.classList.add("hide");
+                blurOverlay.style.opacity = "0";
+                setTimeout(() => {
+                    contentBox.classList.remove("show", "hide");
+                    blurOverlay.classList.remove("show");
+                    blurOverlay.style.visibility = "hidden";
+                }, 400);
+            }
+
+            buttons.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const key = btn.getAttribute("data-content");
+                    openContent(key);
+                });
+            });
+
+            closeBtn.addEventListener("click", closeContent);
+            blurOverlay.addEventListener("click", closeContent);
+            document.addEventListener("keydown", e => {
+                if (e.key === "Escape") closeContent();
+            });
+        });
+    </script>
+</body>
+
+</html>

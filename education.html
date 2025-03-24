@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .page-transition {
+            opacity: 1;
+            visibility: visible;
+        }
+
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ben Cohen | Education</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="page-transition"></div>
+
+    <button class="hamburger">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <ul class="menu hidden">
+        <li><a class="list-item" href="index.html" data-label="Home"><i class="fas fa-home"></i></a></li>
+        <li><a class="list-item" href="portfolio.html" data-label="Portfolio"><i class="fa-solid fa-paintbrush"></i></a>
+        </li>
+        <li><a class="list-item" href="experience.html" data-label="Experience"><i
+                    class="fa-solid fa-briefcase"></i></a></li>
+        <li><a class="list-item" href="education.html" data-label="Education"><i
+                    class="fa-solid fa-graduation-cap"></i></a></li>
+        <li><a class="list-item" href="resume.html" data-label="Résumé"><i class="fas fa-scroll"></i></a></li>
+        <li><a class="list-item" href="snippets.html" data-label="Code Snippets"><i class="fas fa-code"></i></a></li>
+        <li><a class="list-item" href="aboutme.html" data-label="About Me"><i class="fas fa-user"></i></a></li>
+        <li><a class="list-item" href="https://github.com/bbencohenn" data-label="GitHub"><i
+                    class="fa-brands fa-github"></i></a></li>
+        <li><a class="list-item" href="https://www.linkedin.com/in/ben-cohen-83747524b/" data-label="LinkedIn"><i
+                    class="fa-brands fa-linkedin"></i></a></li>
+        <li><a class="list-item" href="contact.html" data-label="Contact Me"><i class="fa-solid fa-comment"></i></a></li>
+        <li><a class="list-item" href="playground.html" data-label="Playground"><i class="fa-solid fa-dice"></i></a></li>
+        <li class="list-item close-menu" data-label="Close Menu"><i class="fa-solid fa-x"></i></li>
+    </ul>
+    <div id="tooltip"></div>
+
+    <section class="portfolio-section">
+        <h1>Education</h1>
+        <div class="carousel-scroll-wrapper">
+            <div class="carousel-container">
+
+
+                <div class="project-card info-btn" data-content="uts">
+                    <div class = "img-wrapper">
+                    <img src="resources/uts.png" alt="Code4Fun Logo">
+                    </div>
+                    <h3>Bachelor of Computing Science (honours)</h3>
+                    <p><strong>UTS</strong> - Ultimo, NSW<br><em>2024-2027</em></p>
+                </div>
+
+                <div class="project-card info-btn" data-content="usm">
+                    <div class = "img-wrapper">
+                    <img src="resources/usm.png" alt="USM Logo">
+                    </div>
+                    <h3>Tropical Data Science School</h3>
+                    <p><strong>USM</strong> — Penang, Malaysia<br><em>Jan 2025</em></p>
+                </div>
+
+
+                <div class="project-card info-btn" data-content="put">
+                    <div class = "img-wrapper">
+                    <img src="resources/put.png" alt="PUT Logo">
+                    </div>
+                    <h3>International Workshop on Strategic Management</h3>
+                    <p><strong>PUT</strong> — Poznań, Poland<br><em>April 2025</em></p>
+                </div>
+
+                <div class="project-card info-btn" data-content="emanuel">
+                    <div class = "img-wrapper">
+                    <img src="resources/emanuel.png" alt="Emanuel Logo">
+                    </div>
+                    <h3>K-12 Education</h3>
+                    <p><strong>Emanuel School</strong> — Randwick, NSW<br><em>2010 - 2022</em></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="blur-overlay"></div>
+    <div class="content-box">
+        <span class="close-btn">&times;</span>
+        <div class="modal-content"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const contentBox = document.querySelector(".content-box");
+            const modalContent = document.querySelector(".modal-content");
+            const closeBtn = document.querySelector(".close-btn");
+            const blurOverlay = document.querySelector(".blur-overlay");
+            const buttons = document.querySelectorAll(".info-btn");
+
+            const jobDetails = {
+                uts: `<h2>Bachelor of Computing Science (Honours) @ University of Technology Sydney</h2>
+                <h3>2024 - 2027 (4 years)</h3>
+                <h4>Majoring in Cybersecurity & Networking</h4>
+                <div class="about-me">
+                <img src="resources/uts.png" alt="Ben Cohen" class="about-me-image">
+                <ul>
+                    <li>Electives ranging across Data Science, Cybersecurity, and AI</li>
+                    <li>Developing and honing proficiency in Python, Java, SQL, full-stack web development, Linux systems, and scripting</li>
+                    <li>Worked on a variety of individual and group-based tech projects</li>
+                    <li>Experienced in using Git and GitHub for collaborative version control</li>
+                    <li>Learned key principles of algorithms, data structures, and computational logic</li>
+                    <li>Participated in programming labs involving Pythton, Java, C++, and Bash</li>
+                    <li>Developed software using agile methodologies and sprint-basesd workflows</li>
+                    <li>Completed advanced mathematical units in calculus, linear algebra, and logic</li>
+                    <li>Strong theoretical foundations from discrete mathematics and computing science units</li>
+
+            </div>
+                <a href="https://www.uts.edu.au/">(Image source)</a>
+                    `,
+                    usm: `<h2>Bachelor of Computing Science (Honours) @ University of Technology Sydney</h2>
+                <h3>Jan 2025 (2 weeks)</h3>
+                <h4>Exploring data science through global collaboration and culture.</h4>
+                <p>Participated in a two-week intensive program focused on data science, combining academic learning with cultural immersion in Malaysia</p>
+
+                <div class="about-me">
+                <img src="resources/usm.png" alt="Ben Cohen" class="about-me-image">
+                <div>
+                <p>Key highlights:</p>
+                <ul>
+                    <li>Comprehensive data science training</li>
+                    <ul>
+                        <li>Engaged in hands-on sessions covering data science workflows, data interpretation, and storytelling with data</li>
+                        <li>Developed practical skills in handling and analysing data using tools like Python, R, Power BI, and Tableau</li>
+                    </ul>
+                    <li>Cultural immersion</li>
+                    <ul>
+                        <li>Experienced Malaysia's rich culture through activities such as traditional arts, local cuisine exploration, and visits to historical sites</li>
+                        <li>Collaborated with local student buddies, enhancing cross-cultural communication and understanding</li>
+                    </ul>
+                </ul>
+                <p>This experience not only enhanced my technical skills in data science, but also broadened my global perspective through cultural exchange</p>
+                </div>
+            </div>
+                <a href="https://en.wikipedia.org/wiki/Universiti_Sains_Malaysia#/media/File:Coat_of_arms_of_Universiti_Sains_Malaysia.png">(Image source)</a>
+                    `,
+
+                put: `<h2>International Workshop on Strategic Management @ Poznań University of Technology</h2>
+                <h3>April 2025 (1 week)</h3>
+                <h4>Gaining business insight in an international context.</h4>
+                <div class="about-me">
+                <img src="resources/put.png" alt="Poznań University of Technology Logo" class="about-me-image">
+                <div>
+                    <p>Key highlights:</p>
+                    <ul>
+                    <li>Worked in diverse, international teams to solve strategic business problems</li>
+                    <li>Delivered presentations on market entry strategy, innovation, and digital transformation</li>
+                    <li>Participated in seminars led by industry experts and academic professionals</li>
+                    <li>Explored Poznań's cultural and historical landmarks as part of the exchange</li>
+                    </ul>
+                    <p>This experience enhanced my ability to think critically about business strategy, while building strong communication skills across different cultural and academic backgrounds.</p>
+                </div>
+                </div>
+
+<a href="https://put.poznan.pl/en">(Image source)</a>`,
+                emanuel: `<h2>K-12 Education @ Emanuel School</h2>
+                    <h3>2010 - 2022 (13 years)</h3>
+                <h4>Foundational learning in a tight-knit, values-driven environment.</h4>
+                <div class="about-me">
+                <img src="resources/emanuel.png" alt="Emanuel School Logo" class="about-me-image">
+                <div>
+                    <p>Key highlights:</p>
+                    <ul>
+                        <li>Graduated with an ATAR above 90</li>
+                        <li>Year 12 subjects</li>
+                        <ul>
+                            <li>Music 2 & Extension Music</li>
+                            <li>Software Design & Development</li>
+                            <li>Advanced Mathematics</li>
+                            <li>Modern History & Extension History</li>
+                            <li>Advanced English</li>
+                        </ul>
+                        <li>Heavily involved in the school's music program as a performer and leader</li>
+                        <li>Strong involvement in IT & tech programs / events across my entire school career</li>
+                        <li>Held leadership positions and contributed to school events and community initiatives</li>
+                    </ul>
+                    <p>This 13-year journey gave me a strong academic foundation, while shaping my creativity, confidence, and commitment to lifelong learning.</p>
+                </div>
+                </div>
+
+<a href="https://www.emanuelschool.nsw.edu.au">(Image source)</a>`
+            };
+
+            function openContent(contentKey) {
+                if (!jobDetails[contentKey]) return;
+                let contentHTML = jobDetails[contentKey];
+
+                if (contentKey === "emanuel" || contentKey === "c4f") {
+    const startDates = {
+        emanuel: new Date(2023, 5), // Jun 2023
+        c4f: new Date(2024, 0)      // Jan 2024
+    };
+    const startDate = startDates[contentKey];
+    const now = new Date();
+
+    let years = now.getFullYear() - startDate.getFullYear();
+    let months = now.getMonth() - startDate.getMonth();
+    if (months < 0) {
+        years -= 1;
+        months += 12;
+    }
+
+    const parts = [];
+    if (years > 0) parts.push(`${years} year${years > 1 ? 's' : ''}`);
+    if (months > 0 || years === 0) parts.push(`${months} month${months !== 1 ? 's' : ''}`);
+
+    const durationText = `(${parts.join(', ')})`;
+    contentHTML = contentHTML.replace("{{DURATION}}", durationText);
+}
+
+modalContent.innerHTML = contentHTML;
+                contentBox.classList.add("show");
+                blurOverlay.classList.add("show");
+            }
+
+            function closeContent() {
+                contentBox.classList.add("hide");
+                blurOverlay.style.opacity = "0";
+                setTimeout(() => {
+                    contentBox.classList.remove("show", "hide");
+                    blurOverlay.classList.remove("show");
+                    blurOverlay.style.visibility = "hidden";
+                }, 400);
+            }
+
+            buttons.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const key = btn.getAttribute("data-content");
+                    openContent(key);
+                });
+            });
+
+            closeBtn.addEventListener("click", closeContent);
+            blurOverlay.addEventListener("click", closeContent);
+            document.addEventListener("keydown", e => {
+                if (e.key === "Escape") closeContent();
+            });
+        });
+    </script>
+</body>
+
+</html>
