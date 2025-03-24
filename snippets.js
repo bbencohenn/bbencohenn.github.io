@@ -183,6 +183,17 @@ const snippets = [
       language: "javascript"
     },
     {
+        title: "JavaScript: Back Button",
+        code: `<button onclick="goBack()">Go Back</button>
+
+            <script>
+                function goBack() {
+                history.back(); // or use history.go(-1);
+                    }
+            </script>`,
+        language: "html"
+      },
+    {
       title: "Python: Flatten List",
       code: `from itertools import chain
   flat = list(chain.from_iterable([[1,2],[3,4]]))`,
