@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ben Cohen - Cybersecurity Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://kit.fontawesome.com/397fc878e3.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Navigation -->
+  <header>
+    <nav class="nav">
+      <button id="burger" class="burger" aria-label="Open navigation"><span></span></button>
+
+      <div id="overlay" aria-hidden="true" class="overlay">
+        <div class="nav-panel container">
+          <div class="nav-panel__head">
+            <div>
+              <div class="chip mono">~/ben</div>
+            </div>
+          </div>
+
+          <div class="nav-grid">
+            <a class="nav-card" href="index.html">
+              <div>
+                <i class="fa-solid fa-user"></i>
+                <div class="nav-card__title">About Me</div>
+                <div class="nav-card__sub">Who I am, what I do</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="timeline.html">
+              <div>
+                <i class="fa-solid fa-timeline"></i>
+                <div class="nav-card__title">Timeline</div>
+                <div class="nav-card__sub">Where I've been, what I've done</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="playground.html">
+              <div>
+                <i class="fa-solid fa-otter"></i>
+                <div class="nav-card__title">Playground</div>
+                <div class="nav-card__sub">Stuff I've made</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="blog.html">
+              <div>
+                <i class="fa-solid fa-droplet"></i>
+                <div class="nav-card__title">Blog & Snippets</div>
+                <div class="nav-card__sub">Stuff I've written about stuff I've done</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="contact.html">
+              <div>
+                <i class="fa-solid fa-address-book"></i>
+                <div class="nav-card__title">Contact</div>
+                <div class="nav-card__sub">Say hi, ask questions</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="https://github.com/bbencohenn" target="_blank" rel="noopener">
+              <div>
+                <i class="fa-brands fa-github"></i>
+                <div class="nav-card__title">GitHub</div>
+                <div class="nav-card__sub">Open-source & projects</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero container">
+  <div class="orbit">
+    <div class="orb one" data-speed="-0.06"></div>
+    <div class="orb two" data-speed="-0.10"></div>
+  </div>
+
+  <div class="hero-grid">
+    <!-- LEFT: intro -->
+    <div class="hero-left" data-speed="-0.02">
+      <span class="chip mono">$ whoami</span>
+      <h1>Ben Cohen <br></h1><h2>Cybersecurity & Creative Dev</h2>
+      <p class="muted">
+        I break things (ethically), build things (delightfully), and write about both.
+        CTFs, hackathons, reverse-engineering notes, and playful web toys live here.
+      </p>
+
+      <!-- quick meta row -->
+      <ul class="meta">
+        <li><i class="fa-solid fa-location-dot"></i> Sydney, NSW</li>
+        <li><i class="fa-solid fa-building-columns"></i> Bachelor of CompSci (Honours) @ UTS</li>
+        <li><i class="fa-solid fa-briefcase"></i> Coding Instructor @ Code4Fun</li>
+      </ul>
+
+      <!-- skill tags -->
+      <div class="tags">
+        <span class="tag"><i class="fa-solid fa-shield-halved"></i> Cybersecurity</span>
+        <span class="tag"><i class="fa-solid fa-database"></i> Data Science</span>
+        <span class="tag"><i class="fa-solid fa-code"></i> Web Dev</span>
+        <span class="tag"><i class="fa-solid fa-flag"></i> CTF write-ups</span>
+      </div>
+
+      <!-- subtle quick links (no big buttons) -->
+      <div class="quicklinks">
+        <a href="blog.html">Latest write-ups</a>
+        <span>•</span>
+        <a href="playground.html">Playground</a>
+        <span>•</span>
+        <a href="timeline.html">Timeline</a>
+      </div>
+    </div>
+
+    <!-- RIGHT: portrait -->
+    <div class="hero-right">
+      <div class="avatar-wrap" aria-hidden="true"></div>
+      <!-- replace assets/me.jpg with your real photo -->
+      <img class="avatar" src="img/ben.png" alt="Photo of Ben Cohen" loading="eager"/>
+    </div>
+  </div>
+<div class="scrolldown" id="scrolldown">
+  <span class="sd-text mono">Scroll to see more</span>
+  <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+</div>
+</section>
+
+<!-- Highlights -->
+<section class="section container highlights" id="highlights">
+  <h2>Highlights</h2>
+
+  <div class="cards" data-reveal-group>
+    <!-- Row 1 -->
+    <a class="card highlight" href="blog.html" style="--i:0">
+      <h3>🏁 CTF: Bypassing lenient SSRF filters</h3>
+      <p class="muted">Request smuggling + DNS rebinding. PoCs, mitigations, and lab recreations.</p>
+      <span class="chip mono" data-k="web">#web</span>
+      <span class="chip mono" data-k="writeup">#write-up</span>
+    </a>
+
+    <a class="card highlight" href="timeline.html" style="--i:1">
+      <h3>🧪 Research: Threat modeling for small teams</h3>
+      <p class="muted">Lightweight STRIDE variant with checklists + diagrams. Used in 2 hackathons.</p>
+      <span class="chip mono" data-k="research">#research</span>
+    </a>
+
+    <a class="card highlight" href="playground.html" style="--i:2">
+      <h3>🕹️ Magnetic navigation experiment</h3>
+      <p class="muted">Hover fields in vanilla JS with accessible fallbacks.</p>
+      <span class="chip mono" data-k="ui">#ui</span>
+      <span class="chip mono" data-k="toy">#toy</span>
+    </a>
+
+    <!-- Row 2 -->
+    <a class="card highlight" href="blog.html" style="--i:3">
+      <h3>🔐 JWT misconfig notes</h3>
+      <p class="muted">alg=none, kid traversal, jwk injection. Red flags & fixes.</p>
+      <span class="chip mono" data-k="web">#web</span>
+    </a>
+
+    <a class="card highlight" href="blog.html" style="--i:4">
+      <h3>🕵️‍♂️ Recon mini-playbook</h3>
+      <p class="muted">Amass, httpx, gau, wayback, nuclei. What I run and why.</p>
+      <span class="chip mono">#notes</span>
+    </a>
+
+    <a class="card highlight" href="blog.html" style="--i:5">
+      <h3>⚙️ Supply-chain sanity checks</h3>
+      <p class="muted">Lockfiles, sigstore, SBOM quick wins for small teams.</p>
+      <span class="chip mono">#ops</span>
+    </a>
+
+    <!-- Row 3 -->
+    <a class="card highlight" href="playground.html" style="--i:6">
+      <h3>🌫️ WebGL “smoke” shader toy</h3>
+      <p class="muted">Noise-based fog with WASD camera.</p>
+      <span class="chip mono" data-k="toy">#toy</span>
+    </a>
+
+    <a class="card highlight" href="timeline.html" style="--i:7">
+      <h3>📈 Blue team dashboards</h3>
+      <p class="muted">Sigma → Loki → dashboards. Minimal pipeline.</p>
+      <span class="chip mono">#blue</span>
+    </a>
+
+    <a class="card highlight" href="blog.html" style="--i:8">
+      <h3>🧩 XSS to account takeover chain</h3>
+      <p class="muted">Cookie scope + CSRF gaps + lax CORS; full chain write-up.</p>
+      <span class="chip mono" data-k="web">#web</span>
+    </a>
+  </div>
+</section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© <span id="year"></span> Ben Cohen. All opinions are mine.</p>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

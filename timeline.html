@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Timeline — Ben Cohen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css"/>
+  <script src="https://kit.fontawesome.com/397fc878e3.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <!-- Floating site navigation (same component as index) -->
+  <header>
+    <nav class="nav">
+      <button id="burger" class="burger" aria-label="Open navigation"><span></span></button>
+
+      <div id="overlay" aria-hidden="true" class="overlay">
+        <div class="nav-panel container">
+          <div class="nav-panel__head">
+            <div>
+              <div class="chip mono">~/ben</div>
+            </div>
+          </div>
+
+          <div class="nav-grid">
+            <a class="nav-card" href="index.html">
+              <div>
+                <i class="fa-solid fa-user"></i>
+                <div class="nav-card__title">About Me</div>
+                <div class="nav-card__sub">Who I am, what I do</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="timeline.html">
+              <div>
+                <i class="fa-solid fa-timeline"></i>
+                <div class="nav-card__title">Timeline</div>
+                <div class="nav-card__sub">Where I've been, what I've done</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="playground.html">
+              <div>
+                <i class="fa-solid fa-otter"></i>
+                <div class="nav-card__title">Playground</div>
+                <div class="nav-card__sub">Stuff I've made</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="blog.html">
+              <div>
+                <i class="fa-solid fa-droplet"></i>
+                <div class="nav-card__title">Blog & Snippets</div>
+                <div class="nav-card__sub">Stuff I've written about stuff I've done</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="contact.html">
+              <div>
+                <i class="fa-solid fa-address-book"></i>
+                <div class="nav-card__title">Contact</div>
+                <div class="nav-card__sub">Say hi, ask questions</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="https://github.com/bbencohenn" target="_blank" rel="noopener">
+              <div>
+                <i class="fa-brands fa-github"></i>
+                <div class="nav-card__title">GitHub</div>
+                <div class="nav-card__sub">Open-source & projects</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ===== On-brand Timeline (same behavior, updated styling) ===== -->
+  <div class="tl-wrapper">
+
+    <!-- Left rail (numbers + expanding text) -->
+    <nav class="tl-side" id="tl-navbar">
+      <ul class="tl-nav">
+        <li class="active">
+          <a href="#tl-section1">
+            <span class="tl-count">2010</span>
+            <h3 class="tl-title">Commenced School</h3>
+            <p class="tl-desc">Emanuel School, Randwick NSW</p>
+          </a>
+        </li>
+
+        <!-- removed: 2019 Freelance Composer (per user request) -->
+
+        <li>
+          <a href="#tl-section2">
+            <span class="tl-count">Jun 2020</span>
+            <h3 class="tl-title">Crew Member</h3>
+            <p class="tl-desc">McDonald's Maroubra — to Oct 2021</p>
+          </a>
+        </li>
+
+        <li>
+          <a href="#tl-section3">
+            <span class="tl-count">Nov 2022</span>
+            <h3 class="tl-title">High School Graduate</h3>
+            <p class="tl-desc">HSC — Emanuel School</p>
+          </a>
+        </li>
+
+        <li>
+          <a href="#tl-section4">
+            <span class="tl-count">Nov 2022</span>
+            <h3 class="tl-title">Technical Writer & Tester</h3><br>
+            <p class="tl-desc">Elcom Technology — to Nov 2023</p>
+          </a>
+        </li>
+
+        <li>
+          <a href="#tl-section5">
+            <span class="tl-count">Jan 2024</span>
+            <h3 class="tl-title">Lead Coding Instructor</h3><br>
+            <p class="tl-desc">Code4Fun — Present</p>
+          </a>
+        </li>
+
+        <li>
+          <a href="#tl-section6">
+            <span class="tl-count">Feb 2024</span>
+            <h3 class="tl-title">B.CompSci (Hons)</h3>
+            <p class="tl-desc">UTS — Present</p>
+          </a>
+        </li>
+
+        <li>
+          <a href="#tl-section7">
+            <span class="tl-count">Jan 2025</span>
+            <h3 class="tl-title">Tropical Data Science</h3>
+            <p class="tl-desc">USM — Short School</p>
+          </a>
+        </li>
+
+        <li>
+          <a href="#tl-section8">
+            <span class="tl-count">Apr 2025</span>
+            <h3 class="tl-title">Strategy Workshop</h3>
+            <p class="tl-desc">Poznań University of Technology</p>
+          </a>
+        </li>
+
+        <li>
+          <a href="#tl-section9">
+            <span class="tl-count">Jan–Jun 2026</span>
+            <h3 class="tl-title">Exchange Semester</h3>
+            <p class="tl-desc">Beijing Institute of Technology</p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Full-height sections (glass cards, dark theme) -->
+    <section class="tl-section" id="tl-section1">
+      <div class="tl-card">
+        <div class="shell-crumbs"><span class="chip mono shell">~/timeline/2010</span></div>
+        <h2>Commenced School at Emanuel School</h2>
+        <div class="tl-meta">
+          <span class="chip"><i class="fa-solid fa-location-dot"></i> Emanuel School, Randwick NSW</span>
+          <span class="chip"><i class="fa-solid fa-calendar"></i> 2010-2022</span>
+          <span class="chip"><i class="fa-solid fa-hourglass"></i> 13 years</span>
+        </div>
+        <p class="muted">It all started here!</p>
+
+        <div class="tl-row" style="margin-top:12px;">
+          <div class="tl-col">
+            <ul class="list-clean">
+              <li><i class="fa-solid fa-check"></i> Core subjects and foundation skills</li>
+              <li><i class="fa-solid fa-check"></i> Early exposure to computers and the web</li>
+              <li><i class="fa-solid fa-check"></i> Co-curriculars and club activities</li>
+            </ul>
+            <div class="tl-actions">
+              <a class="btn" href="javascript:void(0)"
+                 data-modal-title="Why it matters"
+                 data-modal-desc="A formative period that set the foundation for tech and teamwork."
+                 data-modal-items="Built strong learning habits|Explored computers and the web early|Joined clubs and competitions|Learned about teamwork and leadership|Sparked a long-term interest in programming & computer science">
+                 <i class="fa-solid fa-file"></i> Why it matters
+              </a>
+            </div>
+          </div>
+          <div class="tl-col tl-media">
+            <img class="tl-photo" src="img/startofschool.jpg" alt="Placeholder photo" loading="lazy"/>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <section class="tl-section" id="tl-section2">
+      <div class="tl-card">
+        <div class="shell-crumbs"><span class="chip mono shell">~/timeline/McDonalds</span></div>
+        <h2>Crew Member — McDonald's</h2>
+        <div class="tl-meta">
+          <span class="chip"><i class="fa-solid fa-location-dot"></i> Maroubra, NSW</span>
+          <span class="chip"><i class="fa-solid fa-calendar"></i> Jun 2020 – Oct 2021</span>
+          <span class="chip"><i class="fa-solid fa-hourglass"></i> ~16 months</span>
+        </div>
+        <p class="muted" style="margin-top:8px;">Part-time role covering kitchen duties in a fast-paced team environment.</p>
+
+        <div class="tl-row" style="margin-top:12px;">
+          <div class="tl-col">
+            <ul class="list-clean">
+              <li><i class="fa-solid fa-check"></i> Prep ingredients and assemble orders</li>
+              <li><i class="fa-solid fa-check"></i> Serve customers at front counter and drive‑thru</li>
+              <li><i class="fa-solid fa-check"></i> Restock stations and manage inventory</li>
+              <li><i class="fa-solid fa-check"></i> Maintain food safety and hygiene standards</li>
+              <li><i class="fa-solid fa-check"></i> Clean equipment and close stations</li>
+            </ul>
+            <div class="tl-actions">
+              <a class="btn" href="javascript:void(0)"
+                 data-modal-title="Responsibilities"
+                 data-modal-desc="Typical shift responsibilities and tasks."
+                 data-modal-items="Prep ingredients and assemble orders|Operate POS and serve customers|Restock stations &amp; manage inventory|Maintain food safety &amp; hygiene|Clean equipment and close stations">
+                 <i class="fa-solid fa-list-check"></i> Responsibilities
+              </a>
+              <a class="btn" href="javascript:void(0)"
+                 data-modal-title="What I learned"
+                 data-modal-desc="Skills developed while working with the team."
+                 data-modal-items="Time management during rush periods|Customer service and communication|Teamwork in a fast-paced environment|Following SOPs and quality standards|Attention to detail under pressure">
+                 <i class="fa-solid fa-lightbulb"></i> What I learned
+              </a>
+            </div>
+          </div>
+          <div class="tl-col tl-media">
+            <img class="tl-photo" src="img/mcdonalds.png" alt="McDonald's logo" loading="lazy"/>
+            <div class="img-credit" style="margin-top:6px;">
+              <a class="chip" href="https://commons.wikimedia.org/wiki/File:McDonald%27s_logo.svg" target="_blank" rel="noopener">
+                <i class="fa-solid fa-up-right-from-square"></i> Image source
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tl-section" id="tl-section3">
+      <div class="tl-card">
+        <div class="shell-crumbs"><span class="chip mono shell">~/timeline/2022-hsc</span></div>
+        <h3>Graduated High School (HSC)</h3>
+        <div class="tl-meta">
+          <span class="chip"><i class="fa-solid fa-location-dot"></i> Emanuel School, Randwick NSW</span>
+          <span class="chip"><i class="fa-solid fa-calendar-check"></i> Nov 2022</span>
+        </div>
+                <p class="muted" style="margin-top:8px;">Foundational learning in a tight-knit, values-driven environment.</p>
+        <div class="tl-row" style="margin-top:10px;">
+          <div class="tl-col tl-media">
+            <img class="tl-photo" src="img/emanuel.png" alt="Graduation placeholder" loading="lazy"/>
+          </div>
+          <div class="tl-col">
+            <ul class="list-clean">
+              <li><i class="fa-solid fa-check"></i> Graduated with a >90 ATAR.</li>
+              <li><i class="fa-solid fa-check"></i> Heavily involved in the school's music program as a performer & leader.</li>
+              <li><i class="fa-solid fa-check"></i> Strong involvement in IT & tech programs / events across entire school career.</li>
+              <li><i class="fa-solid fa-check"></i> Held leadership positions and contributed to school events and community iniatives.</li>
+            </ul>
+            <div class="tl-actions">
+              <a class="btn" href="javascript:void(0)"
+                 data-modal-title="Subjects"
+                 data-modal-desc="Subjects studied in Year 12."
+                 data-modal-items="Software Design and Development|Mathematics Advanced|Music 2|Music Extension|Modern History|History Extension|English Advanced">
+                 <i class="fa-solid fa-scroll"></i> Subjects
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tl-section" id="tl-section4">
+      <div class="tl-card">
+        <div class="shell-crumbs"><span class="chip mono shell">~/timeline/Elcom</span></div>
+        <h3>Technical Writer & Manual Tester</h3>
+        <div class="tl-meta">
+          <span class="chip"><i class="fa-solid fa-building"></i> Elcom Technology</span>
+          <span class="chip"><i class="fa-solid fa-location-dot"></i> Woolloomooloo, NSW</span>
+          <span class="chip"><i class="fa-solid fa-calendar"></i> Nov 2022 – Nov 2023</span>
+        </div>
+        <p class="muted" style="margin-top:8px;">Impactful industry experience.</p>
+        <div class="tl-row" style="margin-top:6px;">
+          <div class="tl-col">
+            <ul class="list-clean">
+              <li><i class="fa-solid fa-pen"></i> Reorganised and updated Elcom's documentation to match the relase of version 12.0 of elcomCMS.</li>
+              <li><i class="fa-solid fa-vial"></i> Played a major role in testing a pre-release version of a new update for elcomCMS according to tester scripts.</li>
+              <li><i class="fa-solid fa-briefcase"></i> Performed content population for Elcom's clients.</li>
+              <li><i class="fa-solid fa-handshake-angle"></i> Played a key role in preparing a training program to match new developments of elcomCMS.</li>
+            </ul>
+          </div>
+          <div class="tl-col tl-media">
+            <div class="media-block">
+              <img class="tl-photo" src="img/elcom.png" alt="Elcom" loading="lazy"/>
+              <div class="img-credit" style="margin-top:6px; text-align:right;">
+                <a class="chip" href="https://elcom.com.au" aria-disabled="true">
+                  <i class="fa-solid fa-up-right-from-square"></i> Image source
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tl-section" id="tl-section5">
+      <div class="tl-card">
+        <div class="shell-crumbs"><span class="chip mono shell">~/timeline/code4fun</span></div>
+        <h3>Lead Coding Instructor</h3>
+        <div class="tl-meta">
+          <span class="chip"><i class="fa-solid fa-building"></i> Code4fun</span>
+          <span class="chip"><i class="fa-solid fa-location-dot"></i> Sydney, NSW</span>
+          <span class="chip"><i class="fa-solid fa-calendar"></i> Jan 2024 - present</span>
+        </div>
+        <p class="muted" style="margin-top:8px;">Making programming engaging for young minds.</p>
+        <div class="tl-row" style="margin-top:6px;">
+          <div class="tl-col">
+            <ul class="list-clean">
+              <li><i class="fa-solid fa-check"></i> Teaching classes both by myself and with others.</li>
+              <li><i class="fa-solid fa-check"></i> Cooperation with teaching assistants & host schools.</li>
+              <li><i class="fa-solid fa-check"></i> Proactive revision of lesson plans before each lesson.</li>
+              <li><i class="fa-solid fa-check"></i> Writing new lesson plans & projects to commit to the curriculum for all teachers to use</li>
+            </ul>
+          </div>
+          <div class="tl-col tl-media">
+            <div class="media-block">
+              <img class="tl-photo" src="img/code4fun.png" alt="Code4Fun" loading="lazy" data-modal-fit="contain"/>
+              <div class="img-credit" style="margin-top:6px; text-align:right;">
+                <a class="chip" href="https://code4fun.com.au" aria-disabled="true">
+                  <i class="fa-solid fa-up-right-from-square"></i> Image source
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="tl-actions">
+              <a class="btn" href="javascript:void(0)"
+                 data-modal-title="Classes taught"
+                 data-modal-desc="What did I do?"
+                 data-modal-items="Beginner, Intermediate, and Advanced Scratch|Beginner, Intermediate, and Advanced Python|Beginner Java (Processing)|Taught regular recurring classes at >5 schools|One-off holiday workshops|Covering other teachers' classes when needed">
+                 <i class="fa-solid fa-chalkboard-user"></i> Stuff I did
+              </a>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tl-section" id="tl-section6">
+      <div class="tl-card">
+        <div class="shell-crumbs"><span class="chip mono shell">~/timeline/uts</span></div>
+        <h3>Bachelor of Computing Science (Honours)</h3>
+        <div class="tl-meta">
+          <span class="chip"><i class="fa-solid fa-building-columns"></i> UTS, Ultimo NSW</span>
+          <span class="chip"><i class="fa-solid fa-calendar"></i> Feb 2024 – Present</span>
+          <span class="chip"><i class="fa-solid fa-graduation-cap"></i> Expected 2027</span>
+        </div>
+        <div class="tl-row" style="margin-top:6px;">
+          <div class="tl-col">
+            <p class="muted">Majoring in cybersecurity and networking</p>
+            <ul class="list-clean" style="margin-top:8px;">
+              <li><i class="fa-solid fa-check"></i> Electives ranging across Data Science, Cybersecurity, and AI</li>
+              <li><i class="fa-solid fa-check"></i> Developing and honing proficiency in Python, Java, SQL, full-stack web development, Linux systems, and scripting.</li>
+              <li><i class="fa-solid fa-check"></i> Worked on a variety of individual and group-based projects.</li>
+              <li><i class="fa-solid fa-check"></i> Experienced in using Git and GitHub for collaborative version control.</li>
+              <li><i class="fa-solid fa-check"></i> Learned key principles of algorithms, data structures, and computational logic.</li>
+              <li><i class="fa-solid fa-check"></i> Participated in labs involving Python, Java, C++, and Bash</li>
+              <li><i class="fa-solid fa-check"></i> Developed software using agile methodologies and sprint-based workflows.</li>
+              <li><i class="fa-solid fa-check"></i> Completed advanced mathematical units in calculus, linear algebra, and logic.</li>
+              <li><i class="fa-solid fa-check"></i> Strong theoretical foundations from discrete mathematics and computing science units.</li>
+            </ul>
+            <div class="tl-actions">
+              <a class="btn" href="javascript:void(0)"
+                 data-modal-title="Subjects"
+                 data-modal-desc="Core and elective units. Not including subjects completed on exchange programs."
+                 data-modal-items="41039 Programming 1|37181 Discrete Mathematics|33130 Mathematics 1|31266 Introduction to Information Systems|33230 Mathematics 2|31271 Database Fundamentals|31269 Business Requirements Modelling|31265 Communication for IT Professionals|48024 Programming 2|41078 Computing Science Studio 1|31268 Web Systems|41080 Theory of Computing Science|41092 Network Fundamentals|41181 Information Security and Management">
+                 <i class="fa-solid fa-list-check"></i> Subjects
+              </a>
+            </div>
+          </div>
+          <div class="tl-col tl-media">
+            <div class="media-block">
+              <img class="tl-photo" src="img/uts.png" alt="UTS placeholder" loading="lazy"/>
+              <div class="img-credit" style="margin-top:6px; text-align:right;">
+                <a class="chip" href="https://www.uts.edu.au/" target="_blank" rel="noopener">
+                  <i class="fa-solid fa-up-right-from-square"></i> Image source
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tl-section" id="tl-section7">
+      <div class="tl-card">
+        <div class="shell-crumbs"><span class="chip mono shell">~/timeline/usm</span></div>
+        <h3>Tropical Data Science School</h3>
+        <div class="tl-meta">
+          <span class="chip"><i class="fa-solid fa-building-columns"></i> Universiti Sains Malaysia</span>
+          <span class="chip"><i class="fa-solid fa-location-dot"></i> Penang, Malaysia</span>
+          <span class="chip"><i class="fa-solid fa-calendar"></i> Jan 2025</span>
+          <span class="chip"><i class="fa-solid fa-hourglass"></i> 2 weeks</span>
+        </div>
+        <div class="tl-row" style="margin-top:6px;">
+          <div class="tl-col">
+            <p class="muted">Exploring data science through global collaboration and culture.</p>
+            <ul class="list-clean" style="margin-top:8px;">
+              <li><i class="fa-solid fa-check"></i> Participated in a two-week intensive program focused on data science, combining academic learning with cultural immersion in Malaysia.</li>
+              </ul>
+            <div class="tl-actions">
+              <a class="btn" href="javascript:void(0)"
+                 data-modal-title="Key Highlights"
+                 data-modal-desc="This experience not only enhanced my technical skills in data science, but also broadened my global perspective through cultural exchange."
+                 data-modal-items="Comprehensive data science training|Engaged in hands-on sessions covering data science workflows, data interpretation, and storytelling with data|Developed practical skills in handling and analysing data using tools like Python, R, Power BI, and Tableau|Experienced Malaysia's rich culture through activities such as traditional arts, local cuisine, and visits to historical sites|Collaborated with local student 'buddies', enhancing cross-cultural communcation and understanding">
+                 <i class="fa-solid fa-highlighter"></i> Highlights
+              </a>
+            </div>
+          </div>
+          <div class="tl-col tl-media">
+            <div class="media-block">
+              <img class="tl-photo" src="img/usm.png" alt="USM placeholder" loading="lazy" data-modal-fit="contain"/>
+              <div class="img-credit" style="margin-top:6px; text-align:right;">
+                <a class="chip" href="https://en.wikipedia.org/wiki/Universiti_Sains_Malaysia" target="_blank" rel="noopener">
+                  <i class="fa-solid fa-up-right-from-square"></i> Image source
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tl-section" id="tl-section8">
+      <div class="tl-card">
+        <div class="shell-crumbs"><span class="chip mono shell">~/timeline/put</span></div>
+        <h3>International Strategic Management Workshop</h3>
+        <div class="tl-meta">
+          <span class="chip"><i class="fa-solid fa-building-columns"></i> Poznań University of Technology</span>
+          <span class="chip"><i class="fa-solid fa-location-dot"></i> Poznań, Poland</span>
+          <span class="chip"><i class="fa-solid fa-calendar"></i> Apr 2025</span>
+        </div>
+
+        <div class="tl-row" style="margin-top:6px;">
+          <div class="tl-col">
+            <p class="muted">Gaining business insight in an international context.</p>
+            <ul class="list-clean" style="margin-top:8px;">
+              <li><i class="fa-solid fa-check"></i> Worked in diverse, international teams to solve strategic business problems</li>
+              <li><i class="fa-solid fa-check"></i> Collaborated with students representing universities in Australia, Vietnam, Poland, Finland, Germany, and France.</li>
+              <li><i class="fa-solid fa-check"></i> Delivered presentations on market entry strategy, innovation, and digital transformation</li>
+              <li><i class="fa-solid fa-check"></i> Participated in seminars led by industry experts and academic professionals.</li>
+              <li><i class="fa-solid fa-check"></i> Explored Poznań's cultural and historical landmarks as part of the exchange.</li>
+            </ul>
+            <p class="muted">This experience enhanced my ability to think critically about business strategy, while building strong communication skills across different cultural and academic backgrounds.</p>
+          </div>
+          <div class="tl-col tl-media">
+            <div class="media-block">
+              <img class="tl-photo" src="img/PUT.png" alt="PUT workshop placeholder" loading="lazy"/>
+              <div class="img-credit" style="margin-top:6px; text-align:right;">
+                <a class="chip" href="https://put.poznan.pl/en" target="_blank" rel="noopener">
+                  <i class="fa-solid fa-up-right-from-square"></i> Image source
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tl-section" id="tl-section9">
+      <div class="tl-card">
+        <div class="shell-crumbs"><span class="chip mono shell">~/timeline/bit</span></div>
+        <h3>Full-time Exchange Semester</h3>
+        <div class="tl-meta">
+          <span class="chip"><i class="fa-solid fa-building-columns"></i> Beijing Institute of Technology</span>
+          <span class="chip"><i class="fa-solid fa-location-dot"></i> Beijing, China</span>
+          <span class="chip"><i class="fa-solid fa-calendar"></i> Jan - Jun 2026</span>
+          <span class="chip"><i class="fa-solid fa-language"></i> Language immersion</span>
+        </div>
+        <div class="tl-row" style="margin-top:6px;">
+          <div class="tl-col">
+            <p class="muted">Hasn't happened yet!</p>
+          </div>
+          <div class="tl-col tl-media">
+            <div class="media-block">
+              <img class="tl-photo" src="img/bit.svg" alt="BIT exchange placeholder" loading="lazy"/>
+              <div class="img-credit" style="margin-top:6px; text-align:right;">
+                <a class="chip" href="https://en.wikipedia.org/wiki/File:Beijing_Institute_of_Technology_F.C.svg" target="_blank" rel="noopener">
+                  <i class="fa-solid fa-up-right-from-square"></i> Image source
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal overlay for timeline buttons -->
+  <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal__panel">
+      <button class="modal__close" aria-label="Close dialog"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal__content"></div>
+    </div>
+  </div>
+
+  <!-- jQuery (needed for this page only) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
+
+  <!-- your global scripts (the tlpen code below is safely namespaced inside main.js) -->
+  <script src="main.js"></script>
+</body>
+</html>

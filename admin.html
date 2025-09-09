@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Blog Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css"/>
+  <script src="https://kit.fontawesome.com/397fc878e3.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <section class="section container" style="padding-top:110px;">
+    <span class="chip mono shell">~/admin</span>
+    <h1>Admin</h1>
+    <p class="muted">Secure blog manager. WebAuthn/passkeys required when deployed with server-side verification.</p>
+  </section>
+
+  <section class="container" id="admin-auth">
+    <div class="card" style="padding:16px;border-radius:16px;border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));">
+      <h3>Authentication</h3>
+      <p class="muted" id="auth-msg">Admin API not configured. For security, login is disabled until you deploy server functions. See ADMIN.md.</p>
+      <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn" id="btn-register" disabled><i class="fa-solid fa-key"></i> Register Passkey</button>
+        <button class="btn" id="btn-login" disabled><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+        <button class="btn" id="btn-logout" disabled><i class="fa-solid fa-door-open"></i> Logout</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="admin-ui" style="display:none;">
+    <div class="card" style="padding:16px;border-radius:16px;border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+        <h3>Posts</h3>
+        <div>
+          <button class="btn" id="btn-new"><i class="fa-solid fa-plus"></i> New</button>
+          <button class="btn" id="btn-import"><i class="fa-solid fa-file-import"></i> Import JSON</button>
+          <button class="btn" id="btn-export"><i class="fa-solid fa-file-export"></i> Export JSON</button>
+        </div>
+      </div>
+      <div id="admin-list" style="margin-top:12px;display:grid;gap:8px;"></div>
+    </div>
+  </section>
+
+  <script src="admin.js"></script>
+</body>
+</html>

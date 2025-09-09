@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog — Ben Cohen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css"/>
+  <script src="https://kit.fontawesome.com/397fc878e3.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Floating site navigation (same component as index) -->
+  <header>
+    <nav class="nav">
+      <button id="burger" class="burger" aria-label="Open navigation"><span></span></button>
+
+      <div id="overlay" aria-hidden="true" class="overlay">
+        <div class="nav-panel container">
+          <div class="nav-panel__head">
+            <div>
+              <div class="chip mono">~/ben</div>
+            </div>
+          </div>
+
+          <div class="nav-grid">
+            <a class="nav-card" href="index.html">
+              <div>
+                <i class="fa-solid fa-user"></i>
+                <div class="nav-card__title">About Me</div>
+                <div class="nav-card__sub">Who I am, what I do</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="timeline.html">
+              <div>
+                <i class="fa-solid fa-timeline"></i>
+                <div class="nav-card__title">Timeline</div>
+                <div class="nav-card__sub">Where I've been, what I've done</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="playground.html">
+              <div>
+                <i class="fa-solid fa-otter"></i>
+                <div class="nav-card__title">Playground</div>
+                <div class="nav-card__sub">Stuff I've made</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="blog.html">
+              <div>
+                <i class="fa-solid fa-droplet"></i>
+                <div class="nav-card__title">Blog & Snippets</div>
+                <div class="nav-card__sub">Stuff I've written about stuff I've done</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="contact.html">
+              <div>
+                <i class="fa-solid fa-address-book"></i>
+                <div class="nav-card__title">Contact</div>
+                <div class="nav-card__sub">Say hi, ask questions</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="https://github.com/bbencohenn" target="_blank" rel="noopener">
+              <div>
+                <i class="fa-brands fa-github"></i>
+                <div class="nav-card__title">GitHub</div>
+                <div class="nav-card__sub">Open-source & projects</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Page header -->
+  <section class="section container" style="padding-top:110px;">
+    <span class="chip mono shell">~/blog</span>
+    <h1 id="blog">Blog & Snippets</h1>
+    <p class="muted">CTF write-ups, tiny code snippets, research notes, and experiments.</p>
+  </section>
+
+  <!-- Filters -->
+  <section class="container" aria-label="Blog filters">
+    <div class="blog-filter" role="tablist" aria-label="Filter posts by category">
+      <a href="#" class="chip filter active" data-filter="all" role="tab" aria-selected="true"><i class="fa-solid fa-layer-group"></i> All</a>
+      <a href="#" class="chip filter" data-filter="ctf" role="tab"><i class="fa-solid fa-flag"></i> CTF write-up</a>
+      <a href="#" class="chip filter" data-filter="snippet" role="tab"><i class="fa-solid fa-code"></i> Code snippet</a>
+      <a href="#" class="chip filter" data-filter="research" role="tab"><i class="fa-solid fa-flask"></i> Research</a>
+      <a href="#" class="chip filter" data-filter="howto" role="tab"><i class="fa-solid fa-book"></i> How-to</a>
+      <a href="#" class="chip filter" data-filter="notes" role="tab"><i class="fa-solid fa-note-sticky"></i> Notes</a>
+    </div>
+  </section>
+
+  <!-- Posts grid/list -->
+  <section class="container section" style="padding-top:18px;">
+    <div id="blog-grid" class="blog-grid" aria-live="polite"></div>
+  </section>
+
+  <!-- Modal overlay (reuse from timeline) -->
+  <div id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal__panel">
+      <button class="modal__close" aria-label="Close dialog"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal__content"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="main.js"></script>
+</body>
+</html>

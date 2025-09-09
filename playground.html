@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Playground — Ben Cohen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css"/>
+  <script src="https://kit.fontawesome.com/397fc878e3.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <!-- Floating site navigation (same component as index) -->
+  <header>
+    <nav class="nav">
+      <button id="burger" class="burger" aria-label="Open navigation"><span></span></button>
+
+      <div id="overlay" aria-hidden="true" class="overlay">
+        <div class="nav-panel container">
+          <div class="nav-panel__head">
+            <div>
+              <div class="chip mono">~/ben</div>
+            </div>
+          </div>
+
+          <div class="nav-grid">
+            <a class="nav-card" href="index.html">
+              <div>
+                <i class="fa-solid fa-user"></i>
+                <div class="nav-card__title">About Me</div>
+                <div class="nav-card__sub">Who I've been, what I do</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="timeline.html">
+              <div>
+                <i class="fa-solid fa-timeline"></i>
+                <div class="nav-card__title">Timeline</div>
+                <div class="nav-card__sub">Where I've been, what I've done</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="playground.html">
+              <div>
+                <i class="fa-solid fa-otter"></i>
+                <div class="nav-card__title">Playground</div>
+                <div class="nav-card__sub">Stuff I've made</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="blog.html">
+              <div>
+                <i class="fa-solid fa-droplet"></i>
+                <div class="nav-card__title">Blog & Snippets</div>
+                <div class="nav-card__sub">Things I've written</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="contact.html">
+              <div>
+                <i class="fa-solid fa-address-book"></i>
+                <div class="nav-card__title">Contact</div>
+                <div class="nav-card__sub">Say hi, ask questions</div>
+              </div>
+            </a>
+
+            <a class="nav-card" href="https://github.com/bbencohenn" target="_blank" rel="noopener">
+              <div>
+                <i class="fa-brands fa-github"></i>
+                <div class="nav-card__title">GitHub</div>
+                <div class="nav-card__sub">Open-source & projects</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Page header -->
+  <section class="section container" style="padding-top:110px;">
+    <span class="chip mono shell">~/playground</span>
+    <h1 id="playground">Playground</h1>
+    <p class="muted">A grid of experimental projects, toys, and tiny tidbits. Click through to GitHub for code.</p>
+  </section>
+
+  <!-- Filters -->
+  <section class="container" aria-label="Project filters">
+    <div class="pg-filter" role="tablist" aria-label="Filter projects by category">
+      <a href="javascript:void(0)" class="chip filter active" data-filter="all" role="tab" aria-selected="true"><i class="fa-solid fa-layer-group"></i> All</a>
+      <a href="javascript:void(0)" class="chip filter" data-filter="games" role="tab"><i class="fa-solid fa-gamepad"></i> Games</a>
+      <a href="javascript:void(0)" class="chip filter" data-filter="web" role="tab"><i class="fa-solid fa-code"></i> Web Dev</a>
+      <a href="javascript:void(0)" class="chip filter" data-filter="design" role="tab"><i class="fa-solid fa-palette"></i> Design</a>
+      <a href="javascript:void(0)" class="chip filter" data-filter="tidbits" role="tab"><i class="fa-solid fa-lightbulb"></i> Tidbits</a>
+      <a href="javascript:void(0)" class="chip filter" data-filter="cli" role="tab"><i class="fa-solid fa-terminal"></i> CLI</a>
+      <a href="javascript:void(0)" class="chip filter" data-filter="data" role="tab"><i class="fa-solid fa-database"></i> Data</a>
+      <a href="javascript:void(0)" class="chip filter" data-filter="tools" role="tab"><i class="fa-solid fa-wrench"></i> Tools</a>
+    </div>
+  </section>
+
+  <!-- Projects grid -->
+  <section class="container section" style="padding-top:18px;">
+    <div class="pg-grid">
+      <!-- Card template: add data-tags comma-separated -->
+      <a class="pg-card" href="#" data-tags="games,web">
+        <div class="pg-thumb"><img src="img/ben.png" alt="Phaser game prototype" loading="lazy"/></div>
+        <div class="pg-body">
+          <h3>Arcade Shooter Prototype</h3>
+          <p class="muted">Top-down shooter with tile collisions and power-ups.</p>
+          <div class="pg-tags"><span class="chip mono">#games</span><span class="chip mono">#web</span></div>
+        </div>
+      </a>
+
+      <a class="pg-card" href="#" data-tags="web,tools">
+        <div class="pg-thumb"><img src="img/elcom.png" alt="Next.js starter" loading="lazy"/></div>
+        <div class="pg-body">
+          <h3>Next.js Starter Kit</h3>
+          <p class="muted">Auth, API routes, and a sleek UI shell.</p>
+          <div class="pg-tags"><span class="chip mono">#web</span><span class="chip mono">#tools</span></div>
+        </div>
+      </a>
+
+      <a class="pg-card" href="#" data-tags="design,web">
+        <div class="pg-thumb"><img src="img/uts.png" alt="Design system tokens" loading="lazy"/></div>
+        <div class="pg-body">
+          <h3>Design Tokens Sandbox</h3>
+          <p class="muted">Color scales, spacing, and type ramp experiments.</p>
+          <div class="pg-tags"><span class="chip mono">#design</span><span class="chip mono">#web</span></div>
+        </div>
+      </a>
+
+      <a class="pg-card" href="#" data-tags="cli,tools">
+        <div class="pg-thumb"><img src="img/emanuel.png" alt="CLI scaffolder" loading="lazy"/></div>
+        <div class="pg-body">
+          <h3>CLI Scaffolder</h3>
+          <p class="muted">Generate opinionated CLI apps from a template.</p>
+          <div class="pg-tags"><span class="chip mono">#cli</span><span class="chip mono">#tools</span></div>
+        </div>
+      </a>
+
+      <a class="pg-card" href="#" data-tags="tidbits,web">
+        <div class="pg-thumb"><img src="img/usm.png" alt="Snippet collection" loading="lazy"/></div>
+        <div class="pg-body">
+          <h3>Tiny Snippets</h3>
+          <p class="muted">Handy one-liners and utilities for daily dev.</p>
+          <div class="pg-tags"><span class="chip mono">#tidbits</span><span class="chip mono">#web</span></div>
+        </div>
+      </a>
+
+      <a class="pg-card" href="#" data-tags="data,tools">
+        <div class="pg-thumb"><img src="img/PUT.png" alt="Data toolkit" loading="lazy"/></div>
+        <div class="pg-body">
+          <h3>Data Toolkit</h3>
+          <p class="muted">CSV wrangling, profiling, and quick charts.</p>
+          <div class="pg-tags"><span class="chip mono">#data</span><span class="chip mono">#tools</span></div>
+        </div>
+      </a>
+
+      <a class="pg-card" href="#" data-tags="design,games,web">
+        <div class="pg-thumb"><img src="img/code4fun.png" alt="Generative art" loading="lazy"/></div>
+        <div class="pg-body">
+          <h3>Generative Sketches</h3>
+          <p class="muted">Procedural patterns and playful visuals.</p>
+          <div class="pg-tags"><span class="chip mono">#design</span><span class="chip mono">#games</span><span class="chip mono">#web</span></div>
+        </div>
+      </a>
+
+      <a class="pg-card" href="#" data-tags="web,tidbits">
+        <div class="pg-thumb"><img src="img/mcdonalds.png" alt="HTTP recipes" loading="lazy"/></div>
+        <div class="pg-body">
+          <h3>HTTP Recipes</h3>
+          <p class="muted">Retry strategies, rate limiting, and caching.</p>
+          <div class="pg-tags"><span class="chip mono">#web</span><span class="chip mono">#tidbits</span></div>
+        </div>
+      </a>
+
+      <a class="pg-card" href="#" data-tags="tools,cli">
+        <div class="pg-thumb"><img src="img/bit.svg" alt="Formatter" loading="lazy"/></div>
+        <div class="pg-body">
+          <h3>Formatter Configs</h3>
+          <p class="muted">Prettier, Black, and ESLint presets I like.</p>
+          <div class="pg-tags"><span class="chip mono">#tools</span><span class="chip mono">#cli</span></div>
+        </div>
+      </a>
+
+      <a class="pg-card" href="#" data-tags="web,data,tidbits">
+        <div class="pg-thumb"><img src="img/startofschool.jpg" alt="Mock data" loading="lazy"/></div>
+        <div class="pg-body">
+          <h3>Mock Data Factory</h3>
+          <p class="muted">Seeded fixtures for tests and demos.</p>
+          <div class="pg-tags"><span class="chip mono">#web</span><span class="chip mono">#data</span><span class="chip mono">#tidbits</span></div>
+        </div>
+      </a>
+
+      <a class="pg-card" href="#" data-tags="web,cli">
+        <div class="pg-thumb"><img src="img/elcom.png" alt="API boilerplate" loading="lazy"/></div>
+        <div class="pg-body">
+          <h3>API Boilerplate</h3>
+          <p class="muted">Express + auth + logging + tests.</p>
+          <div class="pg-tags"><span class="chip mono">#web</span><span class="chip mono">#cli</span></div>
+        </div>
+      </a>
+
+      <a class="pg-card" href="#" data-tags="data,web,design">
+        <div class="pg-thumb"><img src="img/usm.png" alt="Charts lab" loading="lazy"/></div>
+        <div class="pg-body">
+          <h3>Charts Lab</h3>
+          <p class="muted">Dashboards, themes, and accessible charts.</p>
+          <div class="pg-tags"><span class="chip mono">#data</span><span class="chip mono">#web</span><span class="chip mono">#design</span></div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- your global scripts -->
+  <script src="main.js"></script>
+</body>
+</html>

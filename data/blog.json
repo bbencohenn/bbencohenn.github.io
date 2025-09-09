@@ -1,0 +1,70 @@
+{
+  "posts": [
+    {
+      "id": "ctf-ssrf-bypass",
+      "title": "CTF: SSRF filter bypass",
+      "category": "CTF write-up",
+      "categoryKey": "ctf",
+      "icon": "fa-flag",
+      "date": "2025-01-12",
+      "summary": "Using URL parser quirks and DNS rebinding to pivot internal HTTP requests.",
+      "bodyHtml": "<p>Walkthrough of a lab where a naive URL allowlist allowed SSRF via mixed schemes and a redirect hop. Includes notes on mitigation strategies, and a small test harness.</p>",
+      "images": ["img/ben.png", "img/elcom.png"],
+      "tags": ["web", "ssrf", "ctf"],
+      "links": [{ "label": "POC", "href": "#" }, { "label": "Mitigations", "href": "#" }]
+    },
+    {
+      "id": "snippet-bash-oneliners",
+      "title": "Code snippet: Bash one-liners I actually use",
+      "category": "Code snippet",
+      "categoryKey": "snippet",
+      "icon": "fa-code",
+      "date": "2025-02-07",
+      "summary": "rg + fd + jq combos; quick JSON diffs; batch rename patterns.",
+      "bodyHtml": "<ul class=\"list-clean\"><li><code>rg -n --json \"pattern\" | jq</code> for structured grep</li><li><code>fd ".*\\.log$" -x gzip {}</code> bulk compress</li></ul>",
+      "images": ["img/uts.png"],
+      "tags": ["cli", "productivity"],
+      "links": [{ "label": "Gist", "href": "#" }]
+    },
+    {
+      "id": "research-threat-model",
+      "title": "Research: Lightweight threat modeling for small teams",
+      "category": "Research",
+      "categoryKey": "research",
+      "icon": "fa-flask",
+      "date": "2025-03-18",
+      "summary": "A checklist-driven STRIDE variant with examples and templates.",
+      "bodyHtml": "<p>Template and examples that help teams reason about threats early, with actionable risks and owners.</p>",
+      "images": ["img/PUT.png", "img/usm.png"],
+      "tags": ["security", "process"],
+      "links": [{ "label": "Template", "href": "#" }]
+    },
+    {
+      "id": "howto-webgl-smoke",
+      "title": "How-to: WebGL smoke effect",
+      "category": "How-to",
+      "categoryKey": "howto",
+      "icon": "fa-book",
+      "date": "2025-04-02",
+      "summary": "Noise-based fog with a simple camera controller.",
+      "bodyHtml": "<p>Step-by-step guide to shader setup, uniforms, and perf tips.</p>",
+      "images": ["img/code4fun.png"],
+      "tags": ["web", "graphics", "toy"],
+      "links": [{ "label": "Demo", "href": "#" }, { "label": "Source", "href": "#" }]
+    },
+    {
+      "id": "notes-supply-chain",
+      "title": "Notes: Supply chain sanity checks",
+      "category": "Notes",
+      "categoryKey": "notes",
+      "icon": "fa-note-sticky",
+      "date": "2025-05-10",
+      "summary": "Lockfiles, SBOM, signature verification, and minimal rollout.",
+      "bodyHtml": "<p>Pragmatic approach to supply-chain hygiene without slowing teams down.</p>",
+      "images": ["img/mcdonalds.png"],
+      "tags": ["ops", "security"],
+      "links": [{ "label": "Checklist", "href": "#" }]
+    }
+  ]
+}
+
