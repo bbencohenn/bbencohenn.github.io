@@ -619,6 +619,21 @@ footer { padding: 50px 0; color: var(--muted); display: flex; justify-content: c
 .modal__panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,.18); border-radius: 10px; border: 2px solid rgba(0,0,0,0); }
 .modal__panel::-webkit-scrollbar-track { background: transparent; }
 
+/* =========================================================
+   Contact page
+   ========================================================= */
+.contact-wrap { margin-top: 14px; display: grid; gap: 14px; }
+.contact-links { display:flex; gap: 10px; flex-wrap: wrap; }
+.contact-links a { color: #ffffff; text-decoration: none; }
+.contact-links a:visited { color: #ffffff; }
+.contact-card { border: 1px solid var(--border); border-radius: 16px; background: var(--bg-soft); padding: 14px; box-shadow: var(--shadow); }
+.contact-card .row.two { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 760px) { .contact-card .row.two { grid-template-columns: 1fr; } }
+.contact-card .field label { display:block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.contact-card input[type=text], .contact-card input[type=email], .contact-card textarea { width:100%; padding: 10px; border: 1px solid var(--border); border-radius: 10px; background: rgba(255,255,255,.02); color: #eef2f7; }
+.contact-card textarea { min-height: 140px; resize: vertical; }
+.contact-card .field.hp { display:none; }
+
 /* ===== Command Palette (shell-style navigation) ===== */
 #shellpal {
   position: fixed; inset: 0; z-index: 140; display: none;

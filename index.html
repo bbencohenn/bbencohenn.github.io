@@ -9,6 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" />
   <script src="https://kit.fontawesome.com/397fc878e3.js" crossorigin="anonymous"></script>
+  <!-- Firebase (optional) to enable live Highlights from Firestore -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
 </head>
 <body>
   <!-- Navigation -->
@@ -113,10 +117,11 @@
       <!-- subtle quick links (no big buttons) -->
       <div class="quicklinks">
         <a href="blog.html">Latest write-ups</a>
-        <span>•</span>
+        <span>&#8226;</span>
         <a href="playground.html">Playground</a>
-        <span>•</span>
+        <span>&#8226;</span>
         <a href="timeline.html">Timeline</a>
+        <span class="chip mono" title="Tip: Press Ctrl/Cmd+K">Ctrl/Cmd+K: search</span>
       </div>
     </div>
 
@@ -137,66 +142,7 @@
 <section class="section container highlights" id="highlights">
   <h2>Highlights</h2>
 
-  <div class="cards" data-reveal-group>
-    <!-- Row 1 -->
-    <a class="card highlight" href="blog.html" style="--i:0">
-      <h3>🏁 CTF: Bypassing lenient SSRF filters</h3>
-      <p class="muted">Request smuggling + DNS rebinding. PoCs, mitigations, and lab recreations.</p>
-      <span class="chip mono" data-k="web">#web</span>
-      <span class="chip mono" data-k="writeup">#write-up</span>
-    </a>
-
-    <a class="card highlight" href="timeline.html" style="--i:1">
-      <h3>🧪 Research: Threat modeling for small teams</h3>
-      <p class="muted">Lightweight STRIDE variant with checklists + diagrams. Used in 2 hackathons.</p>
-      <span class="chip mono" data-k="research">#research</span>
-    </a>
-
-    <a class="card highlight" href="playground.html" style="--i:2">
-      <h3>🕹️ Magnetic navigation experiment</h3>
-      <p class="muted">Hover fields in vanilla JS with accessible fallbacks.</p>
-      <span class="chip mono" data-k="ui">#ui</span>
-      <span class="chip mono" data-k="toy">#toy</span>
-    </a>
-
-    <!-- Row 2 -->
-    <a class="card highlight" href="blog.html" style="--i:3">
-      <h3>🔐 JWT misconfig notes</h3>
-      <p class="muted">alg=none, kid traversal, jwk injection. Red flags & fixes.</p>
-      <span class="chip mono" data-k="web">#web</span>
-    </a>
-
-    <a class="card highlight" href="blog.html" style="--i:4">
-      <h3>🕵️‍♂️ Recon mini-playbook</h3>
-      <p class="muted">Amass, httpx, gau, wayback, nuclei. What I run and why.</p>
-      <span class="chip mono">#notes</span>
-    </a>
-
-    <a class="card highlight" href="blog.html" style="--i:5">
-      <h3>⚙️ Supply-chain sanity checks</h3>
-      <p class="muted">Lockfiles, sigstore, SBOM quick wins for small teams.</p>
-      <span class="chip mono">#ops</span>
-    </a>
-
-    <!-- Row 3 -->
-    <a class="card highlight" href="playground.html" style="--i:6">
-      <h3>🌫️ WebGL “smoke” shader toy</h3>
-      <p class="muted">Noise-based fog with WASD camera.</p>
-      <span class="chip mono" data-k="toy">#toy</span>
-    </a>
-
-    <a class="card highlight" href="timeline.html" style="--i:7">
-      <h3>📈 Blue team dashboards</h3>
-      <p class="muted">Sigma → Loki → dashboards. Minimal pipeline.</p>
-      <span class="chip mono">#blue</span>
-    </a>
-
-    <a class="card highlight" href="blog.html" style="--i:8">
-      <h3>🧩 XSS to account takeover chain</h3>
-      <p class="muted">Cookie scope + CSRF gaps + lax CORS; full chain write-up.</p>
-      <span class="chip mono" data-k="web">#web</span>
-    </a>
-  </div>
+  <div class="cards" data-reveal-group></div>
 </section>
 
   <!-- Footer -->
@@ -207,3 +153,5 @@
   <script src="main.js"></script>
 </body>
 </html>
+
+

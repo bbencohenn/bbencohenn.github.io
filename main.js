@@ -8,6 +8,40 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   if (y) y.textContent = new Date().getFullYear();
 })();
 
+/* ---------- Contact form (mailto, honeypot, simple human check) ---------- */
+(() => {
+  const form = document.getElementById('contact-form');
+  if (!form) return;
+  // simple math challenge
+  const qEl = document.getElementById('cap-q');
+  const aEl = document.getElementById('c-cap');
+  let answer = 0;
+  const newChallenge = () => {
+    const a = Math.floor(Math.random()*8)+1;
+    const b = Math.floor(Math.random()*8)+1;
+    answer = a + b;
+    if (qEl) qEl.textContent = `${a} + ${b} = ?`;
+    if (aEl) aEl.value = '';
+  };
+  newChallenge();
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('c-name').value.trim();
+    const email = document.getElementById('c-email').value.trim();
+    const msg = document.getElementById('c-msg').value.trim();
+    const hp = document.getElementById('c-hp').value.trim();
+    if (hp) return alert('Spam detected.');
+    const cap = (document.getElementById('c-cap').value || '').trim();
+    if (String(answer) !== cap) { alert('Captcha incorrect.'); newChallenge(); return; }
+    if (!name || !email || !msg) return alert('Please fill all fields.');
+    const to = (window.CONTACT_EMAIL || 'ben@bencohen.com.au');
+    const subject = encodeURIComponent('Contact via portfolio');
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${msg}`);
+    location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    newChallenge();
+  });
+})();
+
 /* ---------- Active nav highlighting ---------- */
 document.addEventListener('DOMContentLoaded', () => {
   const current = (location.pathname.split('/').pop() || 'index.html').replace('./','');
@@ -122,6 +156,54 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { threshold: 0.2 });
 
   io.observe(group);
+})();
+
+/* ---------- Home: populate Highlights with recent posts/projects ---------- */
+(() => {
+  const cont = document.querySelector('#highlights .cards');
+  if (!cont) return;
+  // Clear any filler
+  cont.innerHTML = '';
+
+  const hasFirebase = typeof window !== 'undefined' && window.firebase && window.firebaseConfig && window.firebaseConfig.apiKey;
+  const loadAll = async () => {
+    let posts = [], projects = [];
+    if (hasFirebase) {
+      try {
+        if (!firebase.apps || !firebase.apps.length) firebase.initializeApp(window.firebaseConfig);
+        const db = firebase.firestore();
+        const [ps, pr] = await Promise.all([
+          db.collection('posts').get(),
+          db.collection('projects').get().catch(()=>null)
+        ]);
+        posts = ps.docs.map(d => ({ id: d.id, ...d.data(), _type:'post' }));
+        projects = pr ? pr.docs.map(d => ({ id: d.id, ...d.data(), _type:'project' })) : [];
+      } catch (_) { /* ignore */ }
+    }
+    if (!posts.length) {
+      try { const r = await fetch('data/blog.json'); if (r.ok){ const j = await r.json(); posts = (j.posts||[]).map(p=>({...p,_type:'post'})); } } catch(_){ }
+    }
+    if (!projects.length) {
+      try { const r = await fetch('data/projects.json'); if (r.ok){ const j = await r.json(); projects = (j.projects||[]).map(p=>({...p,_type:'project'})); } } catch(_){ }
+    }
+    return { posts, projects };
+  };
+
+  const dateVal = (x) => Date.parse(x?.date || '') || 0;
+  const pickIcon = (x) => x.icon || (x._type==='post' ? 'fa-note-sticky' : 'fa-code');
+  const hrefFor = (x) => x._type==='post' ? `blog.html#post-${x.id}` : (x.links&&x.links[0]&&x.links[0].href ? x.links[0].href : 'playground.html');
+
+  loadAll().then(({posts, projects}) => {
+    const items = [...posts, ...projects]
+      .sort((a,b) => dateVal(b) - dateVal(a))
+      .slice(0, 9);
+    cont.innerHTML = items.map((it, i) => `
+      <a class="card highlight" href="${hrefFor(it)}" style="--i:${i}">
+        <h3><i class="fa-solid ${pickIcon(it)}"></i> ${it.title}</h3>
+        <p class="muted">${it.summary || (it._type==='post' ? 'Read more' : 'View project')}</p>
+        ${(it.tags||[]).slice(0,3).map(t => `<span class='chip mono' data-k='${t}'>#${t}</span>`).join('')}
+      </a>`).join('');
+  });
 })();
 
 /* ---------- Generic modal for timeline buttons ---------- */
@@ -596,6 +678,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('shellpal-input');
     const list  = document.getElementById('shellpal-list');
     const data  = filterItems(input.value);
+    // Simple terminal-esque commands
+    const cmd = (input.value || '').trim();
+    const go = (href) => { closePalette(); location.href = href; };
+    if (e.key === 'Enter') {
+      if (/^cd\s*\.\.$/i.test(cmd)) { e.preventDefault(); closePalette(); history.length ? history.back() : go('index.html'); return; }
+      const m = cmd.match(/^cd\s+([\w\-\/]+)$/i);
+      if (m) {
+        e.preventDefault();
+        const dest = m[1].toLowerCase();
+        if (dest === '/' || dest === 'home' || dest === 'index') return go('index.html');
+        const map = { blog: 'blog.html', playground: 'playground.html', timeline: 'timeline.html', contact: 'contact.html' };
+        if (map[dest]) return go(map[dest]);
+      }
+    }
     if (e.key === 'ArrowDown') { e.preventDefault(); selIndex = Math.min(selIndex+1, data.length-1); updateSelection(list); }
     if (e.key === 'ArrowUp')   { e.preventDefault(); selIndex = Math.max(selIndex-1, 0); updateSelection(list); }
     if (e.key === 'Enter')     { e.preventDefault(); selectIndex(selIndex); }
