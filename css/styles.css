@@ -727,7 +727,7 @@ footer { padding: 50px 0; color: var(--muted); display: flex; justify-content: c
 .blog-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
 @media (max-width: 800px) { .blog-grid { grid-template-columns: 1fr; } }
 
-.blog-card { position: relative; border: 1px solid var(--border); border-radius: 16px; background: var(--bg-soft); overflow: hidden; text-decoration: none; color: inherit; }
+.blog-card { position: relative; border: 1px solid var(--border); border-radius: 16px; background: var(--bg-soft); overflow: hidden; text-decoration: none; color: inherit; transition: transform .22s ease, box-shadow .22s ease, outline-color .22s ease, border-color .22s ease; will-change: transform, box-shadow; }
 .blog-card::after { content:""; position:absolute; inset:-40%; background: radial-gradient(140px 90px at var(--mx,50%) var(--my,50%), rgba(124,58,237,.28), transparent 60%); opacity:0; transition:.25s; pointer-events:none; }
 .blog-card:hover { outline: 1px solid rgba(124,58,237,.5); transform: translateY(-3px) scale(1.01); box-shadow: 0 10px 22px rgba(0,0,0,.35); }
 .blog-card:hover::after { opacity: 1; }

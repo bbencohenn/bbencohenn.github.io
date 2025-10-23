@@ -126,19 +126,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 })();
 
-/* ---------- Cursor-follow glow for highlight cards ---------- */
+/* ---------- Cursor-follow glow for cards (delegated, works on dynamic content) ---------- */
 (() => {
-  const cards = $$('.card.highlight');
-  if (!cards.length) return;
-  cards.forEach(card => {
-    card.addEventListener('mousemove', (ev) => {
-      const r = card.getBoundingClientRect();
-      const mx = ((ev.clientX - r.left) / r.width) * 100;
-      const my = ((ev.clientY - r.top)  / r.height) * 100;
-      card.style.setProperty('--mx', mx + '%');
-      card.style.setProperty('--my', my + '%');
-    });
-  });
+  const setGlow = (el, ev) => {
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const mx = ((ev.clientX - r.left) / r.width) * 100;
+    const my = ((ev.clientY - r.top)  / r.height) * 100;
+    el.style.setProperty('--mx', mx + '%');
+    el.style.setProperty('--my', my + '%');
+  };
+  document.addEventListener('mousemove', (ev) => {
+    const el = ev.target.closest('.card.highlight, .blog-card, .pg-card, .nav-card');
+    if (el) setGlow(el, ev);
+  }, { passive: true });
 })();
 
 /* ---------- Reveal the Highlights grid once it enters view ---------- */
