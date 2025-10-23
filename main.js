@@ -44,12 +44,19 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  const current = (location.pathname.split('/').pop() || 'index.html').replace('./','');
+  const norm = (p) => {
+    if (!p) return 'index';
+    p = p.replace(/^\//,'').replace('./','');
+    if (!p || p === 'index.html') return 'index';
+    if (p.endsWith('.html')) return p.slice(0,-5);
+    return p;
+  };
+  const current = norm(location.pathname);
   $$('.nav-card').forEach(a => {
     const href = a.getAttribute('href') || '';
-
     if (/^https?:\/\//i.test(href)) return;
-    if (href.replace('./','') === current) a.classList.add('active');
+    const cmp = norm(href);
+    if (cmp === current) a.classList.add('active');
   });
 });
 
@@ -424,11 +431,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   const staticItemsBase = [
-    { label: 'About Me',         sub: 'About page',          icon: 'fa-user',         href: 'index.html' },
-    { label: 'Timeline',         sub: 'Experience timeline', icon: 'fa-timeline',     href: 'timeline.html' },
-    { label: 'Playground',       sub: 'Experiments',         icon: 'fa-otter',        href: 'playground.html' },
-    { label: 'Blog & Snippets',  sub: 'Articles and notes',  icon: 'fa-droplet',      href: 'blog.html' },
-    { label: 'Contact',          sub: 'Say hi',              icon: 'fa-address-book', href: 'contact.html' }
+    { label: 'About Me',         sub: 'About page',          icon: 'fa-user',         href: '/' },
+    { label: 'Timeline',         sub: 'Experience timeline', icon: 'fa-timeline',     href: 'timeline' },
+    { label: 'Playground',       sub: 'Experiments',         icon: 'fa-otter',        href: 'playground' },
+    { label: 'Blog & Snippets',  sub: 'Articles and notes',  icon: 'fa-droplet',      href: 'blog' },
+    { label: 'Contact',          sub: 'Say hi',              icon: 'fa-address-book', href: 'contact' }
   ];
 
   const getStaticItems = () => {
@@ -528,12 +535,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (crossIndexBuilt || crossIndexBuilding) return crossIndex;
     crossIndexBuilding = true;
     const pages = getInSitePages();
-    const current = (location.pathname.split('/').pop() || 'index.html').replace('./','');
+    const current = (()=>{ const p = location.pathname.replace(/^\//,''); return p ? (p.endsWith('.html')? p.slice(0,-5): p) : 'index'; })();
     const toFetch = pages.filter(p => p.path !== current);
     const results = [];
     for (const page of toFetch) {
       try {
-        const res = await fetch(page.path, { credentials: 'same-origin' });
+        const file = (page.path === 'index') ? 'index.html' : (page.path + '.html');
+        const res = await fetch(file, { credentials: 'same-origin' });
         if (!res.ok) continue;
         const html = await res.text();
         const doc = new DOMParser().parseFromString(html, 'text/html');

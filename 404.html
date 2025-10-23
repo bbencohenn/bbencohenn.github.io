@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Redirecting…</title>
+  <meta http-equiv="refresh" content="0; url=/" />
+  <script>
+    (function(){
+      var p = location.pathname;
+      var q = location.search || '';
+      var h = location.hash || '';
+      // Normalize leading slash
+      if (!p) p = '/';
+      // Root goes to index.html
+      var target;
+      if (p === '/' || p === '') {
+        target = '/index.html';
+      } else {
+        // Strip trailing slash
+        if (p.endsWith('/')) p = p.slice(0,-1);
+        // If already ends with .html, keep; else append
+        target = /\.html$/i.test(p) ? p : (p + '.html');
+      }
+      location.replace(target + q + h);
+    })();
+  </script>
+</head>
+<body>
+Redirecting…
+</body>
+</html>
+
