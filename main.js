@@ -1,8 +1,3 @@
-/* =========================================================
-   Ben Cohen — Portfolio
-   Consolidated, tidy JS (no duplicate logic)
-   ========================================================= */
-
 /* ---------- Tiny helpers ---------- */
 const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
@@ -151,12 +146,12 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = '';
   };
 
-  // Open on any timeline or blog card button
+  // Open on any timeline, blog, or playground card button
   document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.tl-card .btn, .blog-card .btn');
+    const btn = e.target.closest('.tl-card .btn, .blog-card .btn, .pg-card .btn');
     if (!btn) return;
     e.preventDefault();
-    const card = btn.closest('.tl-card, .blog-card');
+    const card = btn.closest('.tl-card, .blog-card, .pg-card');
     const title = card.querySelector('h2, h3, h4')?.textContent?.trim() || 'Details';
     const imgEl = card.querySelector('img');
     const imgFit = imgEl ? (imgEl.getAttribute('data-modal-fit') || imgEl.dataset?.modalFit || '') : '';
@@ -168,11 +163,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalTitle = btn.getAttribute('data-modal-title') || btnText || title;
     const modalDesc  = btn.getAttribute('data-modal-desc')  || desc;
     const itemsAttr  = btn.getAttribute('data-modal-items'); // pipe (|) separated
-    const customHTML = btn.getAttribute('data-modal-html');
+    let customHTML = btn.getAttribute('data-modal-html');
+    // Decode URI-encoded HTML if present (works for blog + playground)
+    if (customHTML && /%[0-9A-Fa-f]{2}/.test(customHTML)) {
+      try { customHTML = decodeURIComponent(customHTML); } catch (_) { /* ignore */ }
+    }
 
     let bodyInner = '';
     if (customHTML) {
-      bodyInner = customHTML;
+      // If from blog card, strip a duplicate leading H1/H2/H3 since the modal already shows a title
+      if (card?.classList?.contains('blog-card')) {
+        try {
+          const temp = document.createElement('div');
+          temp.innerHTML = customHTML;
+          const firstEl = temp.firstElementChild;
+          if (firstEl && /H[1-3]/.test(firstEl.tagName)) firstEl.remove();
+          bodyInner = temp.innerHTML;
+        } catch (_) { bodyInner = customHTML; }
+      } else {
+        bodyInner = customHTML;
+      }
     } else {
       const list = (itemsAttr || '')
         .split('|')
@@ -189,11 +199,15 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>`;
     }
 
+    // Blog-specific layout tweaks: if a blog post, allow full-width content
+    const isBlog = card?.classList?.contains('blog-card');
+    const hasGallery = isBlog && /class=("|')blog-gallery\b/.test(bodyInner);
+
     open(`
       <div class="modal__head">
         <h3 style="margin:2px 0 10px">${modalTitle || title}</h3>
       </div>
-      <div class="modal__body">${bodyInner}</div>
+      <div class="modal__body ${isBlog ? 'blog-mode' : ''} ${hasGallery ? 'has-media' : ''}">${bodyInner}</div>
     `);
   });
 
@@ -445,6 +459,29 @@ document.addEventListener('DOMContentLoaded', () => {
         results.push(...items);
       } catch (e) { /* ignore fetch/parse errors */ }
     }
+    // Also include blog posts from data/blog.json if available
+    try {
+      const bres = await fetch('data/blog.json', { credentials: 'same-origin' });
+      if (bres.ok) {
+        const bjson = await bres.json();
+        const posts = (bjson.posts || []);
+        posts.forEach(p => {
+          const title = p.title || 'Post';
+          const tags  = (p.tags || []).join(' ');
+          const cat   = (p.category || '').toString();
+          const date  = (p.date || '').toString();
+          const kw = `${title} ${tags} ${cat} ${date}`.toLowerCase();
+          results.push({
+            label: `Blog: ${title}`,
+            sub: `blog.html#post-${p.id}`,
+            icon: 'fa-droplet',
+            href: `blog.html#post-${p.id}`,
+            keywords: [kw]
+          });
+        });
+      }
+    } catch (e) { /* ignore */ }
+
     crossIndex = results;
     crossIndexBuilt = true;
     crossIndexBuilding = false;
@@ -569,27 +606,66 @@ document.addEventListener('DOMContentLoaded', () => {
 (() => {
   const grid = document.querySelector('.pg-grid');
   if (!grid) return;
-  const items = Array.from(grid.querySelectorAll('.pg-card'));
+  // Remove any static filler so we don't flash placeholder content
+  grid.innerHTML = '';
   const chips = Array.from(document.querySelectorAll('.pg-filter .chip.filter'));
 
-  // Hover glow follows cursor, on each card
-  items.forEach(card => {
-    card.addEventListener('mousemove', (ev) => {
-      const r = card.getBoundingClientRect();
-      const mx = ((ev.clientX - r.left) / r.width) * 100;
-      const my = ((ev.clientY - r.top)  / r.height) * 100;
-      card.style.setProperty('--mx', mx + '%');
-      card.style.setProperty('--my', my + '%');
-    });
-  });
-
   let current = 'all';
+  let projects = [];
+
+  const render = (data) => {
+    grid.innerHTML = data.map(p => `
+      <article class="pg-card" data-tags="${(p.tags||[]).join(',').toLowerCase()}">
+        ${p.images && p.images.length ? `
+          <div class="pg-thumb"><img src="${p.images[0]}" alt="${p.title}" loading="lazy"/></div>` : `
+          <div class="pg-thumb"><i class="fa-solid ${p.icon || 'fa-code'}" style="opacity:.8"></i></div>`}
+        <div class="pg-body">
+          <h3 style="margin:0 0 6px">${p.title}</h3>
+          <p class="muted" style="margin:0 0 8px">${p.summary || ''}</p>
+          <div class="blog-tags">${(p.tags||[]).map(t => `<a href="#" class="chip mono" data-tag="${t}">#${t}</a>`).join('')}</div>
+          <div class="blog-actions" style="margin-top:10px">
+            ${p.bodyHtml ? `<a class="btn" href="javascript:void(0)" data-modal-title="${p.title}" data-modal-html="${encodeURIComponent(`<div class='blog-content'>${p.bodyHtml}</div>`)}"><i class="fa-solid fa-book-open"></i> Details</a>` : ''}
+            ${(p.links||[]).map(l => `<a class="btn" href="${l.href}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${l.label||'Open'}</a>`).join('')}
+          </div>
+        </div>
+      </article>`).join('');
+
+    // Hover glow per card
+    Array.from(grid.querySelectorAll('.pg-card')).forEach(card => {
+      card.addEventListener('mousemove', (ev) => {
+        const r = card.getBoundingClientRect();
+        const mx = ((ev.clientX - r.left) / r.width) * 100;
+        const my = ((ev.clientY - r.top)  / r.height) * 100;
+        card.style.setProperty('--mx', mx + '%');
+        card.style.setProperty('--my', my + '%');
+      });
+    });
+  };
+
   const apply = () => {
-    items.forEach(el => {
+    const cards = Array.from(grid.querySelectorAll('.pg-card'));
+    cards.forEach(el => {
       const tags = (el.getAttribute('data-tags') || '').toLowerCase().split(',').map(s=>s.trim());
       const show = current === 'all' || tags.includes(current);
       el.classList.toggle('hide', !show);
     });
+  };
+
+  const loadProjectsData = async () => {
+    const hasFirebase = typeof window !== 'undefined' && window.firebase && window.firebaseConfig && window.firebaseConfig.apiKey;
+    if (hasFirebase) {
+      try {
+        if (!firebase.apps || !firebase.apps.length) firebase.initializeApp(window.firebaseConfig);
+        const db = firebase.firestore();
+        const snap = await db.collection('projects').get();
+        const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        if (docs && docs.length) return { projects: docs };
+      } catch (e) { /* fall through */ }
+    }
+    try {
+      const r = await fetch('data/projects.json', { credentials: 'same-origin' });
+      return r.ok ? r.json() : { projects: [] };
+    } catch (_) { return { projects: [] }; }
   };
 
   document.addEventListener('click', (e) => {
@@ -602,7 +678,27 @@ document.addEventListener('DOMContentLoaded', () => {
     apply();
   });
 
-  apply();
+  document.addEventListener('click', (e) => {
+    const tag = e.target.closest('.pg-card .blog-tags .chip');
+    if (!tag) return;
+    e.preventDefault();
+    const t = (tag.getAttribute('data-tag') || '').toLowerCase();
+    chips.forEach(c => c.classList.remove('active'));
+    const all = document.querySelector('.pg-filter [data-filter="all"]');
+    all?.classList.add('active');
+    current = 'all';
+    const cards = Array.from(grid.querySelectorAll('.pg-card'));
+    cards.forEach(el => {
+      const tags = (el.getAttribute('data-tags') || '').split(',').map(s=>s.trim());
+      el.classList.toggle('hide', !tags.includes(t));
+    });
+  });
+
+  loadProjectsData().then(json => {
+    projects = json.projects || [];
+    render(projects);
+    apply();
+  });
 })();
 
 /* ---------- Blog: render posts + filters + modal ---------- */
@@ -613,6 +709,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const filters = Array.from(document.querySelectorAll('.blog-filter .chip.filter'));
   let posts = [];
   let current = 'all';
+  let tagMetaById = null;
+
+  // Try to load from Firestore first (if Firebase is configured), else fallback to JSON file
+  const loadPostsData = async () => {
+    const hasFirebase = typeof window !== 'undefined' && window.firebase && window.firebaseConfig && window.firebaseConfig.apiKey;
+    if (hasFirebase) {
+      try {
+        if (!firebase.apps || !firebase.apps.length) firebase.initializeApp(window.firebaseConfig);
+        const db = firebase.firestore();
+        const [ps, ts] = await Promise.all([
+          db.collection('posts').get(),
+          db.collection('tags').get().catch(()=>null)
+        ]);
+        const docs = ps.docs.map(d => ({ id: d.id, ...d.data() }));
+        const tags = ts ? ts.docs.map(d => ({ id: d.id, ...d.data() })) : [];
+        if (docs && docs.length) return { posts: docs, tags };
+      } catch (e) {
+        // swallow and fallback
+      }
+    }
+    try {
+      const r = await fetch('data/blog.json', { credentials: 'same-origin' });
+      return r.ok ? r.json() : { posts: [] };
+    } catch (_) { return { posts: [] }; }
+  };
 
   const render = (data) => {
     grid.innerHTML = data.map(p => `
@@ -630,7 +751,12 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
           <p class="muted">${p.summary || ''}</p>
-          <div class="blog-tags">${(p.tags||[]).map(t => `<a href="#" class="chip mono" data-tag="${t}">#${t}</a>`).join('')}</div>
+          <div class="blog-tags">${(p.tags||[]).map(t => {
+            const meta = tagMetaById && tagMetaById[t];
+            const label = meta?.name || t;
+            const icon = meta?.icon ? `<i class=\"fa-solid ${meta.icon}\"></i> ` : '';
+            return `<a href=\"#\" class=\"chip mono\" data-tag=\"${t}\">${icon}#${label}</a>`;
+          }).join('')}</div>
           <div class="blog-actions">
             <a class="btn" href="javascript:void(0)" data-modal-title="${p.title}"
                data-modal-html="${encodeURIComponent(`
@@ -645,9 +771,9 @@ document.addEventListener('DOMContentLoaded', () => {
       </article>`).join('');
   };
 
-  // Intercept modal open for blog with data-modal-html (encoded)
+  // Intercept modal open for blog/pg with data-modal-html (encoded)
   document.addEventListener('click', (e) => {
-    const a = e.target.closest('.blog-card .btn[data-modal-html]');
+    const a = e.target.closest('.blog-card .btn[data-modal-html], .pg-card .btn[data-modal-html]');
     if (!a) return;
     // decode and set attribute for generic modal block
     const html = decodeURIComponent(a.getAttribute('data-modal-html'));
@@ -692,24 +818,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Fetch posts data
-  fetch('data/blog.json', { credentials: 'same-origin' })
-    .then(r => r.ok ? r.json() : { posts: [] })
-    .then(json => {
-      posts = (json.posts || []).map(p => ({
-        id: p.id,
-        title: p.title,
-        category: p.category,
-        categoryKey: p.categoryKey || (p.category || '').toLowerCase().replace(/\s+/g,'').replace(/[^a-z0-9_-]/g,''),
-        icon: p.icon || 'fa-note-sticky',
-        date: p.date,
-        summary: p.summary,
-        bodyHtml: p.bodyHtml,
-        images: p.images || [],
-        tags: p.tags || [],
-        links: p.links || []
-      }));
-      render(posts);
-      apply();
-    }).catch(() => { /* ignore */ });
+  // Fetch posts data (Firestore preferred)
+  loadPostsData().then(json => {
+    const tagMeta = (json.tags || []);
+    tagMetaById = Object.fromEntries(tagMeta.map(t => [t.id, t]));
+    posts = (json.posts || []).map(p => ({
+      id: p.id,
+      title: p.title,
+      category: p.category,
+      categoryKey: p.categoryKey || (p.category || '').toLowerCase().replace(/\s+/g,'').replace(/[^a-z0-9_-]/g,''),
+      icon: p.icon || 'fa-note-sticky',
+      date: p.date,
+      summary: p.summary,
+      bodyHtml: p.bodyHtml,
+      images: p.images || [],
+      tags: p.tags || [],
+      links: p.links || []
+    }));
+    render(posts);
+    apply();
+  }).catch(() => { /* ignore */ });
 })();

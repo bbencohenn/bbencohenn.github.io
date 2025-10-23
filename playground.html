@@ -9,6 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css"/>
   <script src="https://kit.fontawesome.com/397fc878e3.js" crossorigin="anonymous"></script>
+  <!-- Firebase (optional; enables live projects from Firestore) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
 </head>
 <body>
 
@@ -215,7 +219,15 @@
     </div>
   </section>
 
-  <!-- your global scripts -->
+  <!-- Generic modal used across site -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal__panel">
+      <button class="modal__close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      <div class="modal__content"></div>
+    </div>
+  </div>
+
+  <!-- your global scripts (must load after modal exists) -->
   <script src="main.js"></script>
 </body>
 </html>

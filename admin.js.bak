@@ -1,0 +1,300 @@
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js';
+import { getAuth, onAuthStateChanged, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js';
+import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, setDoc } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js';
+import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from 'https://www.gstatic.com/firebasejs/9.23.0/firebase-storage.js';
+import { firebaseConfig, ADMIN_UIDS } from './js/firebase-config.js';
+
+window.__admin_ready = true; // let the host page know the module loaded
+const $  = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+let app, auth, db, storage;
+const setStatus = (msg, ok = false) => {
+  const el = document.getElementById('fb-status');
+  if (!el) return;
+  el.textContent = msg || '';
+  el.style.color = ok ? '#9ae6b4' : 'var(--muted)';
+};
+try {
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+  storage = getStorage(app);
+  setStatus('Firebase loaded. Ready to sign in.', true);
+} catch (e) {
+  console.warn('Firebase not configured. Admin is disabled until configured.', e);
+  setStatus('Firebase not configured — fill js/firebase-config.js and reload.');
+}
+
+const state = { user: null, posts: [] };
+
+const renderList = () => {
+  const list = $('#post-list');
+  if (!list) return;
+  list.innerHTML = state.posts
+    .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+    .map(p => `
+      <div class="post-item" data-id="${p.id}">
+        <div>
+          <h4>${p.title || '(untitled)'}</h4>
+          <div class="muted-small">${p.category || ''} • ${p.date || ''}</div>
+        </div>
+        <span class="chip mono">#${(p.tags||[]).length}</span>
+      </div>
+    `).join('');
+};
+
+const clearForm = () => {
+  $('#post-id').value = '';
+  $('#post-title').value = '';
+  $('#post-date').value = '';
+  $('#post-category').value = '';
+  $('#post-categoryKey').value = '';
+  $('#post-tags').value = '';
+  $('#post-summary').value = '';
+  $('#post-bodyHtml').value = '';
+  $('#post-links').value = '';
+  $('#img-url').value = '';
+  $('#img-list').innerHTML = '';
+};
+
+const fillForm = (p) => {
+  $('#post-id').value = p.id || '';
+  $('#post-title').value = p.title || '';
+  $('#post-date').value = (p.date || '').slice(0,10);
+  $('#post-category').value = p.category || '';
+  $('#post-categoryKey').value = p.categoryKey || '';
+  $('#post-tags').value = (p.tags || []).join(', ');
+  $('#post-summary').value = p.summary || '';
+  $('#post-bodyHtml').value = p.bodyHtml || '';
+  $('#post-links').value = (p.links || []).map(l => `${l.label||''}|${l.href||''}`).join('\n');
+  const list = $('#img-list');
+  list.innerHTML = (p.images||[]).map((src, i) => `
+    <div class="row">
+      <img src="${src}" alt=""/>
+      <input type="text" value="${src}">
+      <button class="btn" data-remove-img="${i}" type="button"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  `).join('');
+};
+
+const readForm = () => {
+  const id = $('#post-id').value.trim() || undefined;
+  const title = $('#post-title').value.trim();
+  const date = $('#post-date').value.trim();
+  const category = $('#post-category').value.trim();
+  const categoryKey = ($('#post-categoryKey').value.trim() || category.toLowerCase().replace(/\s+/g,'')).replace(/[^a-z0-9_-]/g,'');
+  const tags = $('#post-tags').value.split(',').map(s=>s.trim()).filter(Boolean);
+  const summary = $('#post-summary').value;
+  const bodyHtml = $('#post-bodyHtml').value;
+  const links = $('#post-links').value.split('\n').map(row => {
+    const [label, href] = row.split('|').map(s=> (s||'').trim());
+    return (label && href) ? { label, href } : null;
+  }).filter(Boolean);
+  const images = $$('#img-list input[type=text]').map(i => i.value.trim()).filter(Boolean);
+  return { id, title, date, category, categoryKey, tags, summary, bodyHtml, links, images };
+};
+
+const ensureAuth = (user) => {
+  const allow = !ADMIN_UIDS.length || (user && ADMIN_UIDS.includes(user.uid));
+  if (!allow) alert('Your account is not authorized for admin writes.');
+  return allow;
+};
+
+const loadPosts = async () => {
+  if (!db) return;
+  const snap = await getDocs(collection(db, 'posts'));
+  state.posts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderList();
+};
+
+const savePost = async (data) => {
+  if (!db) return;
+  if (data.id) {
+    const { id, ...rest } = data;
+    await updateDoc(doc(db, 'posts', id), { ...rest, updatedAt: serverTimestamp() });
+    return id;
+  } else {
+    const d = await addDoc(collection(db, 'posts'), { ...data, createdAt: serverTimestamp() });
+    return d.id;
+  }
+};
+
+const removePost = async (id) => {
+  if (!db) return;
+  await deleteDoc(doc(db, 'posts', id));
+};
+
+const addImageFromFile = async (file) => {
+  if (!storage || !state.user) {
+    alert('Storage not configured or not signed in.');
+    return null;
+  }
+  const name = `${Date.now()}-${file.name}`.replace(/[^a-zA-Z0-9_.-]/g,'_');
+  const ref = sRef(storage, `blog-images/${state.user.uid}/${name}`);
+  const snap = await uploadBytes(ref, file);
+  const url = await getDownloadURL(snap.ref);
+  return url;
+};
+
+// Auth UI wiring
+$('#login')?.addEventListener('click', async () => {
+  if (!auth) { alert('Firebase not configured.'); return; }
+  const provider = new GoogleAuthProvider();
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (err) {
+    console.error('Sign-in failed:', err);
+    // Common cases: popup blocked, unauthorized domain, popup closed
+    if (err?.code === 'auth/popup-blocked') {
+      setStatus('Popup blocked by browser. Trying redirect sign-in...');
+      try { await signInWithRedirect(auth, provider); } catch (e2) {
+        alert('Sign-in redirect failed: ' + (e2?.code || e2?.message || e2));
+      }
+      return;
+    }
+    if (err?.code === 'auth/unauthorized-domain') {
+      alert('Unauthorized domain. In Firebase > Authentication > Settings > Authorized domains, add: your domain and localhost.');
+      setStatus('Unauthorized domain. Add this origin to Firebase Auth domains.');
+      return;
+    }
+    if (err?.code === 'auth/popup-closed-by-user') {
+      setStatus('Popup closed before completing sign-in.');
+      return;
+    }
+    alert('Sign-in error: ' + (err?.code || err?.message || err));
+    setStatus('Sign-in error. Check console for details.');
+  }
+});
+
+$('#logout')?.addEventListener('click', async () => {
+  if (!auth) return;
+  await signOut(auth);
+});
+
+if (auth) {
+  // Handle redirect result (if we had to fallback)
+  getRedirectResult(auth).catch((e) => {
+    if (e) console.warn('Redirect sign-in result error:', e);
+  });
+
+  onAuthStateChanged(auth, async (user) => {
+    state.user = user || null;
+    const authed = !!user;
+    $('#login').style.display = authed ? 'none' : '';
+    $('#logout').style.display = authed ? '' : 'none';
+    $('#auth-guard').style.display = authed ? '' : 'none';
+    $('#admin-ui').style.display = authed ? '' : 'none';
+    $('#setup-hint').style.display = app ? 'none' : '';
+    $('#user-email').textContent = user?.email || 'n/a';
+    $('#user-uid').textContent = user?.uid || '';
+
+    if (authed) setStatus('Signed in as ' + (user.email || user.uid), true);
+    else setStatus('Firebase loaded. Ready to sign in.', true);
+
+    if (authed && ensureAuth(user)) {
+      await loadPosts();
+    } else {
+      state.posts = [];
+      renderList();
+    }
+  });
+}
+
+// List interactions
+document.addEventListener('click', (e) => {
+  const item = e.target.closest('.post-item');
+  if (!item) return;
+  const id = item.getAttribute('data-id');
+  const p = state.posts.find(x => x.id === id);
+  if (p) fillForm(p);
+});
+
+$('#new-post')?.addEventListener('click', () => {
+  clearForm();
+  const today = new Date().toISOString().slice(0,10);
+  $('#post-date').value = today;
+});
+
+// Images
+$('#add-img-url')?.addEventListener('click', () => {
+  const url = $('#img-url').value.trim();
+  if (!url) return;
+  const row = document.createElement('div');
+  row.className = 'row';
+  row.innerHTML = `<img src="${url}" alt=""/><input type="text" value="${url}"><button class="btn" type="button"><i class="fa-solid fa-xmark"></i></button>`;
+  row.querySelector('button').addEventListener('click', () => row.remove());
+  $('#img-list').appendChild(row);
+  $('#img-url').value = '';
+});
+
+$('#img-file')?.addEventListener('change', async (e) => {
+  const f = e.target.files?.[0];
+  if (!f) return;
+  try {
+    const url = await addImageFromFile(f);
+    if (url) {
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.innerHTML = `<img src="${url}" alt=""/><input type="text" value="${url}"><button class="btn" type="button"><i class="fa-solid fa-xmark"></i></button>`;
+      row.querySelector('button').addEventListener('click', () => row.remove());
+      $('#img-list').appendChild(row);
+    }
+  } catch (err) {
+    alert('Upload failed');
+    console.error(err);
+  } finally {
+    e.target.value = '';
+  }
+});
+
+// Save/Delete
+$('#post-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!state.user || !ensureAuth(state.user)) return;
+  const data = readForm();
+  if (!data.title) return alert('Title is required');
+  try {
+    const id = await savePost(data);
+    if (!data.id) $('#post-id').value = id;
+    await loadPosts();
+    alert('Saved');
+  } catch (err) {
+    console.error(err); alert('Save failed');
+  }
+});
+
+$('#delete-post')?.addEventListener('click', async () => {
+  const id = $('#post-id').value.trim();
+  if (!id) return;
+  if (!confirm('Delete this post?')) return;
+  try {
+    await removePost(id);
+    clearForm();
+    await loadPosts();
+  } catch (err) {
+    console.error(err); alert('Delete failed');
+  }
+});
+
+// Export JSON compatible with site data/blog.json
+$('#export-json')?.addEventListener('click', async () => {
+  const posts = state.posts.map(p => ({
+    id: p.id,
+    title: p.title,
+    category: p.category,
+    categoryKey: p.categoryKey,
+    icon: p.icon || 'fa-note-sticky',
+    date: p.date,
+    summary: p.summary,
+    bodyHtml: p.bodyHtml,
+    images: p.images || [],
+    tags: p.tags || [],
+    links: p.links || []
+  }));
+  const blob = new Blob([JSON.stringify({ posts }, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'blog.json'; a.click();
+  URL.revokeObjectURL(url);
+});

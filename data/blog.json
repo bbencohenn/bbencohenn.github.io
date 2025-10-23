@@ -1,0 +1,57 @@
+{
+  "posts": [
+    {
+      "id": "hello-world",
+      "title": "CTF: SSRF Filter Bypass Notes",
+      "category": "CTF",
+      "categoryKey": "ctf",
+      "icon": "fa-flag",
+      "date": "2025-10-22",
+      "summary": "Walkthrough of lenient SSRF filters and common misconfig pitfalls.",
+      "bodyHtml": "<p>I explored SSRF filter bypasses including DNS rebinding, URL scheme confusion, and leveraging internal redirects. Key lessons:</p><ul><li>Always use allowlists (schemes + hosts)</li><li>Normalize + re-parse URLs</li><li>Block redirects or re-validate</li></ul>",
+      "images": ["img/ssrf-graph.png"],
+      "tags": ["CTF", "web", "writeup"],
+      "links": [{ "label": "GitHub Repo", "href": "https://github.com/bbencohenn" }]
+    },
+    {
+      "id": "hackathon-ui-kit",
+      "title": "Hackathon: Lightweight UI Kit",
+      "category": "Hackathon",
+      "categoryKey": "hackathon",
+      "icon": "fa-trophy",
+      "date": "2025-08-14",
+      "summary": "Built a tiny utility CSS kit and component macros in a weekend.",
+      "bodyHtml": "<p>Rapid prototyping toolkit with accessible components and sane defaults.</p><p>Includes buttons, chips, cards, modals, and a command palette.</p>",
+      "images": ["img/ui-kit-1.png", "img/ui-kit-2.png"],
+      "tags": ["hackathon", "ui", "web"],
+      "links": []
+    },
+    {
+      "id": "personal-scan",
+      "title": "Personal Project: Network Scanner",
+      "category": "Personal Project",
+      "categoryKey": "project",
+      "icon": "fa-code",
+      "date": "2025-07-02",
+      "summary": "A playful subnet scanner with service fingerprinting and simple UI.",
+      "bodyHtml": "<p>Built a fast, async scanner for local labs. Outputs JSON + HTML, integrates with small dashboards, and highlights common misconfigs.</p>",
+      "images": [],
+      "tags": ["project", "security", "tools"],
+      "links": []
+    },
+    {
+      "id": "uni-crypto",
+      "title": "Uni: Cryptography Assignment Notes",
+      "category": "Uni Assignment",
+      "categoryKey": "uni",
+      "icon": "fa-graduation-cap",
+      "date": "2025-05-09",
+      "summary": "Stream vs block ciphers, padding oracles, and AEAD gotchas.",
+      "bodyHtml": "<p>Notes from a uni assignment with annotated references and diagrams.</p>",
+      "images": ["img/crypto-1.png"],
+      "tags": ["uni", "crypto", "notes"],
+      "links": []
+    }
+  ]
+}
+

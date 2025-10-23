@@ -1,0 +1,25 @@
+{
+  "projects": [
+    {
+      "id": "maze-game",
+      "title": "Maze Game",
+      "summary": "A tiny canvas maze with keyboard controls and pathfinding mode.",
+      "tags": ["games", "web"],
+      "icon": "fa-gamepad",
+      "images": ["img/maze.png"],
+      "links": [ { "label": "Demo", "href": "#" }, { "label": "GitHub", "href": "https://github.com/bbencohenn" } ],
+      "bodyHtml": "<p>Simple canvas rendering, BFS pathfinding overlay, and smooth input handling.</p>"
+    },
+    {
+      "id": "cli-tool",
+      "title": "Log Parser CLI",
+      "summary": "Small Node.js CLI that extracts structured insights from logs.",
+      "tags": ["cli", "tools"],
+      "icon": "fa-terminal",
+      "images": [],
+      "links": [ { "label": "GitHub", "href": "https://github.com/bbencohenn" } ],
+      "bodyHtml": "<p>Streams and transforms large files with backpressure, supports plugins.</p>"
+    }
+  ]
+}
+

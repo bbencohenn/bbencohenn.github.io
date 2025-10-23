@@ -49,6 +49,7 @@ h3 { font-weight: 700; }
   border: 1px solid var(--border);
   border-radius: 999px;
   background: var(--glass);
+
 }
 .btn {
   display: inline-flex; align-items: center; gap: .6rem;
@@ -584,6 +585,40 @@ footer { padding: 50px 0; color: var(--muted); display: flex; justify-content: c
 .modal__body img[data-fit="cover"]   { object-fit: cover; }
 @media (max-width: 760px) { .modal__body { grid-template-columns: 1fr; } }
 
+/* Blog content styling inside modal */
+.modal__body.blog-mode { display: block; }
+.modal__body.blog-mode::after { content:""; display: table; clear: both; }
+.modal__body.blog-mode.has-media .blog-gallery { float: left; width: min(46%, 360px); margin: 0 16px 12px 0; }
+.modal__body.blog-mode .blog-gallery img { width: 100%; height: auto; max-height: 320px; object-fit: cover; border-radius: 12px; border: 1px solid var(--border); }
+/* Allow text to wrap beside the floated gallery, then naturally expand to full width once past its height. */
+.modal__body.blog-mode .blog-content { display: block; }
+@media (max-width: 760px) {
+  .modal__body.blog-mode.has-media .blog-gallery { float: none; width: 100%; margin: 0 0 10px 0; }
+}
+.modal__body .blog-content { color: #e6ebf3; line-height: 1.65; font-size: 1rem; }
+.modal__body .blog-content h1,
+.modal__body .blog-content h2,
+.modal__body .blog-content h3 { margin: 8px 0 10px; line-height: 1.25; }
+.modal__body .blog-content h1 { font-size: clamp(22px, 2.1vw, 26px); }
+.modal__body .blog-content h2 { font-size: clamp(20px, 1.9vw, 24px); }
+.modal__body .blog-content h3 { font-size: clamp(18px, 1.6vw, 21px); }
+.modal__body .blog-content p { margin: 10px 0; }
+.modal__body .blog-content ul,
+.modal__body .blog-content ol { padding-left: 1.7rem; margin: 12px 0 14px; list-style-position: outside; }
+.modal__body .blog-content li { margin: 4px 0; }
+.modal__body .blog-content code { font-family: "JetBrains Mono", ui-monospace, Menlo, Monaco, Consolas, "Courier New", monospace; background: rgba(255,255,255,.06); border: 1px solid var(--border); border-radius: 6px; padding: 0 4px; }
+.modal__body .blog-content pre { background: rgba(17,21,28,.9); border: 1px solid var(--border); border-radius: 10px; padding: 12px; overflow: auto; }
+.modal__body .blog-content pre code { background: transparent; border: none; padding: 0; display: block; color: #e9edf5; }
+.modal__body .blog-content blockquote { margin: 12px 0; padding: 12px 14px; border-left: 3px solid rgba(124,58,237,.6); background: rgba(255,255,255,.06); border-radius: 10px; }
+.modal__body.blog-mode .blog-content blockquote { clear: both; }
+.modal__body .blog-content a { color: #cfe1ff; text-underline-offset: 2px; }
+.modal__body .blog-gallery img { height: auto; max-height: 260px; }
+
+/* Subtle scrollbar inside modal */
+.modal__panel::-webkit-scrollbar { width: 10px; }
+.modal__panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,.18); border-radius: 10px; border: 2px solid rgba(0,0,0,0); }
+.modal__panel::-webkit-scrollbar-track { background: transparent; }
+
 /* ===== Command Palette (shell-style navigation) ===== */
 #shellpal {
   position: fixed; inset: 0; z-index: 140; display: none;
@@ -688,6 +723,9 @@ footer { padding: 50px 0; color: var(--muted); display: flex; justify-content: c
 .blog-title { margin: 0; font-size: 20px; }
 .blog-meta { display:flex; gap:8px; flex-wrap: wrap; }
 .blog-tags { display:flex; gap:6px; flex-wrap: wrap; margin-top: 8px; }
+.blog-tags .chip { color: #eef2f7; text-decoration: none; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.20); }
+.blog-tags .chip:hover { color: #ffffff; border-color: rgba(124,58,237,.55); background: linear-gradient(180deg, rgba(124,58,237,.28), rgba(124,58,237,.16)); transform: translateY(-1px); }
+.blog-tags .chip:focus-visible { outline: 2px solid rgba(124,58,237,.85); outline-offset: 2px; }
 .blog-actions { display:flex; gap:8px; margin-top: 10px; flex-wrap: wrap; }
 .blog-card.hide { display:none; }
 
