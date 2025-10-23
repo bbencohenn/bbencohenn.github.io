@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const dateVal = (x) => Date.parse(x?.date || '') || 0;
   const pickIcon = (x) => x.icon || (x._type==='post' ? 'fa-note-sticky' : 'fa-code');
-  const hrefFor = (x) => x._type==='post' ? `blog.html#post-${x.id}` : (x.links&&x.links[0]&&x.links[0].href ? x.links[0].href : 'playground.html');
+  const hrefFor = (x) => x._type==='post' ? `blog#post-${x.id}` : (x.links&&x.links[0]&&x.links[0].href ? x.links[0].href : 'playground');
 
   loadAll().then(({posts, projects}) => {
     const items = [...posts, ...projects]
@@ -564,9 +564,9 @@ document.addEventListener('DOMContentLoaded', () => {
           const kw = `${title} ${tags} ${cat} ${date}`.toLowerCase();
           results.push({
             label: `Blog: ${title}`,
-            sub: `blog.html#post-${p.id}`,
+            sub: `blog#post-${p.id}`,
             icon: 'fa-droplet',
-            href: `blog.html#post-${p.id}`,
+            href: `blog#post-${p.id}`,
             keywords: [kw]
           });
         });
@@ -697,7 +697,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const dest = m[1].toLowerCase();
         if (dest === '/' || dest === 'home' || dest === 'index') return go('index.html');
-        const map = { blog: 'blog.html', playground: 'playground.html', timeline: 'timeline.html', contact: 'contact.html' };
+        const map = { blog: 'blog.html', playground: 'playground', timeline: 'timeline.html', contact: 'contact.html' };
         if (map[dest]) return go(map[dest]);
       }
     }
@@ -944,4 +944,5 @@ document.addEventListener('DOMContentLoaded', () => {
     apply();
   }).catch(() => {  });
 })();
+
 
