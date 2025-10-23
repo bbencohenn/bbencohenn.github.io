@@ -1,18 +1,18 @@
-/* ---------- Tiny helpers ---------- */
+﻿
 const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-/* ---------- Footer year ---------- */
+
 (() => {
   const y = $('#year');
   if (y) y.textContent = new Date().getFullYear();
 })();
 
-/* ---------- Contact form (mailto, honeypot, simple human check) ---------- */
+
 (() => {
   const form = document.getElementById('contact-form');
   if (!form) return;
-  // simple math challenge
+
   const qEl = document.getElementById('cap-q');
   const aEl = document.getElementById('c-cap');
   let answer = 0;
@@ -42,20 +42,20 @@ const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   });
 })();
 
-/* ---------- Active nav highlighting ---------- */
+
 document.addEventListener('DOMContentLoaded', () => {
   const current = (location.pathname.split('/').pop() || 'index.html').replace('./','');
   $$('.nav-card').forEach(a => {
     const href = a.getAttribute('href') || '';
-    // Ignore external links
+
     if (/^https?:\/\//i.test(href)) return;
     if (href.replace('./','') === current) a.classList.add('active');
   });
 });
 
-/* ---------- Subtle parallax for [data-speed] ---------- */
+
 (() => {
-  // Respect reduced motion
+
   const prefersReduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced) return;
 
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
   onScroll();
 })();
 
-/* ---------- Overlay navigation (burger) ---------- */
+
 (() => {
   const overlay = $('#overlay');
   const burger  = $('#burger');
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
   overlay.addEventListener('click', (e) => { if (e.target === overlay) toggleNav(false); });
   addEventListener('keydown', (e) => { if (e.key === 'Escape') toggleNav(false); });
 
-  // Close overlay when clicking an in-site link inside the panel
+
   overlay.addEventListener('click', (e) => {
     const link = e.target.closest('a[href]');
     if (!link) return;
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!/^https?:\/\//i.test(href)) toggleNav(false);
   });
 
-  // Fancy hover glow for nav cards
+
   $$('.nav-card').forEach(card => {
     card.addEventListener('mousemove', (ev) => {
       const r = card.getBoundingClientRect();
@@ -110,8 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 
-/* ---------- Scroll indicator (always visible) ---------- */
-/* If clicked, smoothly scrolls to #highlights (if present). */
+
+
 (() => {
   const sd = $('#scrolldown');
   const target = $('#highlights');
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 })();
 
-/* ---------- Cursor-follow glow for cards (delegated, works on dynamic content) ---------- */
+
 (() => {
   const setGlow = (el, ev) => {
     if (!el) return;
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
 })();
 
-/* ---------- Reveal the Highlights grid once it enters view ---------- */
+
 (() => {
   const group = document.querySelector('[data-reveal-group]');
   if (!group || !('IntersectionObserver' in window)) return;
@@ -159,11 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
   io.observe(group);
 })();
 
-/* ---------- Home: populate Highlights with recent posts/projects ---------- */
+
 (() => {
   const cont = document.querySelector('#highlights .cards');
   if (!cont) return;
-  // Clear any filler
+
   cont.innerHTML = '';
 
   const hasFirebase = typeof window !== 'undefined' && window.firebase && window.firebaseConfig && window.firebaseConfig.apiKey;
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ]);
         posts = ps.docs.map(d => ({ id: d.id, ...d.data(), _type:'post' }));
         projects = pr ? pr.docs.map(d => ({ id: d.id, ...d.data(), _type:'project' })) : [];
-      } catch (_) { /* ignore */ }
+      } catch (_) {  }
     }
     if (!posts.length) {
       try { const r = await fetch('data/blog.json'); if (r.ok){ const j = await r.json(); posts = (j.posts||[]).map(p=>({...p,_type:'post'})); } } catch(_){ }
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 
-/* ---------- Generic modal for timeline buttons ---------- */
+
 (() => {
   const modal = document.getElementById('modal');
   if (!modal) return;
@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
-    // focus trap start
+
     closeBtn?.focus?.();
   };
   const close = () => {
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = '';
   };
 
-  // Open on any timeline, blog, or playground card button
+
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('.tl-card .btn, .blog-card .btn, .pg-card .btn');
     if (!btn) return;
@@ -241,20 +241,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const img = imgEl ? `<img src="${imgEl.getAttribute('src')}" alt="" ${imgFit ? `data-fit=\"${imgFit}\"` : ''}/>` : '';
     const desc = card.querySelector('p.muted')?.textContent?.trim() || 'More information will appear here.';
 
-    // Per-button overrides via data attributes
+
     const btnText = (btn.textContent || '').replace(/\s+/g, ' ').trim();
     const modalTitle = btn.getAttribute('data-modal-title') || btnText || title;
     const modalDesc  = btn.getAttribute('data-modal-desc')  || desc;
     const itemsAttr  = btn.getAttribute('data-modal-items'); // pipe (|) separated
     let customHTML = btn.getAttribute('data-modal-html');
-    // Decode URI-encoded HTML if present (works for blog + playground)
+
     if (customHTML && /%[0-9A-Fa-f]{2}/.test(customHTML)) {
-      try { customHTML = decodeURIComponent(customHTML); } catch (_) { /* ignore */ }
+      try { customHTML = decodeURIComponent(customHTML); } catch (_) {  }
     }
 
     let bodyInner = '';
     if (customHTML) {
-      // If from blog card, strip a duplicate leading H1/H2/H3 since the modal already shows a title
+
       if (card?.classList?.contains('blog-card')) {
         try {
           const temp = document.createElement('div');
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>`;
     }
 
-    // Blog-specific layout tweaks: if a blog post, allow full-width content
+
     const isBlog = card?.classList?.contains('blog-card');
     const hasGallery = isBlog && /class=("|')blog-gallery\b/.test(bodyInner);
 
@@ -294,23 +294,23 @@ document.addEventListener('DOMContentLoaded', () => {
     `);
   });
 
-  // Close interactions
+
   modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
   closeBtn?.addEventListener('click', close);
   addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 })();
-/* ===== Timeline Pen (namespaced, runs only on timeline page) ===== */
+
 (function ($) {
   if (!$) return; // jQuery not loaded? skip.
 
-  // Support both legacy tlpen-* and new tl-* markup
+
   const usingNew = $('.tl-section').length > 0;
   const $sections = usingNew ? $('.tl-section') : $('.tlpen-section');
   const $items    = usingNew ? $('.tl-nav > li') : $('.tlpen-nav > li');
 
   if (!$sections.length || !$items.length) return; // not on timeline page
 
-  // Smooth scroll like the CodePen
+
   $('a[href*="#"]:not([href="#"])').on('click', function (e) {
     const samePage =
       location.pathname.replace(/^\//, '') === this.pathname.replace(/^\//, '') ||
@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Scroll spy: expand title/body for the active section
+
   function setActiveByScroll() {
     const scrollTop = $(window).scrollTop();
     const vh        = $(window).height();
@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // rAF throttle for smoothness
+
   let ticking = false;
   function onScroll() {
     if (ticking) return;
@@ -356,13 +356,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // init + bind
+
   setActiveByScroll();
   $(window).on('scroll resize', onScroll);
 
 })(window.jQuery);
 
-/* ---------- Next-section buttons under cards ---------- */
+
 (() => {
   const sections = $$('.tl-section');
   if (!sections.length) return;
@@ -371,9 +371,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (i === sections.length - 1) return; // skip last
     const card = sec.querySelector('.tl-card');
     if (!card) return;
-    // Avoid duplicates if rerun
+
     if (sec.querySelector('.tl-next-wrap')) return;
-    // Wrap card + next button to keep section centered as one block
+
     let stack = sec.querySelector('.tl-stack');
     if (!stack) {
       stack = document.createElement('div');
@@ -402,9 +402,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 
-/* ---------- Shell-style command palette (site-wide) ---------- */
+
 (() => {
-  // Build overlay lazily
+
   const make = () => {
     if (document.getElementById('shellpal')) return document.getElementById('shellpal');
     const wrap = document.createElement('div');
@@ -414,7 +414,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="shellpal__head">
           <span class="chip mono shell">ben@site</span>
           <span class="chip mono shell">~/</span>
-          <input id="shellpal-input" class="shellpal__input" placeholder="Type a command or page… (Ctrl/Cmd+K)" aria-label="Command input" />
+          <input id="shellpal-input" class="shellpal__input" placeholder="Type a command or pageâ€¦ (Ctrl/Cmd+K)" aria-label="Command input" />
         </div>
         <div id="shellpal-list" class="shellpal__list" role="listbox"></div>
       </div>`;
@@ -422,7 +422,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return wrap;
   };
 
-  // Data sources
+
   const staticItemsBase = [
     { label: 'About Me',         sub: 'About page',          icon: 'fa-user',         href: 'index.html' },
     { label: 'Timeline',         sub: 'Experience timeline', icon: 'fa-timeline',     href: 'timeline.html' },
@@ -436,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return staticItemsBase.map(it => ({ ...it, sub: (it.href && it.href.replace('./','') === current) ? 'This page' : it.sub }));
   };
 
-  // Current-page sections (if any)
+
   const sectionItems = () => {
     const els = $$('.tl-section');
     if (!els.length) return [];
@@ -453,7 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // Cross-page heading index (built lazily on first open)
+
   let crossIndex = [];
   let crossIndexBuilt = false;
   let crossIndexBuilding = false;
@@ -461,7 +461,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const isInternal = (href) => href && !/^https?:\/\//i.test(href) && !href.startsWith('mailto:') && !href.startsWith('#');
 
   const getInSitePages = () => {
-    // Use nav cards as the source of truth for in-site pages
+
     const cards = $$('.nav-card[href]');
     const pages = [];
     const seen = new Set();
@@ -501,7 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const parseGenericHeadings = (doc, page) => {
     const out = [];
-    // Prefer explicit ids on headings
+
     const heads = Array.from(doc.querySelectorAll('h1[id], h2[id], h3[id], h4[id]'));
     heads.forEach(h => {
       const id = h.id;
@@ -509,7 +509,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const kw = `${label} ${id} ${page.title}`.toLowerCase();
       out.push({ label: `${page.title}: ${label}`, sub: `${page.path}#${id}`, icon: 'fa-hashtag', href: `${page.path}#${id}`, keywords: [kw] });
     });
-    // Also index section/article with ids + inner heading
+
     const containers = Array.from(doc.querySelectorAll('section[id], article[id]'));
     containers.forEach(s => {
       const id = s.id;
@@ -517,7 +517,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!t) return;
       const label = t.textContent.trim();
       const kw = `${label} ${id} ${page.title}`.toLowerCase();
-      // Avoid duplicates already captured by heading[id]
+
       if (heads.some(h => h.id === id)) return;
       out.push({ label: `${page.title}: ${label}`, sub: `${page.path}#${id}`, icon: 'fa-hashtag', href: `${page.path}#${id}`, keywords: [kw] });
     });
@@ -537,12 +537,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!res.ok) continue;
         const html = await res.text();
         const doc = new DOMParser().parseFromString(html, 'text/html');
-        // Detect timeline markup
+
         const items = doc.querySelector('.tl-section') ? parseTimelineSections(doc, page) : parseGenericHeadings(doc, page);
         results.push(...items);
-      } catch (e) { /* ignore fetch/parse errors */ }
+      } catch (e) {  }
     }
-    // Also include blog posts from data/blog.json if available
+
     try {
       const bres = await fetch('data/blog.json', { credentials: 'same-origin' });
       if (bres.ok) {
@@ -563,7 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         });
       }
-    } catch (e) { /* ignore */ }
+    } catch (e) {  }
 
     crossIndex = results;
     crossIndexBuilt = true;
@@ -585,7 +585,7 @@ document.addEventListener('DOMContentLoaded', () => {
     input.value = '';
     setTimeout(() => input.focus(), 0);
 
-    // Build cross-page index lazily, then update results if still open
+
     buildCrossIndex().then(() => {
       if (!open) return;
       const data = filterItems(input.value);
@@ -620,7 +620,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (active) active.scrollIntoView({ block: 'nearest' });
   };
 
-  // Events
+
   document.addEventListener('keydown', (e) => {
     if ((e.key.toLowerCase() === 'k' && (e.metaKey || e.ctrlKey)) && !open) {
       e.preventDefault();
@@ -679,7 +679,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('shellpal-input');
     const list  = document.getElementById('shellpal-list');
     const data  = filterItems(input.value);
-    // Simple terminal-esque commands
+
     const cmd = (input.value || '').trim();
     const go = (href) => { closePalette(); location.href = href; };
     if (e.key === 'Enter') {
@@ -699,11 +699,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 
-/* ---------- Playground: filterable project grid ---------- */
+
 (() => {
   const grid = document.querySelector('.pg-grid');
   if (!grid) return;
-  // Remove any static filler so we don't flash placeholder content
+
   grid.innerHTML = '';
   const chips = Array.from(document.querySelectorAll('.pg-filter .chip.filter'));
 
@@ -727,7 +727,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </article>`).join('');
 
-    // Hover glow per card
+
     Array.from(grid.querySelectorAll('.pg-card')).forEach(card => {
       card.addEventListener('mousemove', (ev) => {
         const r = card.getBoundingClientRect();
@@ -757,7 +757,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const snap = await db.collection('projects').get();
         const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         if (docs && docs.length) return { projects: docs };
-      } catch (e) { /* fall through */ }
+      } catch (e) {  }
     }
     try {
       const r = await fetch('data/projects.json', { credentials: 'same-origin' });
@@ -798,7 +798,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 
-/* ---------- Blog: render posts + filters + modal ---------- */
+
 (() => {
   const grid = document.getElementById('blog-grid');
   if (!grid) return;
@@ -808,7 +808,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let current = 'all';
   let tagMetaById = null;
 
-  // Try to load from Firestore first (if Firebase is configured), else fallback to JSON file
+
   const loadPostsData = async () => {
     const hasFirebase = typeof window !== 'undefined' && window.firebase && window.firebaseConfig && window.firebaseConfig.apiKey;
     if (hasFirebase) {
@@ -823,7 +823,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tags = ts ? ts.docs.map(d => ({ id: d.id, ...d.data() })) : [];
         if (docs && docs.length) return { posts: docs, tags };
       } catch (e) {
-        // swallow and fallback
+
       }
     }
     try {
@@ -868,11 +868,11 @@ document.addEventListener('DOMContentLoaded', () => {
       </article>`).join('');
   };
 
-  // Intercept modal open for blog/pg with data-modal-html (encoded)
+
   document.addEventListener('click', (e) => {
     const a = e.target.closest('.blog-card .btn[data-modal-html], .pg-card .btn[data-modal-html]');
     if (!a) return;
-    // decode and set attribute for generic modal block
+
     const html = decodeURIComponent(a.getAttribute('data-modal-html'));
     a.setAttribute('data-modal-html', html);
   }, { capture: true });
@@ -903,7 +903,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!tag) return;
     e.preventDefault();
     const t = (tag.getAttribute('data-tag') || '').toLowerCase();
-    // Select All then soft-filter by tag
+
     filters.forEach(c => c.classList.remove('active'));
     const all = document.querySelector('.blog-filter [data-filter="all"]');
     all?.classList.add('active');
@@ -915,7 +915,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Fetch posts data (Firestore preferred)
+
   loadPostsData().then(json => {
     const tagMeta = (json.tags || []);
     tagMetaById = Object.fromEntries(tagMeta.map(t => [t.id, t]));
@@ -934,5 +934,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }));
     render(posts);
     apply();
-  }).catch(() => { /* ignore */ });
+  }).catch(() => {  });
 })();
+

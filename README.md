@@ -1,4 +1,4 @@
-# bbencohenn.github.io
+﻿# bbencohenn.github.io
 
 ## Blog & Admin
 
@@ -14,9 +14,9 @@ Setup:
 - Create a Firebase project (Web app) and enable Authentication (Google) and Firestore (native mode). Optional: enable Storage.
 - Put your config into `js/firebase-config.js` and optionally add your admin UID(s) to `ADMIN_UIDS`.
 - Open `admin.html`, sign in, and manage posts.
-- Use “Export JSON” to download data compatible with `data/blog.json` for the public site.
+- Use â€œExport JSONâ€ to download data compatible with `data/blog.json` for the public site.
 
-Firestore security (example — adjust to your needs):
+Firestore security (example - adjust to your needs):
 ```
 rules_version = '2';
 service cloud.firestore {
@@ -46,3 +46,5 @@ service firebase.storage {
 Notes:
 - If you prefer fully static hosting, manage content in Firebase and export to JSON to commit `data/blog.json`.
 - The command palette auto-indexes blog posts from `data/blog.json`.
+
+

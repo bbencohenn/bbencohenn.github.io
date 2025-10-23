@@ -1,7 +1,7 @@
-// Classic (compat) Firebase admin script
-// Loaded after js/firebase-config.js and Firebase compat CDN scripts
+﻿
 
-// Let the page know this script executed
+
+
 window.__admin_ready = true;
 
 const $  = (sel, root = document) => root.querySelector(sel);
@@ -15,7 +15,7 @@ const setStatus = (msg, ok = false) => {
   el.style.color = ok ? '#9ae6b4' : 'var(--muted)';
 };
 
-// Read config from global
+
 const firebaseConfig = window.firebaseConfig || {};
 const ADMIN_UIDS = window.ADMIN_UIDS || [];
 
@@ -24,11 +24,11 @@ try {
   app = firebase.initializeApp(firebaseConfig);
   auth = firebase.auth();
   db = firebase.firestore();
-  try { storage = firebase.storage(); } catch (_) { /* optional storage */ }
+  try { storage = firebase.storage(); } catch (_) {  }
   setStatus('Firebase loaded. Ready to sign in.', true);
 } catch (e) {
   console.warn('Firebase not configured. Admin is disabled until configured.', e);
-  setStatus('Firebase not configured — fill js/firebase-config.js and reload.');
+  setStatus('Firebase not configured - fill js/firebase-config.js and reload.');
 }
 
 const state = { user: null, posts: [], tags: [], projects: [] };
@@ -42,7 +42,7 @@ const renderList = () => {
       <div class="post-item" data-id="${p.id}">
         <div>
           <h4>${p.title || '(untitled)'}</h4>
-          <div class="muted-small">${p.category || ''} • ${p.date || ''}</div>
+          <div class="muted-small">${p.category || ''} â€¢ ${p.date || ''}</div>
         </div>
         <span class="chip mono">#${(p.tags||[]).length}</span>
       </div>
@@ -146,7 +146,7 @@ const addImageFromFile = async (file) => {
   return url;
 };
 
-// Auth UI wiring
+
 $('#login')?.addEventListener('click', async () => {
   if (!auth) { alert('Firebase not configured.'); return; }
   const provider = new firebase.auth.GoogleAuthProvider();
@@ -181,7 +181,7 @@ $('#logout')?.addEventListener('click', async () => {
 });
 
 if (auth) {
-  // Handle redirect result (if we had to fallback)
+
   auth.getRedirectResult().catch((e) => {
     if (e) console.warn('Redirect sign-in result error:', e);
   });
@@ -201,7 +201,7 @@ if (auth) {
     else setStatus('Firebase loaded. Ready to sign in.', true);
 
     if (authed && ensureAuth(user)) {
-      // Show panels first, then load data with graceful error handling
+
       document.getElementById('admin-tags').style.display = '';
       document.getElementById('admin-projects').style.display = '';
       try { await loadPosts(); } catch (e) { console.warn('Load posts failed', e); }
@@ -216,7 +216,7 @@ if (auth) {
   });
 }
 
-// Images list remove handler (delegated)
+
 document.addEventListener('click', (e) => {
   const btn = e.target.closest('[data-remove-img]');
   if (!btn) return;
@@ -224,7 +224,7 @@ document.addEventListener('click', (e) => {
   row?.remove();
 });
 
-// List interactions
+
 document.addEventListener('click', (e) => {
   const item = e.target.closest('.post-item');
   if (!item) return;
@@ -239,7 +239,7 @@ $('#new-post')?.addEventListener('click', () => {
   $('#post-date').value = today;
 });
 
-// Images
+
 $('#add-img-url')?.addEventListener('click', () => {
   const url = $('#img-url').value.trim();
   if (!url) return;
@@ -271,7 +271,7 @@ $('#img-file')?.addEventListener('change', async (e) => {
   }
 });
 
-// Save/Delete
+
 $('#post-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
   if (!state.user || !ensureAuth(state.user)) return;
@@ -300,7 +300,7 @@ $('#delete-post')?.addEventListener('click', async () => {
   }
 });
 
-// Export JSON compatible with site data/blog.json
+
 $('#export-json')?.addEventListener('click', async () => {
   const posts = state.posts.map(p => ({
     id: p.id,
@@ -322,7 +322,7 @@ $('#export-json')?.addEventListener('click', async () => {
   URL.revokeObjectURL(url);
 });
 
-// ===== Tags management =====
+
 const slug = (s) => (s||'').toLowerCase().trim().replace(/\s+/g,'-').replace(/[^a-z0-9_-]/g,'');
 
 const renderSelectedTags = (tags) => {
@@ -383,7 +383,7 @@ const renderTagList = () => {
   if (!state.tags.length) { list.innerHTML = '<div class="muted">No tags yet.</div>'; return; }
   list.innerHTML = state.tags
     .sort((a,b) => a.name.localeCompare(b.name))
-    .map(t => `<div class="post-item" data-tag-id="${t.id}"><div><strong>${t.name}</strong><div class="muted-small">${t.id}</div></div><span class="chip mono">${t.icon ? `<i class='fa-solid ${t.icon}'></i>` : '—'}</span></div>`)
+    .map(t => `<div class="post-item" data-tag-id="${t.id}"><div><strong>${t.name}</strong><div class="muted-small">${t.id}</div></div><span class="chip mono">${t.icon ? `<i class='fa-solid ${t.icon}'></i>` : '-'}</span></div>`)
     .join('');
 };
 
@@ -399,13 +399,13 @@ const loadTags = async () => {
 const saveTag = async (data) => {
   const desiredId = slug(data.name);
   const currentId = (data.id || '').trim();
-  // If creating new or the slug matches current id, upsert at desiredId
+
   if (!currentId || currentId === desiredId) {
     await db.collection('tags').doc(desiredId).set({ name: data.name, icon: data.icon || '' }, { merge: true });
     return desiredId;
   }
-  // Name changed to a different slug while editing an existing tag.
-  // Create a new tag with the new slug, keep the old one intact.
+
+
   await db.collection('tags').doc(desiredId).set({ name: data.name, icon: data.icon || '' }, { merge: true });
   return desiredId;
 };
@@ -463,7 +463,7 @@ $('#tag-delete')?.addEventListener('click', async () => {
   }
 });
 
-// ===== Projects management =====
+
 const renderProjList = () => {
   const list = document.getElementById('proj-list');
   if (!list) return;
@@ -476,7 +476,7 @@ const fillProjForm = (p) => {
   document.getElementById('proj-id').value = p.id || '';
   document.getElementById('proj-title').value = p.title || '';
   document.getElementById('proj-icon').value = p.icon || '';
-  // tags
+
   const wrap = document.getElementById('proj-tags-selected');
   wrap.innerHTML = (p.tags||[]).map(t => `<span class="chip mono" data-tag="${t}">#${t} <a href="#" data-remove="${t}"><i class="fa-solid fa-xmark"></i></a></span>`).join('');
   document.getElementById('proj-summary').value = p.summary || '';
@@ -560,7 +560,7 @@ document.getElementById('proj-delete')?.addEventListener('click', async () => {
   }
 });
 
-// Project images
+
 document.getElementById('proj-add-img-url')?.addEventListener('click', () => {
   const url = document.getElementById('proj-img-url').value.trim();
   if (!url) return;
@@ -584,7 +584,7 @@ document.getElementById('proj-img-file')?.addEventListener('change', async (e) =
   } finally { e.target.value = ''; }
 });
 
-// Project tag selection / suggestions
+
 const renderProjSelectedTags = (tags) => {
   const wrap = document.getElementById('proj-tags-selected');
   if (!wrap) return; wrap.innerHTML = (tags||[]).map(t => `<span class="chip mono" data-tag="${t}">#${t} <a href="#" data-remove="${t}"><i class="fa-solid fa-xmark"></i></a></span>`).join('');
@@ -615,19 +615,19 @@ document.getElementById('proj-tags-promote')?.addEventListener('click', async ()
   await loadTags(); renderProjTagSuggestions(); alert('Added selected tags to library.');
 });
 
-// Export Projects JSON
+
 document.getElementById('export-projects')?.addEventListener('click', () => {
   const projects = state.projects.map(p => ({ id: p.id, title: p.title, icon: p.icon||'fa-code', tags: p.tags||[], summary: p.summary||'', bodyHtml: p.bodyHtml||'', images: p.images||[], links: p.links||[] }));
   const blob = new Blob([JSON.stringify({ projects }, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'projects.json'; a.click(); URL.revokeObjectURL(url);
 });
 
-// Reuse icon picker
+
 document.addEventListener('click', (e) => {
   if (e.target.closest('#pick-proj-icon')) openIconPicker(document.getElementById('proj-icon'));
 });
 
-// Promote currently selected tags into the library
+
 $('#tags-promote')?.addEventListener('click', async () => {
   const selected = Array.from($$('#post-tags-selected [data-tag]')).map(el => el.getAttribute('data-tag'));
   const missing = selected.filter(id => !state.tags.some(t => t.id === id));
@@ -641,7 +641,7 @@ $('#tags-promote')?.addEventListener('click', async () => {
   alert('Added to tag library.');
 });
 
-// ===== Icon picker =====
+
 const ICONS = [
   'fa-flag','fa-trophy','fa-code','fa-graduation-cap','fa-bug','fa-lock','fa-shield-halved','fa-terminal','fa-brain','fa-microchip','fa-database','fa-cloud','fa-robot','fa-key','fa-network-wired','fa-screwdriver-wrench','fa-flask','fa-book','fa-note-sticky','fa-pen-nib','fa-lightbulb','fa-gamepad','fa-palette','fa-gear','fa-rocket','fa-laptop-code','fa-magnifying-glass','fa-circle-nodes','fa-sitemap','fa-bolt','fa-circle-exclamation','fa-user-secret','fa-cloud-arrow-down','fa-cloud-arrow-up','fa-circle-check','fa-circle-info','fa-circle-question','fa-link','fa-file','fa-image','fa-video','fa-photo-film','fa-hammer','fa-globe','fa-fire','fa-feather','fa-cubes','fa-boxes-stacked','fa-leaf','fa-wifi','fa-satellite','fa-compass','fa-map','fa-server','fa-code-branch','fa-bug-slash'
 ];
@@ -697,3 +697,5 @@ document.addEventListener('click', (e) => {
 document.getElementById('icon-search')?.addEventListener('input', (e) => {
   renderIconGrid(e.target.value);
 });
+
+

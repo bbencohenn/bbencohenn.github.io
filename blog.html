@@ -1,21 +1,21 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Blog & Snippets — Ben Cohen</title>
+  <title>Blog & Snippets - Ben Cohen</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css"/>
   <script src="https://kit.fontawesome.com/397fc878e3.js" crossorigin="anonymous"></script>
-  <!-- Optional Firebase (for live posts): safe to include, main.js falls back to JSON if not configured -->
+
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
 </head>
 <body>
-  <!-- Navigation (same component as other pages) -->
+
   <header>
     <nav class="nav">
       <button id="burger" class="burger" aria-label="Open navigation"><span></span></button>
@@ -57,7 +57,7 @@
       <h1 style="margin: 0 0 8px;">Blog & Snippets</h1>
       <p class="muted" style="margin: 0 0 12px;">CTFs, hackathons, personal projects, and uni notes.</p>
 
-      <!-- Filters (categories) -->
+
       <div class="blog-filter" role="tablist" aria-label="Filter posts by category">
         <a href="javascript:void(0)" class="chip filter active" data-filter="all" role="tab" aria-selected="true"><i class="fa-solid fa-layer-group"></i> All</a>
         <a href="javascript:void(0)" class="chip filter" data-filter="ctf" role="tab"><i class="fa-solid fa-flag"></i> CTF</a>
@@ -66,12 +66,12 @@
         <a href="javascript:void(0)" class="chip filter" data-filter="uni" role="tab"><i class="fa-solid fa-graduation-cap"></i> Uni Assignment</a>
       </div>
 
-      <!-- Grid (populated by main.js from data/blog.json) -->
+
       <section class="blog-grid" id="blog-grid" aria-live="polite" aria-busy="false"></section>
     </section>
   </main>
 
-  <!-- Generic modal used across site -->
+
   <div id="modal" class="modal" aria-hidden="true">
     <div class="modal__panel">
       <button class="modal__close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
@@ -87,3 +87,4 @@
   <script src="main.js"></script>
 </body>
 </html>
+

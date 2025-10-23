@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -9,13 +9,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css" />
   <script src="https://kit.fontawesome.com/397fc878e3.js" crossorigin="anonymous"></script>
-  <!-- Firebase (optional) to enable live Highlights from Firestore -->
+
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
 </head>
 <body>
-  <!-- Navigation -->
+
   <header>
     <nav class="nav">
       <button id="burger" class="burger" aria-label="Open navigation"><span></span></button>
@@ -82,7 +82,7 @@
     </nav>
   </header>
 
-  <!-- Hero -->
+
   <section class="hero container">
   <div class="orbit">
     <div class="orb one" data-speed="-0.06"></div>
@@ -90,7 +90,7 @@
   </div>
 
   <div class="hero-grid">
-    <!-- LEFT: intro -->
+
     <div class="hero-left" data-speed="-0.02">
       <span class="chip mono">$ whoami</span>
       <h1>Ben Cohen <br></h1><h2>Cybersecurity & Creative Dev</h2>
@@ -99,14 +99,14 @@
         Blog posts, notes about projects, info about me, and more all lives here!
       </p>
 
-      <!-- quick meta row -->
+
       <ul class="meta">
         <li><i class="fa-solid fa-location-dot"></i> Sydney, NSW</li>
         <li><i class="fa-solid fa-building-columns"></i> Bachelor of CompSci (Honours) @ UTS</li>
         <li><i class="fa-solid fa-briefcase"></i> Lead Coding Instructor @ Code4Fun</li>
       </ul>
 
-      <!-- skill tags -->
+
       <div class="tags">
         <span class="tag"><i class="fa-solid fa-shield-halved"></i> Cybersecurity</span>
         <span class="tag"><i class="fa-solid fa-database"></i> Data Science</span>
@@ -114,13 +114,13 @@
         <span class="tag"><i class="fa-solid fa-flag"></i> Write-ups</span>
       </div>
 
-      <!-- subtle quick links (no big buttons) -->
+
       <div class="quicklinks">
         <span class="chip mono" title="Tip: Press Ctrl/Cmd+K">Ctrl/Cmd+K to search</span>
       </div>
     </div>
 
-    <!-- RIGHT: portrait -->
+
     <div class="hero-right">
       <div class="avatar-wrap" aria-hidden="true"></div>
       <img class="avatar" src="img/ben.png" alt="Photo of me" loading="eager"/>
@@ -132,14 +132,14 @@
 </div>
 </section>
 
-<!-- Highlights -->
+
 <section class="section container highlights" id="highlights">
   <h2>Highlights</h2>
 
   <div class="cards" data-reveal-group></div>
 </section>
 
-  <!-- Footer -->
+
   <footer>
     <p>© <span id="year"></span> Ben Cohen</p>
   </footer>

@@ -1,22 +1,22 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Playground — Ben Cohen</title>
+  <title>Playground - Ben Cohen</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css"/>
   <script src="https://kit.fontawesome.com/397fc878e3.js" crossorigin="anonymous"></script>
-  <!-- Firebase (optional; enables live projects from Firestore) -->
+  
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <script src="js/firebase-config.js"></script>
 </head>
 <body>
 
-  <!-- Floating site navigation (same component as index) -->
+  
   <header>
     <nav class="nav">
       <button id="burger" class="burger" aria-label="Open navigation"><span></span></button>
@@ -83,14 +83,14 @@
     </nav>
   </header>
 
-  <!-- Page header -->
+  
   <section class="section container" style="padding-top:110px;">
     <span class="chip mono shell">~/playground</span>
     <h1 id="playground">Playground</h1>
     <p class="muted">A grid of experimental projects, toys, and tiny tidbits. Click through to GitHub for code.</p>
   </section>
 
-  <!-- Filters -->
+  
   <section class="container" aria-label="Project filters">
     <div class="pg-filter" role="tablist" aria-label="Filter projects by category">
       <a href="javascript:void(0)" class="chip filter active" data-filter="all" role="tab" aria-selected="true"><i class="fa-solid fa-layer-group"></i> All</a>
@@ -104,10 +104,10 @@
     </div>
   </section>
 
-  <!-- Projects grid -->
+  
   <section class="container section" style="padding-top:18px;">
     <div class="pg-grid">
-      <!-- Card template: add data-tags comma-separated -->
+      
       <a class="pg-card" href="#" data-tags="games,web">
         <div class="pg-thumb"><img src="img/ben.png" alt="Phaser game prototype" loading="lazy"/></div>
         <div class="pg-body">
@@ -219,7 +219,7 @@
     </div>
   </section>
 
-  <!-- Generic modal used across site -->
+  
   <div id="modal" class="modal" aria-hidden="true">
     <div class="modal__panel">
       <button class="modal__close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
@@ -227,7 +227,9 @@
     </div>
   </div>
 
-  <!-- your global scripts (must load after modal exists) -->
+  
   <script src="main.js"></script>
 </body>
 </html>
+
+
