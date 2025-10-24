@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let bodyInner = '';
     if (customHTML) {
 
-      if (card?.classList?.contains('blog-card')) {
+      if (card?.classList?.contains('blog-card') || card?.classList?.contains('pg-card')) {
         try {
           const temp = document.createElement('div');
           temp.innerHTML = customHTML;
@@ -290,14 +290,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    const isBlog = card?.classList?.contains('blog-card');
-    const hasGallery = isBlog && /class=("|')blog-gallery\b/.test(bodyInner);
+    const isArticle = card?.classList?.contains('blog-card') || card?.classList?.contains('pg-card');
+    const hasGallery = /class=("|')blog-gallery\b/.test(bodyInner);
 
     open(`
       <div class="modal__head">
         <h3 style="margin:2px 0 10px">${modalTitle || title}</h3>
       </div>
-      <div class="modal__body ${isBlog ? 'blog-mode' : ''} ${hasGallery ? 'has-media' : ''}">${bodyInner}</div>
+      <div class="modal__body ${isArticle ? 'blog-mode' : ''} ${hasGallery ? 'has-media' : ''}">${bodyInner}</div>
     `);
   });
 
@@ -730,7 +730,10 @@ document.addEventListener('DOMContentLoaded', () => {
           <p class="muted" style="margin:0 0 8px">${p.summary || ''}</p>
           <div class="blog-tags">${(p.tags||[]).map(t => `<a href="#" class="chip mono" data-tag="${t}">#${t}</a>`).join('')}</div>
           <div class="blog-actions" style="margin-top:10px">
-            ${p.bodyHtml ? `<a class="btn" href="javascript:void(0)" data-modal-title="${p.title}" data-modal-html="${encodeURIComponent(`<div class='blog-content'>${p.bodyHtml}</div>`)}"><i class="fa-solid fa-book-open"></i> Details</a>` : ''}
+            ${p.bodyHtml || (p.images&&p.images.length) ? `<a class="btn" href="javascript:void(0)" data-modal-title="${p.title}" data-modal-html="${encodeURIComponent(`
+                 ${(p.images||[]).length ? `<div class='blog-gallery'>${p.images.map(src => `<img src='${src}' alt='${p.title}'/>`).join('')}</div>` : ''}
+                 <div class='blog-content'>${p.bodyHtml || ''}</div>
+               `)}"><i class="fa-solid fa-book-open"></i> Details</a>` : ''}
             ${(p.links||[]).map(l => `<a class="btn" href="${l.href}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> ${l.label||'Open'}</a>`).join('')}
           </div>
         </div>
