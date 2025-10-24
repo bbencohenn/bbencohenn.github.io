@@ -713,7 +713,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!grid) return;
 
   grid.innerHTML = '';
-  const chips = Array.from(document.querySelectorAll('.pg-filter .chip.filter'));
+  const filterBox = document.querySelector('.pg-filter');
+  let chips = [];
 
   let current = 'all';
   let projects = [];
@@ -773,6 +774,18 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (_) { return { projects: [] }; }
   };
 
+  const buildPgFilters = () => {
+    if (!filterBox) return;
+    const used = new Set();
+    (projects||[]).forEach(p => (p.tags||[]).forEach(t => used.add((t||'').toLowerCase())));
+    const arr = Array.from(used).sort();
+    const icons = { games:'fa-gamepad', web:'fa-code', design:'fa-palette', tidbits:'fa-lightbulb', cli:'fa-terminal', data:'fa-database', tools:'fa-wrench' };
+    const html = ['<a href="javascript:void(0)" class="chip filter active" data-filter="all" role="tab" aria-selected="true"><i class="fa-solid fa-layer-group"></i> All</a>']
+      .concat(arr.map(id => `<a href=\"javascript:void(0)\" class=\"chip filter\" data-filter=\"${id}\" role=\"tab\"><i class=\"fa-solid ${icons[id]||'fa-tag'}\"></i> ${id}</a>`));
+    filterBox.innerHTML = html.join('');
+    chips = Array.from(filterBox.querySelectorAll('.chip.filter'));
+  };
+
   document.addEventListener('click', (e) => {
     const chip = e.target.closest('.pg-filter .chip.filter');
     if (!chip) return;
@@ -802,6 +815,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadProjectsData().then(json => {
     projects = json.projects || [];
     render(projects);
+    buildPgFilters();
     apply();
   });
 })();
@@ -811,7 +825,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('blog-grid');
   if (!grid) return;
 
-  const filters = Array.from(document.querySelectorAll('.blog-filter .chip.filter'));
+  const filterBox = document.querySelector('.blog-filter');
+  let filters = [];
   let posts = [];
   let current = 'all';
   let tagMetaById = null;
@@ -888,19 +903,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const apply = () => {
     const cards = Array.from(grid.querySelectorAll('.blog-card'));
     cards.forEach(el => {
-      const cat = (el.getAttribute('data-cat') || '').toLowerCase();
-      const tags = (el.getAttribute('data-tags') || '').split(',').map(s=>s.trim());
-      const q = current;
-      const show = q === 'all' || cat === q;
+      const tags = (el.getAttribute('data-tags') || '').toLowerCase().split(',').map(s=>s.trim());
+      const show = current === 'all' || tags.includes(current);
       el.classList.toggle('hide', !show);
     });
+  };
+
+  const buildFilters = (tagMetaById) => {
+    if (!filterBox) return;
+    const used = new Set();
+    (posts||[]).forEach(p => (p.tags||[]).forEach(t => used.add((t||'').toLowerCase())));
+    const arr = Array.from(used).sort();
+    const chips = ['<a href="javascript:void(0)" class="chip filter active" data-filter="all" role="tab" aria-selected="true"><i class="fa-solid fa-layer-group"></i> All</a>']
+      .concat(arr.map(id => {
+        const meta = tagMetaById ? tagMetaById[id] : null;
+        const label = meta?.name || id;
+        const icon = meta?.icon ? `<i class=\"fa-solid ${meta.icon}\"></i> ` : '';
+        return `<a href=\"javascript:void(0)\" class=\"chip filter\" data-filter=\"${id}\" role=\"tab\">${icon}${label}</a>`;
+      }));
+    filterBox.innerHTML = chips.join('');
+    filters = Array.from(filterBox.querySelectorAll('.chip.filter'));
   };
 
   document.addEventListener('click', (e) => {
     const chip = e.target.closest('.blog-filter .chip.filter');
     if (!chip) return;
     e.preventDefault();
-    filters.forEach(c => c.classList.remove('active'));
+    (filters||[]).forEach(c => c.classList.remove('active'));
     chip.classList.add('active');
     current = (chip.getAttribute('data-filter') || 'all').toLowerCase();
     apply();
@@ -941,6 +970,7 @@ document.addEventListener('DOMContentLoaded', () => {
       links: p.links || []
     }));
     render(posts);
+    buildFilters(tagMetaById);
     apply();
   }).catch(() => {  });
 })();
