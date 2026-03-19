@@ -221,9 +221,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const panel    = modal.querySelector('.modal__panel');
   const content  = modal.querySelector('.modal__content');
   const closeBtn = modal.querySelector('.modal__close');
+  const highlightCode = (root) => {
+    if (!root) return;
+    if (window.Prism?.highlightAllUnder) {
+      window.Prism.highlightAllUnder(root);
+    }
+  };
 
   const open = (html) => {
     content.innerHTML = html;
+    highlightCode(content);
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -977,5 +984,4 @@ document.addEventListener('DOMContentLoaded', () => {
     apply();
   }).catch(() => {  });
 })();
-
 
