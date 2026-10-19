@@ -1,0 +1,67 @@
+---
+import '@fontsource-variable/commissioner';
+import '@fontsource-variable/victor-mono';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getSettings } from '../lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  type?: 'website' | 'article' | 'profile';
+  published?: Date;
+  jsonLd?: Record<string, unknown>;
+  noindex?: boolean;
+}
+
+const settings = await getSettings();
+const { title, description = settings.description, type = 'website', published, jsonLd, noindex = false } = Astro.props;
+const fullTitle = title ? `${title} · ${settings.name}` : settings.title;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en-AU">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="author" content={settings.name} />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f3f2f5" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#100e14" media="(prefers-color-scheme: dark)" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={settings.name} />
+    <meta property="og:locale" content="en_AU" />
+    {published && <meta property="article:published_time" content={published.toISOString()} />}
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${settings.name}: writing`} href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="stylesheet" href="/styles/timeline.css" />
+
+    <!-- Applies the saved theme before first paint. External file so CSP can forbid inline scripts. -->
+    <script is:inline src="/js/theme-init.js"></script>
+    <script is:inline src="/js/site.js" defer></script>
+
+    {jsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

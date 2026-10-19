@@ -1,0 +1,28 @@
+---
+import { sha256 } from '../lib/site';
+
+interface Props {
+  demos: string[];
+}
+
+// Rendered fully at build time so the page reads correctly without
+// JavaScript; /js/site.js takes over and makes it interactive.
+const { demos } = Astro.props;
+const text = demos[0];
+const prev = demos[demos.length - 1];
+const h = sha256(text);
+const p = sha256(prev);
+---
+
+<div class="hash" data-hash data-demos={JSON.stringify(demos)}>
+  <div class="field">
+    <label class="label" for="hash-input"><span data-hash-note>input · demo running, type to take over</span></label>
+    <input id="hash-input" class="inp" type="text" value={text} maxlength="80" autocomplete="off" spellcheck="false" data-hash-input />
+  </div>
+  <div class="field">
+    <span class="label">sha-256 · 64 hex digits</span>
+    <div class="digest" data-hash-hex>
+      {h.split('').map((c, i) => <span class:list={['hx', { ch: c !== p[i] }]}>{c}</span>)}
+    </div>
+  </div>
+</div>

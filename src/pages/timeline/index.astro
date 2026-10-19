@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import Timeline from '../../components/Timeline.astro';
+import { getSettings, getTimeline, entryWhen, safeKey } from '../../lib/site';
+
+const s = await getSettings();
+const entries = await getTimeline();
+---
+
+<Base title="Timeline" description="Where Ben Cohen has studied and worked, from school to UTS, Code4Fun and an exchange in Beijing.">
+  <section class="page-head pad">
+    <div class="wrap">
+      <span class="crumbs"><a href="/">home</a> / timeline</span>
+      <h1 class="page-title">Timeline</h1>
+      <p class="intro">Several things at once, mostly. Each line runs from when a thing started to when it ended; a single square is a one-off. Hover for the summary, select for the full entry.</p>
+    </div>
+  </section>
+
+  <section class="section pad">
+    <div class="wrap stack">
+      <Timeline entries={entries} from={s.timeline_from} />
+    </div>
+  </section>
+
+  <section class="section pad" aria-labelledby="all-h">
+    <div class="wrap split">
+      <div class="split-head">
+        <span class="eyebrow">newest first</span>
+        <h2 class="h2 sm" id="all-h">Every entry</h2>
+      </div>
+      <div class="split-body">
+        <div class="tl-list">
+          {
+            entries.filter((e) => safeKey(e.id)).map((e) => (
+              <a class="row" href={`/timeline/${e.id}/`} data-k={e.id}>
+                <span class="swatch" aria-hidden="true" />
+                <span class="row-title">{e.data.title}</span>
+                <span class="row-meta">
+                  {entryWhen(e.data)}
+                  {e.data.place && ` · ${e.data.place}`}
+                </span>
+                <span class="row-desc">{e.data.summary}</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

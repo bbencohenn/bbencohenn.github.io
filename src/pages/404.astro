@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { sha256 } from '../lib/site';
+const h = sha256('404');
+---
+
+<Base title="Not found" noindex>
+  <section class="lost pad">
+    <div class="wrap">
+      <span class="eyebrow">sha256("404") = {h.slice(0, 16)}…</span>
+      <h1 class="page-title">Hash not found.</h1>
+      <p class="intro">This page doesn't exist, or it moved. No collision, I checked.</p>
+      <div class="btn-row">
+        <a class="btn solid" href="/">Home</a>
+        <a class="btn" href="/writing/">Writing</a>
+        <a class="btn" href="/timeline/">Timeline</a>
+      </div>
+    </div>
+  </section>
+</Base>

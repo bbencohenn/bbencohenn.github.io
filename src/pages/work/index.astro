@@ -1,0 +1,38 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getProjects, digest } from '../../lib/site';
+
+const projects = await getProjects();
+---
+
+<Base title="Work" description="Projects, experiments and write-ups by Ben Cohen.">
+  <section class="page-head pad">
+    <div class="wrap">
+      <span class="crumbs"><a href="/">home</a> / work</span>
+      <h1 class="page-title">Work</h1>
+      <p class="intro">Projects, experiments and write-ups. Each one is labelled with the start of its title's SHA-256 hash, because why not.</p>
+    </div>
+  </section>
+
+  <section class="section pad">
+    <div class="wrap">
+      {
+        projects.length === 0 ? (
+          <p class="empty">Nothing here yet.</p>
+        ) : (
+          <div class="rows">
+            {projects.map((p) => (
+              <a class="row" href={`/work/${p.id}/`}>
+                <span class="row-title big">{p.data.title}</span>
+                <span class="row-digest">{digest(p.data.title, 12)}…</span>
+                <span class="row-desc">
+                  {p.data.summary} {p.data.kind}, {p.data.year}.
+                </span>
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Base>

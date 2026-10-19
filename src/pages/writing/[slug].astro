@@ -1,0 +1,79 @@
+---
+import { render } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { getPosts, getCategories, digest, fmtDate, readingTime, safeKey, type Post } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const posts = (await getPosts()).filter((p) => safeKey(p.id));
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}
+
+interface Props {
+  post: Post;
+  newer?: Post;
+  older?: Post;
+}
+
+const { post, newer, older } = Astro.props;
+const { Content } = await render(post);
+const d = post.data;
+const categories = await getCategories();
+const cat = categories.find((c) => c.id === d.category);
+const minutes = readingTime(post.body ?? '');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: d.title,
+  description: d.summary,
+  datePublished: d.date.toISOString(),
+  author: { '@type': 'Person', name: 'Ben Cohen', url: 'https://bencohen.com.au/' },
+  mainEntityOfPage: new URL(`/writing/${post.id}/`, Astro.site).href,
+  keywords: d.tags.join(', '),
+};
+---
+
+<Base title={d.title} description={d.summary} type="article" published={d.date} jsonLd={jsonLd}>
+  <section class="page-head pad">
+    <div class="wrap">
+      <span class="crumbs"><a href="/">home</a> / <a href="/writing/">writing</a> / {post.id}</span>
+      <h1 class="page-title">{d.title}</h1>
+      <p class="intro">{d.summary}</p>
+    </div>
+  </section>
+
+  <article class="article pad">
+    <div class="wrap">
+      <aside class="article-aside">
+        <dl>
+          <div><dt>Published</dt><dd><time datetime={d.date.toISOString()}>{fmtDate(d.date)}</time></dd></div>
+          <div><dt>Category</dt><dd><a href={`/writing/category/${d.category}/`}>{cat?.data.name ?? d.category}</a></dd></div>
+          {d.tags.length > 0 && <div><dt>Tags</dt><dd>{d.tags.join(', ')}</dd></div>}
+          <div><dt>Reading time</dt><dd>{minutes} min</dd></div>
+          <div><dt>Id</dt><dd>{digest(post.id)}</dd></div>
+        </dl>
+      </aside>
+      <div class="article-body">
+        {
+          d.cover && (
+            <figure class="cover">
+              <Image src={d.cover} alt={d.cover_alt ?? ''} widths={[640, 1024, 1600]} sizes="(max-width: 1100px) 100vw, 1100px" />
+              {d.cover_alt && <figcaption>{d.cover_alt}</figcaption>}
+            </figure>
+          )
+        }
+        <div class="prose">
+          <Content />
+        </div>
+        <nav class="pager" aria-label="More posts">
+          {newer && <a href={`/writing/${newer.id}/`}><span>← newer</span><b>{newer.data.title}</b></a>}
+          {older && <a class="next" href={`/writing/${older.id}/`}><span>older →</span><b>{older.data.title}</b></a>}
+        </nav>
+      </div>
+    </div>
+  </article>
+</Base>

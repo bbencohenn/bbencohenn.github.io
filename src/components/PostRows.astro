@@ -1,0 +1,28 @@
+---
+import { digest, fmtDate, type Post } from '../lib/site';
+
+interface Props {
+  posts: Post[];
+  names: Record<string, string>;
+}
+
+const { posts, names } = Astro.props;
+---
+
+{
+  posts.length === 0 ? (
+    <p class="empty">Nothing here yet.</p>
+  ) : (
+    <div class="rows">
+      {posts.map((p) => (
+        <a class="row" href={`/writing/${p.id}/`}>
+          <span class="row-id">{digest(p.id)}</span>
+          <span class="row-title">{p.data.title}</span>
+          <span class="row-meta">
+            {names[p.data.category] ?? p.data.category} · <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date)}</time>
+          </span>
+        </a>
+      ))}
+    </div>
+  )
+}

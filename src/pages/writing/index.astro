@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostRows from '../../components/PostRows.astro';
+import { getPosts, getCategories } from '../../lib/site';
+
+const posts = await getPosts();
+const categories = await getCategories();
+const names = Object.fromEntries(categories.map((c) => [c.id, c.data.name]));
+---
+
+<Base title="Writing" description="Notes, ideas and learnings from Ben Cohen: security, travel, language, study and food.">
+  <section class="page-head pad">
+    <div class="wrap">
+      <span class="crumbs"><a href="/">home</a> / writing</span>
+      <h1 class="page-title">Writing</h1>
+      <p class="intro">Tech, travel, language, study, food, and whatever else is on my mind.</p>
+    </div>
+  </section>
+
+  <section class="section pad">
+    <div class="wrap stack">
+      <nav class="chips" aria-label="Categories">
+        <a class="chip" href="/writing/" aria-current="page">All</a>
+        {categories.map((c) => <a class="chip" href={`/writing/category/${c.id}/`}>{c.data.name}</a>)}
+      </nav>
+      <PostRows posts={posts} names={names} />
+      <div class="btn-row"><a class="btn" href="/rss.xml">RSS feed</a></div>
+    </div>
+  </section>
+</Base>

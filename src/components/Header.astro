@@ -1,0 +1,30 @@
+---
+const path = Astro.url.pathname;
+const links = [
+  { href: '/timeline/', label: 'Timeline' },
+  { href: '/work/', label: 'Work' },
+  { href: '/writing/', label: 'Writing' },
+  { href: '/about/', label: 'About' },
+  { href: '/resume/', label: 'Résumé' },
+];
+const current = (href: string) => (path.startsWith(href) ? 'page' : undefined);
+---
+
+<header class="site-header pad">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Ben Cohen, home">
+      <span class="brand-mark" aria-hidden="true">
+        <span class="b1"></span><span></span><span class="b2"></span><span></span><span class="b1"></span><span class="b1"></span>
+      </span>
+      Ben Cohen
+    </a>
+    <nav class="nav" aria-label="Main">
+      <div class="nav-links">
+        {links.map((l) => <a href={l.href} aria-current={current(l.href)}>{l.label}</a>)}
+      </div>
+      <button class="btn" type="button" data-theme-toggle hidden aria-label="Switch colour theme">
+        <span data-theme-label>Ciphertext</span>
+      </button>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,40 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PostRows from '../../../components/PostRows.astro';
+import { getPosts, getCategories, safeKey } from '../../../lib/site';
+
+export async function getStaticPaths() {
+  const categories = await getCategories();
+  return categories.filter((c) => safeKey(c.id)).map((c) => ({ params: { category: c.id }, props: { id: c.id } }));
+}
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+const categories = await getCategories();
+const names = Object.fromEntries(categories.map((c) => [c.id, c.data.name]));
+const cat = categories.find((c) => c.id === id)!;
+const posts = (await getPosts()).filter((p) => p.data.category === id);
+---
+
+<Base title={`${cat.data.name}: writing`} description={cat.data.description ?? `Posts about ${cat.data.name.toLowerCase()}.`}>
+  <section class="page-head pad">
+    <div class="wrap">
+      <span class="crumbs"><a href="/">home</a> / <a href="/writing/">writing</a> / {id}</span>
+      <h1 class="page-title">{cat.data.name}</h1>
+      {cat.data.description && <p class="intro">{cat.data.description}</p>}
+    </div>
+  </section>
+
+  <section class="section pad">
+    <div class="wrap stack">
+      <nav class="chips" aria-label="Categories">
+        <a class="chip" href="/writing/">All</a>
+        {categories.map((c) => <a class="chip" href={`/writing/category/${c.id}/`} aria-current={c.id === id ? 'page' : undefined}>{c.data.name}</a>)}
+      </nav>
+      <PostRows posts={posts} names={names} />
+    </div>
+  </section>
+</Base>

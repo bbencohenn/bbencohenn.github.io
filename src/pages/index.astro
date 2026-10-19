@@ -1,0 +1,114 @@
+---
+import Base from '../layouts/Base.astro';
+import HashDemo from '../components/HashDemo.astro';
+import BitGrid from '../components/BitGrid.astro';
+import Timeline from '../components/Timeline.astro';
+import PostRows from '../components/PostRows.astro';
+import HiringFacts from '../components/HiringFacts.astro';
+import { getSettings, getPosts, getCategories, getProjects, getTimeline, digest } from '../lib/site';
+import { personJsonLd } from '../lib/person';
+
+const s = await getSettings();
+const posts = (await getPosts()).slice(0, 4);
+const categories = await getCategories();
+const names = Object.fromEntries(categories.map((c) => [c.id, c.data.name]));
+const projects = (await getProjects()).filter((p) => p.data.featured).slice(0, 4);
+const timeline = await getTimeline();
+const aboutParas = s.about.split(/\n\s*\n/).filter(Boolean);
+const isPlaceholder = (v: string) => /^\[.*\]$/.test(v.trim());
+---
+
+<Base jsonLd={personJsonLd(s)} type="profile">
+  <section class="hero pad" aria-labelledby="name">
+    <div class="wrap">
+      <div class="hero-main">
+        <h1 class="h1" id="name" aria-label={s.name}>
+          {s.name.split('').map((c) => <span class="ch" aria-hidden="true">{c === ' ' ? ' ' : c}</span>)}
+        </h1>
+        <p class="hero-lede">{s.hero_lede}</p>
+        <HashDemo demos={s.hash_demo} />
+        <div class="btn-row">
+          <a class="btn solid" href="/resume/">Read the résumé</a>
+          <a class="btn" href="/timeline/">Timeline</a>
+        </div>
+      </div>
+      <div class="hero-side">
+        <BitGrid demos={s.hash_demo} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section pad" aria-labelledby="about-h">
+    <div class="wrap split">
+      <div class="split-head">
+        <span class="eyebrow">plaintext</span>
+        <h2 class="h2" id="about-h">About</h2>
+      </div>
+      <div class="split-body measure">
+        <p class="lead">{s.about_lead}</p>
+        {aboutParas.map((p) => <p>{isPlaceholder(p) ? <span class="ph">{p}</span> : p}</p>)}
+        <p><a class="btn" href="/about/">More about me</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pad" aria-labelledby="timeline-h">
+    <div class="wrap stack">
+      <div class="head-row">
+        <div class="split-head">
+          <span class="eyebrow">rounds</span>
+          <h2 class="h2" id="timeline-h">Timeline</h2>
+        </div>
+        <p class="intro">Each line runs from when a thing started to when it ended. A single square is a one-off. Hover for the summary; select for the full entry.</p>
+      </div>
+      <Timeline entries={timeline} from={s.timeline_from} />
+    </div>
+  </section>
+
+  <section class="section pad" aria-labelledby="work-h">
+    <div class="wrap split">
+      <div class="split-head">
+        <span class="eyebrow">inputs → digests</span>
+        <h2 class="h2" id="work-h">Work</h2>
+      </div>
+      <div class="split-body">
+        <div class="rows">
+          {
+            projects.map((p) => (
+              <a class="row" href={`/work/${p.id}/`}>
+                <span class="row-title big">{p.data.title}</span>
+                <span class="row-digest">{digest(p.data.title, 12)}…</span>
+                <span class="row-desc">
+                  {p.data.summary} {p.data.kind}, {p.data.year}.
+                </span>
+              </a>
+            ))
+          }
+        </div>
+        <p><a class="btn" href="/work/">All work</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pad" aria-labelledby="writing-h">
+    <div class="wrap split">
+      <div class="split-head">
+        <span class="eyebrow">signed notes</span>
+        <h2 class="h2" id="writing-h">Writing</h2>
+      </div>
+      <div class="split-body">
+        <nav class="chips" aria-label="Categories">
+          <a class="chip on" href="/writing/">All</a>
+          {categories.map((c) => <a class="chip" href={`/writing/category/${c.id}/`}>{c.data.name}</a>)}
+        </nav>
+        <PostRows posts={posts} names={names} />
+        <div class="btn-row">
+          <a class="btn" href="/writing/">All posts</a>
+          <a class="btn" href="/rss.xml">RSS</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <HiringFacts />
+</Base>

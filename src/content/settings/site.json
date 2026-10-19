@@ -1,0 +1,22 @@
+{
+  "name": "Ben Cohen",
+  "title": "Ben Cohen: cybersecurity & networking student",
+  "description": "Ben Cohen is a Computing Science (Honours) student at UTS majoring in cybersecurity and networking, and a lead coding instructor in Sydney.",
+  "hero_lede": "Cybersecurity and networking student. Change one letter below and watch half the bits flip. That's the avalanche effect, and it's why hashes are useful.",
+  "hash_demo": ["Ben Cohen", "Ben Cohen.", "ben cohen", "Ben Cohenn", "Ben Cohem"],
+  "about_lead": "I study how systems fail so I can help build ones that don't.",
+  "about": "At UTS that means a cybersecurity and networking major, with Python, C/C++, machine learning and data science picked up along the way. The rest of the week I teach kids to code at Code4Fun. Demos like the one above are how I explain things to ten-year-olds, and they work on adults too.\n\nI’m aiming for a career in offensive security, most likely penetration testing or security engineering, and I’m looking for graduate roles or internships where I can learn from people who do it well. I finish my degree in the first half of 2027 and can start part-time before then.",
+  "email": "hello@bencohen.com.au",
+  "github": "https://github.com/bbencohenn",
+  "linkedin": "https://www.linkedin.com/in/bbencohenn/",
+  "resume_pdf": "",
+  "pgp": "",
+  "location": "Sydney, NSW",
+  "looking_for": "Graduate roles and internships in cybersecurity, ideally penetration testing or security engineering",
+  "available": "Part-time right now, full-time from mid-2027",
+  "work_rights": "Australian citizen",
+  "degree": "Bachelor of Computing Science (Honours), Cybersecurity & Networking major, University of Technology Sydney",
+  "languages": "Python, C/C++, Java, JavaScript, HTML/CSS, SQL",
+  "also": "Linux, Git, technical writing, manual QA testing, curriculum design, conversational Mandarin",
+  "timeline_from": 2022
+}

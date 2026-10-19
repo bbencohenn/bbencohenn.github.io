@@ -1,0 +1,25 @@
+.tl-canvas{height:630px}
+.tl-now{left:83.076%}
+.tl-year[data-y="2022"]{left:0%}
+.tl-year[data-y="2023"]{left:17.391%}
+.tl-year[data-y="2024"]{left:34.783%}
+.tl-year[data-y="2025"]{left:52.174%}
+.tl-year[data-y="2026"]{left:69.565%}
+.tl-year[data-y="2027"]{left:86.957%}
+[data-k="emanuel-school"]{--c:#a16207}
+.tl-item[data-k="emanuel-school"]{left:0%;width:15.849%;top:60px}
+[data-k="elcom-technology"]{--c:#0f766e}
+.tl-item[data-k="elcom-technology"]{left:14.493%;width:20.243%;top:144px}
+[data-k="music-tutor"]{--c:#be185d}
+.tl-item[data-k="music-tutor"]{left:18.841%;width:50.678%;top:228px}
+[data-k="code4fun"]{--c:#c2410c}
+.tl-item[data-k="code4fun"]{left:34.783%;width:48.294%;top:60px}
+[data-k="uts"]{--c:#6d28d9}
+.tl-item[data-k="uts"]{left:36.232%;width:46.844%;top:312px}
+.tl-item[data-k="uts"] .tl-proj{width:calc(26.647% - 10px)}
+[data-k="usm-penang"]{--c:#1d4ed8}
+.tl-item[data-k="usm-penang"]{left:52.688%;width:0%;top:144px}
+[data-k="put-poznan"]{--c:#a16207}
+.tl-item[data-k="put-poznan"]{left:56.802%;width:0%;top:396px}
+[data-k="bit-beijing"]{--c:#0f766e}
+.tl-item[data-k="bit-beijing"]{left:69.752%;width:8.929%;top:144px}

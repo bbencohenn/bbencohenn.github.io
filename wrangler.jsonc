@@ -1,0 +1,11 @@
+// Cloudflare Workers static assets: serves dist/ with no Worker code at all,
+// so there's no server-side code to attack. Headers come from public/_headers.
+{
+  "name": "bencohen-site",
+  "compatibility_date": "2026-09-25",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}

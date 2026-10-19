@@ -1,0 +1,28 @@
+---
+import { sha256 } from '../lib/site';
+
+interface Props {
+  demos: string[];
+}
+
+const { demos } = Astro.props;
+const text = demos[0];
+const prev = demos[demos.length - 1];
+const toBits = (hex: string) =>
+  hex
+    .split('')
+    .map((c) => parseInt(c, 16).toString(2).padStart(4, '0'))
+    .join('');
+const hb = toBits(sha256(text));
+const pb = toBits(sha256(prev));
+const flipped = hb.split('').filter((b, i) => b !== pb[i]).length;
+---
+
+<div class="bits" aria-hidden="true" data-hash-bits>
+  {hb.split('').map((b, i) => <span class:list={['bit', { on: b === '1', flip: b !== pb[i] }]} />)}
+</div>
+<div class="bit-stats">
+  <span class="bit-count"><span data-hash-count>{flipped}</span><small> / 256 bits changed</small></span>
+  <span class="bit-pct" data-hash-pct>{((flipped / 256) * 100).toFixed(1)}% · expected ≈ 50%</span>
+</div>
+<span class="label">compared with the previous input: "<span data-hash-prev>{prev}</span>"</span>

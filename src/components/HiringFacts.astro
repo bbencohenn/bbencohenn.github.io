@@ -1,0 +1,38 @@
+---
+import { getSettings } from '../lib/site';
+const s = await getSettings();
+const isPlaceholder = (v: string) => /^\[.*\]$/.test(v.trim());
+const facts = [
+  ['Looking for', s.looking_for],
+  ['Available', s.available],
+  ['Based', s.location],
+  ['Degree', s.degree],
+  ['Languages', s.languages],
+  ['Also', s.also],
+  ['Work rights', s.work_rights],
+];
+---
+
+<section class="section pad" id="hiring" aria-labelledby="hiring-h">
+  <div class="wrap panel split">
+    <div class="split-head">
+      <span class="eyebrow">for recruiters</span>
+      <h2 class="h2 sm" id="hiring-h">If you're hiring</h2>
+      <p class="intro">The short version, in plain HTML, so your tools can read it as easily as you can.</p>
+      <div class="btn-row">
+        {s.resume_pdf && <a class="btn solid" href={s.resume_pdf}>Résumé (PDF)</a>}
+        <a class:list={['btn', { solid: !s.resume_pdf }]} href="/resume/">Résumé (plain page)</a>
+      </div>
+    </div>
+    <dl class="facts">
+      {
+        facts.map(([k, v]) => (
+          <div>
+            <dt>{k}</dt>
+            <dd>{isPlaceholder(v) ? <span class="ph">{v}</span> : v}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>

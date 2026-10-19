@@ -1,0 +1,52 @@
+---
+import { digest, layoutTimeline, safeKey, type TimelineEntry } from '../lib/site';
+
+interface Props {
+  entries: TimelineEntry[];
+  from: number;
+  caption?: string;
+}
+
+const { entries, from, caption = `What I was doing month-by-month, from ${from} onwards` } = Astro.props;
+const L = layoutTimeline(entries, from);
+const items = L.items.filter((it) => safeKey(it.id));
+---
+
+<figure class="tl">
+  <div class="tl-scroll" tabindex="0" aria-label="Timeline, scrolls sideways on small screens">
+    <div class="tl-canvas" data-tl data-from={L.from} data-span={L.span}>
+      {L.years.map((y) => <div class="tl-year" data-y={y.year} aria-hidden="true">{y.year}</div>)}
+      <div class="tl-now" aria-hidden="true"><span>&lt;- now</span></div>
+      {
+        items.map((it) => (
+          <a
+            class:list={['tl-item', { 'flip-tip': it.flipTip }]}
+            href={`/timeline/${it.id}/`}
+            data-k={it.id}
+            data-s={it.startMonth.toFixed(3)}
+            data-ongoing={it.ongoing ? '1' : undefined}
+            data-p={it.plannedMonth !== null ? it.plannedMonth.toFixed(3) : undefined}
+          >
+            <span class="tl-label">
+              <b>{it.title}</b> <span>{it.when}</span>
+            </span>
+            {!it.single && <span class="tl-line" />}
+            {!it.single && <span class="tl-dot end" />}
+            {!it.single && !it.openStart && <span class="tl-dot start" />}
+            {it.projWidth > 0 && <span class="tl-proj" />}
+            {it.single && <span class="tl-dot solo" />}
+            <span class="tl-tip">
+              <b>{it.title}</b>
+              <span class="muted">
+                {it.when} · {digest(it.id, 8)}
+              </span>
+              <span>{it.summary}</span>
+              <span class="more">Read the full entry -&gt;</span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+  <figcaption class="tl-caption">{caption}</figcaption>
+</figure>

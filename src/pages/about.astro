@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import HiringFacts from '../components/HiringFacts.astro';
+import { getSettings } from '../lib/site';
+import { personJsonLd } from '../lib/person';
+
+const s = await getSettings();
+const paras = s.about.split(/\n\s*\n/).filter(Boolean);
+const isPlaceholder = (v: string) => /^\[.*\]$/.test(v.trim());
+---
+
+<Base title="About" description={s.description} jsonLd={personJsonLd(s)} type="profile">
+  <section class="page-head pad">
+    <div class="wrap">
+      <span class="crumbs"><a href="/">home</a> / about</span>
+      <h1 class="page-title">About</h1>
+    </div>
+  </section>
+
+  <section class="article pad">
+    <div class="wrap">
+      <aside class="article-aside">
+        <dl>
+          <div><dt>Based</dt><dd>{s.location}</dd></div>
+          <div><dt>Studying</dt><dd>Computing Science (Hons), UTS</dd></div>
+          <div><dt>Teaching</dt><dd>Code4Fun</dd></div>
+          <div><dt>Contact</dt><dd><a href={`mailto:${s.email}`}>{s.email}</a></dd></div>
+        </dl>
+      </aside>
+      <div class="article-body prose">
+        <p class="lead">{s.about_lead}</p>
+        {paras.map((p) => <p>{isPlaceholder(p) ? <span class="ph">{p}</span> : p}</p>)}
+        <p>The <a href="/timeline/">timeline</a> has the full story, and the <a href="/resume/">résumé</a> has the short one.</p>
+      </div>
+    </div>
+  </section>
+
+  <HiringFacts />
+</Base>

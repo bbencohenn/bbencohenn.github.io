@@ -1,0 +1,57 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getTimeline, entryWhen, safeKey, type TimelineEntry } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const entries = await getTimeline();
+  return entries
+    .filter((e) => safeKey(e.id))
+    .map((entry, i) => ({
+      params: { slug: entry.id },
+      props: { entry, newer: entries[i - 1], older: entries[i + 1] },
+    }));
+}
+
+interface Props {
+  entry: TimelineEntry;
+  newer?: TimelineEntry;
+  older?: TimelineEntry;
+}
+
+const { entry, newer, older } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const kinds = { work: 'Work', study: 'Study', travel: 'Travel', other: 'Other' } as const;
+---
+
+<Base title={d.title} description={d.summary}>
+  <section class="page-head pad">
+    <div class="wrap">
+      <span class="crumbs"><a href="/">home</a> / <a href="/timeline/">timeline</a> / {entry.id}</span>
+      <h1 class="page-title">{d.title}</h1>
+      <div class="meta-line" data-k={entry.id}>
+        <span class="swatch" aria-hidden="true"></span>
+        <span>{entryWhen(d)}</span>
+        {d.place && <span>{d.place}</span>}
+        <span>{kinds[d.kind]}</span>
+        {d.planned_end && <span>planned until {d.planned_end.toLocaleDateString('en-AU', { month: 'short', year: 'numeric' })}</span>}
+      </div>
+      <p class="intro">{d.summary}</p>
+    </div>
+  </section>
+
+  <section class="article pad">
+    <div class="wrap">
+      <div class="article-body">
+        <div class="prose">
+          <Content />
+        </div>
+        <nav class="pager" aria-label="More entries">
+          {newer && <a href={`/timeline/${newer.id}/`}><span>← newer</span><b>{newer.data.title}</b></a>}
+          {older && <a class="next" href={`/timeline/${older.id}/`}><span>older →</span><b>{older.data.title}</b></a>}
+        </nav>
+      </div>
+    </div>
+  </section>
+</Base>

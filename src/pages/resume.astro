@@ -1,0 +1,29 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { getSettings, fmtDate } from '../lib/site';
+import { personJsonLd } from '../lib/person';
+
+const s = await getSettings();
+const page = await getEntry('pages', 'resume');
+if (!page) throw new Error('Missing src/content/pages/resume.md');
+const { Content } = await render(page);
+---
+
+<Base title={page.data.title} description={page.data.description} jsonLd={personJsonLd(s)} type="profile">
+  <article class="resume pad">
+    <div class="wrap">
+      <div class="stack">
+        <span class="crumbs no-print"><a href="/">home</a> / résumé</span>
+        <h1>{s.name}</h1>
+        <div class="btn-row no-print">
+          {s.resume_pdf && <a class="btn solid" href={s.resume_pdf}>Download PDF</a>}
+          <span class="label">This page is the plain-text version, kept in sync with the PDF{page.data.updated && `. Updated ${fmtDate(page.data.updated)}`}.</span>
+        </div>
+      </div>
+      <div class="prose resume-body">
+        <Content />
+      </div>
+    </div>
+  </article>
+</Base>
