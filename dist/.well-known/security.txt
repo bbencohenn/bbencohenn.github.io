@@ -1,9 +1,0 @@
-Contact: mailto:ben@bencohen.com.au
-Expires: 2027-10-01T00:00:00.000Z
-Preferred-Languages: en, zh
-Canonical: https://bencohen.com.au/.well-known/security.txt
-
-# Found something? I'd genuinely like to hear about it.
-# This is a static site with no login, database or server code,
-# but I'm a security student and I'd rather know than not.
-# Reports are credited (with your permission) in the repository changelog.
