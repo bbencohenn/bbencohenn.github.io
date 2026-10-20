@@ -2,7 +2,7 @@
   "name": "Ben Cohen",
   "title": "Ben Cohen: cybersecurity & networking student",
   "description": "Ben Cohen is a Computing Science (Honours) student at UTS majoring in cybersecurity and networking, and a lead coding instructor in Sydney.",
-  "hero_lede": "Cybersecurity and networking student. Change one letter below and watch half the bits flip. That's the avalanche effect, and it's why hashes are useful.",
+  "hero_lede": "Cybersecurity and networking student. Change one letter below and watch half the bits flip. That's called the avalanche effect, and it's why hashes are useful!",
   "hash_demo": [
     "Ben Cohen",
     "Ben Cohen.",
