@@ -36,7 +36,9 @@ The two extension courses were the ones that cost the most time. History Extensi
 
 Music 2 and Extension Music involved both composition and performance, so a good share of Year 12 was spent writing pieces rather than just playing them. Saxophone covered the performances side, but the composition side was the first time I had to produce something original to a brief and a deadline, defend the choices in it, and accept that "I liked how it sounded" wasn't a real justification. I'd written pieces before (in earlier music classes, and on my own for fun) but never with someone externally marking the reasoning behind them. Two compositions came out of Extension Music, each a few minutes long. I still have both, as MuseScore exports rather than live recordings - so what you're hearing is the notation played back, not a room full of people.
 
-[PUT RECORDINGS HERE]
+<audio controls preload="none" src="/audio/emanuel/Composition%201.mp3"></audio>
+
+<audio controls preload="none" src="/audio/emanuel/Composition%202.mp3"></audio>
 
 English and Modern History did the less glamorous work of making me write a lot, under time pressure, for a reader who I knew nothing about.
 
