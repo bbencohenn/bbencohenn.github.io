@@ -1,13 +1,29 @@
 ---
+import { execSync } from 'node:child_process';
 import { getSettings } from '../lib/site';
 const s = await getSettings();
 const year = new Date().getFullYear();
-const commit = (process.env.WORKERS_CI_COMMIT_SHA || process.env.GITHUB_SHA || '').slice(0, 7);
+
+// Short commit hash of this build. CI variables are tried first, then git
+// itself; anything that isn't actually a hash (e.g. a branch name) is ignored.
+const isSha = (v?: string) => !!v && /^[0-9a-f]{7,40}$/i.test(v.trim());
+function buildCommit() {
+  for (const v of [process.env.WORKERS_CI_COMMIT_SHA, process.env.GITHUB_SHA]) {
+    if (isSha(v)) return v!.trim().slice(0, 7);
+  }
+  try {
+    const head = execSync('git rev-parse --short=7 HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+    return isSha(head) ? head : '';
+  } catch {
+    return '';
+  }
+}
+const commit = buildCommit();
 ---
 
 <footer class="site-footer pad">
   <div class="wrap">
-    <p class="footer-big">EOF</p>
+    <p class="footer-big">Verify me.</p>
     <div class="footer-row">
       <div class="stack">
         <a class="footer-mail" href={`mailto:${s.email}`}>{s.email}</a>
