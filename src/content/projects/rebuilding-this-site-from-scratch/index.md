@@ -79,3 +79,40 @@ The same hex colour that looks good on a light background looks muddy and muted 
 ### Ciphertext and Plaintext
 
 The light and dark themes are called Plaintext and Ciphertext (dark is ciphertext, of course). Switching between them runs a pixel dissolve across the screen, and when the new theme appears, all the text on screen comes back as scrambled hex and decrypts itself left to right.
+   ![The theme switching from dark to light](./theme-toggle.gif "The Ciphertext → Plaintext toggle")
+
+### Security
+
+This was the part I cared about most.
+
+**There's nothing on the server.** The site is plain HTML, CSS, and a bit of JavaScript, served from Github. There's no backend to attack, no database to leak, and no login form to brute force. 
+
+**A very strict Content Security Policy.** Every page is sent with a header that tells the browser to only run scripts and load styles from this domain, and to block inline scripts and inline styles entirely. That shuts down most cross-site scripting attacks, because even if someone managed to inject a `<script>` tag into a page, the browser would refuse to run it.
+
+The catch is that a policy that strict is easy to break by accident. Lots of tools sneak in an inline style here or there (the default code highlighter does, for example). So the build runs a check over every generated page and fails if it finds an inline script, an inline style, an `onclick`-style attribute, or anything loaded from another domain. That way, I can't deploy something that breaks the policy, even if I wanted to.
+
+**No third-party requests.** The fonts are self-hosted there are no analytics and no trackers, and nothing on the public site talks to any other domain. You can check yourself in your browser's dev tools.
+
+**The usual headers too:** `X-Frame-Options`, a locked down `Permissions-Policy`, `Cross-Origin-Opener-Policy`, and so on. If you want to check them yourself, put the site into [securityheaders.com](https://securityheaders.com/).
+
+[SCREENSHOT OF SECURITY HEADERS RESULT]
+
+**The build pipeline is locked down as well.** The GitHub Actions the site uses are pinned to exact commit hashes rather than version tags (tags can be moved to point at malicious code), dependencies are pinned and audited on every push, and automatic dependency updates wait a few days before they're proposed, so a freshly compromised package has time to get caught first. 
+
+There's also a `security.txt` file, which is the standard place for someone to find out how to report a vulnerability. If you find something, please do!
+
+## Writing posts without a backend
+
+I still wanted an admin panel for writing posts and editing the timeline, but without a server. The solution I found was a Git-based CMS called Sveltia. It runs entirely in the browser at `/admin`, and when I save a post it commits a Markdown file straight to the site's GitHub repo. GitHub sees the commit, rebuilds the site, and it's live about a minute later.
+
+Logging in uses my GitHub account, so the only way to edit the site is to have access to the repo. There's no separate password to steal, and no external login servers to rely on.
+
+## Readable for people and robots
+
+Everything important is in the HTML from the start. The résumé page is plain text with proper headings, there's a "for recruiters" box on the homepage with the key facts in a definition list, and every page includes structured data that tells search engines who I am. If you turn off JavaScript, you lose the fun animations but not a single piece of actual useful information.
+
+## What's next?
+
+The site is done in the sense that it works, but there's plenty more I want to put on it: more write-ups from uni, CTF write-ups, and a cybersecurity course I'm building for Code4Fun. The nice thing about it being this simple is that adding things is extremely easy, and there's very little that can go wrong.
+
+If you've read this far and spotted something broken, or something insecure, [let me know](https://bencohen.com.au/.well-known/security.txt)!
