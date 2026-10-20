@@ -4,7 +4,7 @@
 
 backend:
   name: github
-  repo: bbencohenn/bencohen-site # change if your repo name differs
+  repo: bbencohenn/bbencohenn.github.io # change if your repo name differs
   branch: main
   commit_messages:
     create: 'content: add {{collection}} "{{slug}}"'
